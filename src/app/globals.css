@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-matrix-green: #10b981;
+  /* Premium Emerald */
+  --color-matrix-dark: #064e3b;
+  --color-professional-black: #050505;
+
+  --font-sans: "Inter", "Geist Sans", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  --animate-subtle-glow: glow 4s ease-in-out infinite;
+
+  @keyframes glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+    }
+
+    50% {
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #050505;
+  --primary-green: #10b981;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Professional Section Containers */
+.section-dark {
+  background-color: var(--professional-black);
+  color: #ffffff;
+}
+
+.text-green-accent {
+  color: var(--primary-green);
+}
+
+.button-primary {
+  background-color: var(--primary-green);
+  color: #ffffff;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.button-primary:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.card-white {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.card-white:hover {
+  border-color: var(--primary-green);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+/* Human Touch: Subtle animations instead of glitches */
+.hover-lift {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
