@@ -1,26 +1,56 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Tag } from "lucide-react";
+import { ExternalLink, Github, Monitor } from "lucide-react";
 
 const projects = [
     {
-        title: "AI Logistics Orchestrator",
-        category: "Automation",
+        title: "Ballistics Analysis Suite",
+        category: "Performance Testing",
         image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-        desc: "Enterprise-grade LLM integration streamlining cross-border logistics for a scaling provider."
+        desc: "Advanced data-driven testing environment for ballistics validation and analysis.",
+        live: "https://example.com",
+        github: "https://github.com"
     },
     {
-        title: "FinTech Analytics Suite",
-        category: "Platform",
+        title: "Blast-off Reading App",
+        category: "Mobile Application",
         image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
-        desc: "High-conviction financial dashboard delivering real-time insights to portfolio managers."
+        desc: "Interactive educational platform designed to gamify the reading experience for young learners.",
+        live: "https://example.com",
+        github: "https://github.com"
     },
     {
-        title: "Predictive Content Engine",
-        category: "Marketing",
+        title: "Sweet Delights: Cakes & More",
+        category: "Web Development",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
-        desc: "Automated high-quality content generation pipeline for hospitality brands."
+        desc: "Precision-crafted digital storefront for a premium custom cake shop.",
+        live: "https://example.com",
+        github: "https://github.com"
+    },
+    {
+        title: "Chef's Culinary Digital Hub",
+        category: "Web Development",
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+        desc: "High-performance platform for elite culinary professionals to manage bookings and menus.",
+        live: "https://example.com",
+        github: "https://github.com"
+    },
+    {
+        title: "High-Conversion Landing Page",
+        category: "Conversion Design",
+        image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=800",
+        desc: "Strategically engineered landing page optimized for maximum lead generation efficiency.",
+        live: "https://example.com",
+        github: "https://github.com"
+    },
+    {
+        title: "Social Creative & Flyer Design",
+        category: "Content Production",
+        image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=800",
+        desc: "A collection of high-impact social media assets, flyers, and digital marketing materials.",
+        live: "https://example.com",
+        github: "https://github.com"
     }
 ];
 
@@ -31,12 +61,12 @@ export default function Portfolio() {
                 <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
                     <div className="max-w-xl">
                         <div className="text-matrix-green font-black text-xs mb-4 uppercase tracking-widest flex items-center gap-2">
-                            <Tag size={12} /> Elite Case Studies
+                            <Monitor size={12} /> Selected Projects
                         </div>
                         <h2 className="text-4xl md:text-5xl font-black text-[#050505]">Proving the <span className="text-matrix-green">Concept.</span></h2>
                     </div>
                     <p className="text-slate-500 max-w-sm text-sm font-medium">
-                        We don&apos;t build generic applications. We engineer competitive advantages that define market leaders.
+                        A showcase of engineering excellence and strategic execution. From custom workflows to enterprise platforms.
                     </p>
                 </div>
 
@@ -48,7 +78,7 @@ export default function Portfolio() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.1 }}
-                            className="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                            className="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
                         >
                             <div className="aspect-video overflow-hidden">
                                 <img
@@ -58,14 +88,30 @@ export default function Portfolio() {
                                 />
                             </div>
 
-                            <div className="p-8">
+                            <div className="p-8 flex flex-col flex-1">
                                 <div className="text-[10px] font-black text-matrix-green uppercase tracking-widest mb-3">{project.category}</div>
                                 <h3 className="text-xl font-black mb-3 text-[#050505] tracking-tight">{project.title}</h3>
-                                <p className="text-slate-500 text-sm mb-6 leading-relaxed font-medium">
+                                <p className="text-slate-500 text-sm mb-8 leading-relaxed font-medium">
                                     {project.desc}
                                 </p>
-                                <div className="flex items-center gap-2 text-xs font-black text-[#050505] group-hover:text-matrix-green transition-colors cursor-pointer">
-                                    VIEW FULL CASE STUDY <ExternalLink size={14} />
+
+                                <div className="mt-auto flex items-center gap-6">
+                                    <a
+                                        href={project.live}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
+                                    >
+                                        Live Demo <ExternalLink size={12} />
+                                    </a>
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
+                                    >
+                                        Code <Github size={12} />
+                                    </a>
                                 </div>
                             </div>
                         </motion.div>
