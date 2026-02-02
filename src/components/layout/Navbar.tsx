@@ -27,26 +27,28 @@ export default function Navbar() {
         <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "py-4 bg-dark-bg/80 backdrop-blur-lg border-b border-white/10" : "py-6 bg-transparent"}`}>
             <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
                 <a href="#" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 bg-matrix-green rounded flex items-center justify-center text-white font-black text-xl italic group-hover:rotate-12 transition-transform">D</div>
-                    <span className="text-xl font-black tracking-tighter text-[#050505] uppercase group-hover:text-matrix-green transition-colors">
+                    <div className="w-10 h-10 bg-matrix-green rounded-xl flex items-center justify-center text-white font-black text-2xl italic group-hover:rotate-12 group-hover:scale-110 shadow-lg shadow-matrix-green/20 transition-all duration-300">D</div>
+                    <span className="text-2xl font-black tracking-tighter text-[#050505] uppercase group-hover:text-matrix-green transition-colors">
                         Dynasty <span className="text-matrix-green">Labz</span>
                     </span>
                 </a>
 
                 {/* Desktop Nav */}
-                <div className="hidden md:flex gap-8 items-center">
+                <div className="hidden md:flex gap-10 items-center">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-mono text-slate-400 hover:text-neon-cyan transition-colors uppercase tracking-widest"
+                            className="text-xs font-black text-slate-500 hover:text-matrix-green transition-colors uppercase tracking-[0.2em]"
                         >
                             {link.name}
                         </a>
                     ))}
                     <a
-                        href="#contact"
-                        className="px-5 py-2 rounded-md bg-neon-cyan text-black font-bold text-xs hover:bg-white transition-all border-glow"
+                        href="https://calendly.com/vcrypto1991/30min"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-6 py-2.5 rounded-full border-2 border-matrix-green text-matrix-green font-black text-xs hover:bg-matrix-green hover:text-white transition-all duration-300 shadow-sm hover:shadow-matrix-green/30"
                     >
                         GET STARTED
                     </a>
@@ -82,9 +84,11 @@ export default function Navbar() {
                                 </a>
                             ))}
                             <a
-                                href="#contact"
+                                href="https://calendly.com/vcrypto1991/30min"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="w-full py-4 rounded-md bg-neon-cyan text-black font-bold text-center"
+                                className="w-full py-4 rounded-md bg-matrix-green text-white font-black text-center"
                             >
                                 BOOK CALL
                             </a>

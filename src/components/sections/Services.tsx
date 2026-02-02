@@ -11,16 +11,16 @@ const services = [
         features: ["Process Auditing", "Custom LLM Pipelines", "Ops Orchestration"]
     },
     {
-        title: "Enterprise Web Systems",
-        desc: "High-performance web applications that convert. We revamp aging platforms into modern, green-certified, and SEO-optimized growth engines.",
+        title: "High-End Web Development",
+        desc: "Stunning, professional websites built to showcase your business. We transform slow, outdated sites into fast, modern experiences that your customers will love to use.",
         icon: <Code2 className="text-matrix-green" />,
-        features: ["Next.js Architecture", "Performance Tuning", "Conversion UX"]
+        features: ["Modern Design", "Blazing Speed", "Simple & Clean Layouts"]
     },
     {
-        title: "Strategic Maintenance",
-        desc: "Focus on your $21k+ goals while we handle the technical substrate. proactive monitoring, security shielding, and constant performance iteration.",
+        title: "Content Maintenance",
+        desc: "Stay consistent and visible without the stress. We manage your social media content and keep your channels fresh, handled, and professional every single day.",
         icon: <Settings className="text-matrix-green" />,
-        features: ["24/7 Monitoring", "Security Audits", "Stack Optimization"]
+        features: ["Social Content Management", "Daily Post Updates", "Channel Maintenance"]
     }
 ];
 
