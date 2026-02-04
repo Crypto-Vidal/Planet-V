@@ -5,36 +5,38 @@ import { ExternalLink, Github, Monitor } from "lucide-react";
 
 const projects = [
     {
-        title: "Ballistics Analysis Suite",
-        category: "Performance Testing",
-        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-        desc: "Advanced data-driven testing environment for ballistics validation and analysis.",
-        live: "https://example.com",
-        github: "https://github.com"
+        title: "Ballistics Test",
+        category: "Mobile Application",
+        image: "/ballistics-focus.jpg",
+        desc: "Instant website analysis. Drop in your URL to get a comprehensive performance score and actionable optimization suggestions.",
+        live: "",
+        github: "",
     },
     {
-        title: "Blast-off Reading App",
+        title: "Blast Off Reading Adventure",
         category: "Mobile Application",
-        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+        image: "/blast-off.jpg",
         desc: "Interactive educational platform designed to gamify the reading experience for young learners.",
         live: "https://example.com",
         github: "https://github.com"
     },
     {
-        title: "Sweet Delights: Cakes & More",
+        title: "Cake Jar Co.",
         category: "Web Development",
-        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+        image: "/cake-jar.png",
         desc: "Precision-crafted digital storefront for a premium custom cake shop.",
-        live: "https://example.com",
-        github: "https://github.com"
+        live: "https://cakes-five-eta.vercel.app",
+        cta: "Explore Jars",
+        github: ""
     },
     {
-        title: "Chef's Culinary Digital Hub",
+        title: "The Jamaican Chef",
         category: "Web Development",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+        image: "/jamaican-chef.png",
         desc: "High-performance platform for elite culinary professionals to manage bookings and menus.",
-        live: "https://example.com",
-        github: "https://github.com"
+        live: "https://vcrypto1991.wixsite.com/jamaican",
+        cta: "Explore Flavors",
+        github: ""
     },
     {
         title: "High-Conversion Landing Page",
@@ -96,22 +98,27 @@ export default function Portfolio() {
                                 </p>
 
                                 <div className="mt-auto flex items-center gap-6">
-                                    <a
-                                        href={project.live}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
-                                    >
-                                        Live Demo <ExternalLink size={12} />
-                                    </a>
-                                    <a
-                                        href={project.github}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
-                                    >
-                                        Code <Github size={12} />
-                                    </a>
+                                    {project.live && (
+                                        <a
+                                            href={project.live}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
+                                        >
+                                            {/* @ts-ignore - CTA property is optional */}
+                                            {project.cta || "Live Demo"} <ExternalLink size={12} />
+                                        </a>
+                                    )}
+                                    {project.github && (
+                                        <a
+                                            href={project.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-[10px] font-black text-[#050505] hover:text-matrix-green transition-colors uppercase tracking-widest"
+                                        >
+                                            Code <Github size={12} />
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>
