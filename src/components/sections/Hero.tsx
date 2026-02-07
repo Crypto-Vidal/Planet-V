@@ -35,7 +35,8 @@ export default function Hero() {
                     </h1>
 
                     <p className="text-2xl text-slate-500 mb-12 max-w-xl leading-relaxed font-medium">
-                        Stop losing 20+ hours a week to manual grunt work. We help growth-focused businesses making $7k–$21k/mo plug custom AI directly into their core operations.
+                        Free up 20+ hours a week from manual work.
+                        Custom AI built and integrated into your operations — for ambitious businesses generating $7K–$21K/month.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 mb-16">
