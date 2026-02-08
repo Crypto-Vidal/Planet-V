@@ -28,6 +28,14 @@ export default function Services() {
     return (
         <section className="py-32 px-6 bg-white" id="services">
             <div className="max-w-7xl mx-auto">
+                <motion.h2
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-5xl md:text-6xl font-black text-center text-[#050505] mb-20 tracking-tight"
+                >
+                    Our <span className="text-matrix-green">Services</span>
+                </motion.h2>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
                     <div className="max-w-2xl">
                         <motion.div
@@ -38,9 +46,9 @@ export default function Services() {
                         >
                             Professional Capabilities
                         </motion.div>
-                        <h2 className="text-4xl md:text-5xl font-black text-[#050505] leading-tight">
+                        <h3 className="text-4xl md:text-5xl font-black text-[#050505] leading-tight">
                             Engineered for <span className="text-matrix-green">Efficiency.</span>
-                        </h2>
+                        </h3>
                     </div>
                     <p className="text-slate-500 max-w-sm text-sm font-medium leading-relaxed">
                         Moving past generic tools. We build high-conviction AI solutions that eliminate bottlenecks for businesses making $7k - $21k a month.
