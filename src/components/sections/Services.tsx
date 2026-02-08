@@ -12,9 +12,9 @@ const services = [
     },
     {
         title: "High-End Web Development",
-        desc: "Stunning, professional websites built to showcase your business. We transform slow, outdated sites into fast, modern experiences that your customers will love to use.",
+        desc: "Clean, modern websites built to represent your business properly. We turn slow or outdated sites into fast, easy-to-use experiences your customers trust and talk about.",
         icon: <Code2 className="text-matrix-green" />,
-        features: ["Modern Design", "Blazing Speed", "Simple & Clean Layouts"]
+        features: ["Modern Design", "Fast Load Times", "Simple, Clean Layouts"]
     },
     {
         title: "Content Maintenance",
