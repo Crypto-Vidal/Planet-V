@@ -1,14 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Zap, CheckCircle2, Cpu, Globe, Rocket } from "lucide-react";
+import { ArrowRight, Target, Zap, CheckCircle2, Cpu, Globe, Rocket, Code, Sparkles, FileCode, MessageSquare, Brain, Github, Triangle, Smartphone } from "lucide-react";
 
 const techLogos = [
     { name: "OpenAI", icon: Cpu },
-    { name: "Claude", icon: Globe },
-    { name: "Zapier", icon: Zap },
-    { name: "Make", icon: Rocket },
-    { name: "Vercel", icon: Target },
+    { name: "Claude Code", icon: Code },
+    { name: "Gemini", icon: Sparkles },
+    { name: "Codex", icon: FileCode },
+    { name: "ChatGPT", icon: MessageSquare },
+    { name: "Manus AI", icon: Brain },
+    { name: "GitHub", icon: Github },
+    { name: "Vercel", icon: Triangle },
+    { name: "VibeCodeApp", icon: Smartphone },
 ];
 
 export default function Hero() {
@@ -56,7 +60,7 @@ export default function Hero() {
 
                     {/* Authority Logo Row */}
                     <div className="pt-10 border-t border-slate-100">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Engineered with Elite Tech</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Powered by the Tools We Build With</p>
                         <div className="flex flex-wrap gap-8 items-center opacity-40 grayscale group-hover:grayscale-0 transition-all">
                             {techLogos.map((tech) => (
                                 <div key={tech.name} className="flex items-center gap-2">
