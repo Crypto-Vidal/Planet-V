@@ -17,7 +17,7 @@ const services = [
         desc: "Clean, modern websites built to represent your business properly. We turn slow or outdated sites into fast, easy-to-use experiences your customers trust and talk about.",
         icon: <Code2 className="text-matrix-green" />,
         features: ["Modern Design", "Fast Load Times", "Simple, Clean Layouts"],
-        href: "#services",
+        href: "/web-development",
     },
     {
         title: "Content Maintenance",
