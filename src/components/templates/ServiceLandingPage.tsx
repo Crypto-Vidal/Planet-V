@@ -9,6 +9,7 @@ import type { ReactNode } from "react";
 export interface ValueItem {
   title: string;
   description: string;
+  value?: string;
 }
 
 export interface ServiceLandingPageProps {
@@ -224,9 +225,16 @@ export default function ServiceLandingPage({
                 {...stagger(idx * 0.08)}
                 className="group"
               >
-                <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight mb-2">
-                  {item.title}
-                </h3>
+                <div className="flex items-baseline justify-between gap-4 mb-2">
+                  <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight">
+                    {item.title}
+                  </h3>
+                  {item.value && (
+                    <span className="text-slate-400 font-black text-lg line-through whitespace-nowrap">
+                      {item.value}
+                    </span>
+                  )}
+                </div>
                 <p className="text-slate-500 font-medium leading-relaxed">
                   {item.description}
                 </p>
@@ -241,9 +249,16 @@ export default function ServiceLandingPage({
                 <div className="text-matrix-green font-black text-xs uppercase tracking-widest mb-3">
                   Bonus
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight mb-2">
-                  {bonusItem.title}
-                </h3>
+                <div className="flex items-baseline justify-between gap-4 mb-2">
+                  <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight">
+                    {bonusItem.title}
+                  </h3>
+                  {bonusItem.value && (
+                    <span className="text-slate-400 font-black text-lg line-through whitespace-nowrap">
+                      {bonusItem.value}
+                    </span>
+                  )}
+                </div>
                 <p className="text-slate-500 font-medium leading-relaxed">
                   {bonusItem.description}
                 </p>
