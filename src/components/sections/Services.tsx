@@ -43,7 +43,7 @@ export default function Services() {
                         </h2>
                     </div>
                     <p className="text-slate-500 max-w-sm text-sm font-medium leading-relaxed">
-                        Moving past generic tools. We build high-conviction AI solutions that eliminate bottlenecks for businesses making $7k - $21k a month.
+                        We help businesses replace busywork with smart automation. We identify where AI actually helps and implement it only to make things easier.
                     </p>
                 </div>
 
