@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,9 +33,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${firaCode.variable} antialiased selection:bg-matrix-green selection:text-white`}
       >
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

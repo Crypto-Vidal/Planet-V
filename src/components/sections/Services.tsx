@@ -2,25 +2,29 @@
 
 import { motion } from "framer-motion";
 import { Code2, Settings, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const services = [
     {
         title: "AI Workflow Integration",
         desc: "We streamline your day-to-day operations by automating repetitive tasks. We place AI where it actually saves time, reduces errors, and keeps things moving without extra oversight.",
         icon: <Sparkles className="text-matrix-green" />,
-        features: ["Workflow Review & Cleanup", "Custom Automations", "System Monitoring & Upkeep"]
+        features: ["Workflow Review & Cleanup", "Custom Automations", "System Monitoring & Upkeep"],
+        href: "/efficiency-engine",
     },
     {
         title: "High-End Web Development",
         desc: "Clean, modern websites built to represent your business properly. We turn slow or outdated sites into fast, easy-to-use experiences your customers trust and talk about.",
         icon: <Code2 className="text-matrix-green" />,
-        features: ["Modern Design", "Fast Load Times", "Simple, Clean Layouts"]
+        features: ["Modern Design", "Fast Load Times", "Simple, Clean Layouts"],
+        href: "#services",
     },
     {
         title: "Content Maintenance",
         desc: "Stay consistent and visible without the stress. We manage your social media content and keep your channels fresh, handled, and professional every single day.",
         icon: <Settings className="text-matrix-green" />,
-        features: ["Social Content Management", "Daily Post Updates", "Channel Maintenance"]
+        features: ["Social Content Management", "Daily Post Updates", "Channel Maintenance"],
+        href: "#services",
     }
 ];
 
@@ -83,9 +87,12 @@ export default function Services() {
                                 ))}
                             </ul>
 
-                            <div className="flex items-center gap-2 text-xs font-black text-[#050505] group-hover:text-matrix-green transition-colors cursor-pointer">
+                            <Link
+                                href={service.href}
+                                className="flex items-center gap-2 text-xs font-black text-[#050505] group-hover:text-matrix-green transition-colors cursor-pointer"
+                            >
                                 LEARN MORE <ArrowRight size={14} />
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>
