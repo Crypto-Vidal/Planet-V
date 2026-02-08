@@ -77,27 +77,32 @@ export default function EfficiencyEnginePage() {
           title: "Workflow Friction Audit",
           description:
             "A deep review of your current processes to uncover hidden inefficiencies and manual choke points.",
+          value: "$3,000",
         },
         {
           title: "Custom Automation Build-Out",
           description:
             "We design and install automations that work with the tools you already use (CRM, email, internal systems).",
+          value: "$4,500",
         },
         {
           title: "AI Precision Layer",
           description:
             "Custom AI added only where it clearly saves time or reduces effort — never for show.",
+          value: "$2,000",
         },
         {
           title: "Ownership & Handoff Training",
           description:
             "Your team is trained so you're never dependent on us to keep things running.",
+          value: "$1,500",
         },
       ]}
       bonusItem={{
         title: "30-Day System Monitoring",
         description:
           "We actively monitor your systems post-launch to ensure stability and zero downtime.",
+        value: "$500",
       }}
       totalValue="$11,500"
       investmentPrice="$2,500"
