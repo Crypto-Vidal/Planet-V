@@ -24,7 +24,7 @@ const services = [
         desc: "Stay consistent and visible without the stress. We manage your social media content and keep your channels fresh, handled, and professional every single day.",
         icon: <Settings className="text-matrix-green" />,
         features: ["Social Content Management", "Daily Post Updates", "Channel Maintenance"],
-        href: "#services",
+        href: "/content-maintenance",
     }
 ];
 
