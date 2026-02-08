@@ -6,9 +6,9 @@ import { Code2, Settings, ShieldCheck, Sparkles, ArrowRight } from "lucide-react
 const services = [
     {
         title: "AI Workflow Integration",
-        desc: "We don't just 'install' AI; we weave it into your existing processes. Automate high-volume tasks and reclaim 20+ hours of your management time every single week.",
+        desc: "We streamline your day-to-day operations by automating repetitive tasks. We place AI where it actually saves time, reduces errors, and keeps things moving without extra oversight.",
         icon: <Sparkles className="text-matrix-green" />,
-        features: ["Process Auditing", "Custom LLM Pipelines", "Ops Orchestration"]
+        features: ["Workflow Review & Cleanup", "Custom Automations", "System Monitoring & Upkeep"]
     },
     {
         title: "High-End Web Development",
