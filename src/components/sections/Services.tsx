@@ -89,9 +89,9 @@ export default function Services() {
 
                             <Link
                                 href={service.href}
-                                className="flex items-center gap-2 text-xs font-black text-[#050505] group-hover:text-matrix-green transition-colors cursor-pointer"
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-matrix-green text-white text-xs font-black tracking-wide hover:bg-[#059669] hover:-translate-y-0.5 transition-all shadow-sm hover:shadow-matrix-green/30 hover:shadow-md"
                             >
-                                LEARN MORE <ArrowRight size={14} />
+                                See If You Qualify <ArrowRight size={13} />
                             </Link>
                         </motion.div>
                     ))}
