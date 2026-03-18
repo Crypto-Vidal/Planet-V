@@ -10,7 +10,7 @@ const projects = [
         category: "Mobile Application",
         image: "/ballistics-focus.jpg",
         desc: "Instant website analysis. Drop in your URL to get a comprehensive performance score and actionable optimization suggestions.",
-        live: "",
+        live: "https://masona-salon.vercel.app",
         github: "",
     },
     {
