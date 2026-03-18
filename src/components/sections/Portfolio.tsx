@@ -6,11 +6,20 @@ import { ExternalLink, Github, Monitor, X, ChevronLeft, ChevronRight, Expand } f
 
 const projects = [
     {
+        title: "Masona Salon",
+        category: "Web Development",
+        image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800",
+        desc: "Full-featured hair salon booking website with real-time appointment scheduling, admin dashboard, and Firebase backend.",
+        live: "https://masona-salon.vercel.app",
+        cta: "View Site",
+        github: ""
+    },
+    {
         title: "Ballistics Test",
         category: "Mobile Application",
         image: "/ballistics-focus.jpg",
         desc: "Instant website analysis. Drop in your URL to get a comprehensive performance score and actionable optimization suggestions.",
-        live: "https://masona-salon.vercel.app",
+        live: "",
         github: "",
     },
     {
