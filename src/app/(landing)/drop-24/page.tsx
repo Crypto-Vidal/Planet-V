@@ -34,7 +34,7 @@ function Divider() {
 function CTAButton({ label = "Get Started" }: { label?: string }) {
   return (
     <a
-      href="/contact"
+      href="https://calendly.com/vcrypto1991/drop24-meeting"
       className="inline-flex items-center gap-3 px-10 py-5 rounded-xl font-black text-lg text-white transition-all shadow-xl group"
       style={{ backgroundColor: BLUE }}
     >
@@ -97,10 +97,7 @@ export default function Drop24Page() {
           >
             D
           </div>
-          <span className="text-xl font-black tracking-tighter text-[#050505] uppercase">
-            Dynasty{" "}
-            <span style={{ color: BLUE }}>Labz</span>
-          </span>
+          <span className="text-xl font-black tracking-tighter text-[#050505] uppercase">Drop<span style={{ color: BLUE }}>24</span></span>
         </div>
       </header>
 
