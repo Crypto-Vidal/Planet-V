@@ -281,13 +281,6 @@ export default function Portfolio() {
                     )}
                 </AnimatePresence>
 
-                <div className="mt-20 p-12 rounded-2xl border border-slate-100 bg-white text-center shadow-sm relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-8 opacity-5">
-                        <div className="w-24 h-24 bg-matrix-green rounded-full blur-3xl" />
-                    </div>
-                    <p className="text-xl md:text-2xl text-[#050505] font-bold italic mb-6 leading-tight max-w-3xl mx-auto">&quot;They took our fragmented manual workflow and engineered it into a cohesive, high-performance system. We saved 20+ hours a week in month one.&quot;</p>
-                    <div className="text-matrix-green font-black uppercase tracking-widest text-sm">— Director of Growth, FleetScale</div>
-                </div>
             </div>
         </section>
     );
