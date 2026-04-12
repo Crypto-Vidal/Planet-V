@@ -6,13 +6,16 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
                 <div className="col-span-1 md:col-span-2">
                     <div className="flex items-center gap-2 mb-6">
-                        <div className="w-8 h-8 bg-matrix-green rounded flex items-center justify-center text-white font-black text-xl italic">D</div>
+                        <div aria-hidden="true" className="w-8 h-8 bg-matrix-green rounded flex items-center justify-center text-white font-black text-xl italic">D</div>
                         <span className="text-xl font-black text-[#050505] uppercase tracking-tighter">
                             Dynasty <span className="text-matrix-green">Labz</span>
                         </span>
                     </div>
-                    <p className="text-slate-500 max-w-sm mb-6">
+                    <p className="text-slate-500 max-w-sm mb-4">
                         Weaponizing AI automation for businesses making $7k–$21k+ a month. Reclaim your time and scale your empire without the technical headache.
+                    </p>
+                    <p className="text-slate-500 text-sm mb-6">
+                        <span className="font-bold text-slate-400">Dynasty Labz</span> · Minneapolis, MN
                     </p>
                     <div className="flex gap-4">
                         <a href="#" className="p-2 rounded bg-slate-900 border border-white/5 text-slate-400 hover:text-neon-cyan hover:border-neon-cyan/50 transition-all"><Twitter size={20} /></a>

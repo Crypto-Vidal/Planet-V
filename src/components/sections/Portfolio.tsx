@@ -9,6 +9,7 @@ const projects = [
         title: "Masona Salon",
         category: "Web Development",
         image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800",
+        altText: "Masona Salon AI automation case study",
         desc: "Full-featured hair salon booking website with real-time appointment scheduling, admin dashboard, and Firebase backend.",
         live: "https://masona-salon.vercel.app",
         cta: "View Site",
@@ -18,6 +19,7 @@ const projects = [
         title: "Ballistics Test",
         category: "Mobile Application",
         image: "/ballistics-focus.jpg",
+        altText: "Ballistics test workflow automation project",
         desc: "Instant website analysis. Drop in your URL to get a comprehensive performance score and actionable optimization suggestions.",
         live: "",
         github: "",
@@ -26,6 +28,7 @@ const projects = [
         title: "Blast Off Reading Adventure",
         category: "Mobile Application",
         image: "/blast-off.jpg",
+        altText: "Blast Off Reading Adventure mobile education app",
         desc: "Interactive educational platform designed to gamify the reading experience for young learners.",
         live: "https://example.com",
         github: "https://github.com"
@@ -34,6 +37,7 @@ const projects = [
         title: "Cake Jar Co.",
         category: "Web Development",
         image: "/cake-jar.png",
+        altText: "Cake Jar e-commerce automation project",
         desc: "Precision-crafted digital storefront for a premium custom cake shop.",
         live: "https://cakes-five-eta.vercel.app",
         cta: "Explore Jars",
@@ -43,6 +47,7 @@ const projects = [
         title: "The Jamaican Chef",
         category: "Web Development",
         image: "/jamaican-chef.png",
+        altText: "Jamaican Chef digital automation project",
         desc: "High-performance platform for elite culinary professionals to manage bookings and menus.",
         live: "https://vcrypto1991.wixsite.com/jamaican",
         cta: "Explore Flavors",
@@ -52,6 +57,7 @@ const projects = [
         title: "High-Conversion Landing Page",
         category: "Conversion Design",
         image: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=800",
+        altText: "High-conversion landing page design for lead generation",
         desc: "Strategically engineered landing page optimized for maximum lead generation efficiency.",
         live: "https://example.com",
         github: "https://github.com"
@@ -60,6 +66,7 @@ const projects = [
         title: "Social Creative & Flyer Design",
         category: "Content Production",
         image: "/social-creative-collage.jpg",
+        altText: "Social media creative and flyer design collage",
         desc: "A collection of high-impact social media assets, flyers, and digital marketing materials.",
         live: "",
         github: "",
@@ -124,7 +131,7 @@ export default function Portfolio() {
                             <div className="aspect-video overflow-hidden relative">
                                 <img
                                     src={project.image}
-                                    alt={project.title}
+                                    alt={project.altText ?? project.title}
                                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                                 />
                                 {project.expandable && (
@@ -211,7 +218,7 @@ export default function Portfolio() {
                                         <motion.img
                                             key={activeImageIndex}
                                             src={gallery[activeImageIndex]}
-                                            alt={`${expandedData.title} - ${activeImageIndex + 1}`}
+                                            alt={`${expandedData.title} - design ${activeImageIndex + 1}`}
                                             className="w-full h-full object-contain"
                                             initial={{ opacity: 0, x: 50 }}
                                             animate={{ opacity: 1, x: 0 }}
@@ -263,7 +270,7 @@ export default function Portfolio() {
                                                             : "border-transparent opacity-60 hover:opacity-100"
                                                     }`}
                                                 >
-                                                    <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
+                                                    <img src={img} alt={`${expandedData.title} thumbnail ${i + 1}`} className="w-full h-full object-cover" />
                                                 </button>
                                             ))}
                                         </div>
