@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 
@@ -12,15 +12,95 @@ const firaCode = Fira_Code({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://planet-v.vercel.app";
+const siteTitle = "Dynasty Labz | AI Automation for Minneapolis Businesses";
+const siteDescription =
+  "Dynasty Labz builds custom AI automation systems for Minneapolis businesses doing $7K–$21K/month. Reclaim 20+ hours a week. Book a free discovery call.";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "DYNASTY LABZ | Premium AI Automation & Workflow Scaling",
-  description: "Weaponizing AI automation for businesses making $7k–$21k+ a month. Reclaim your time and scale your empire without the technical headache.",
-  keywords: ["AI Automation", "Workflow Scaling", "Next.js Web Development", "AI Integration", "Business Automation"],
+  title: siteTitle,
+  description: siteDescription,
+  keywords: [
+    "AI Automation",
+    "Workflow Scaling",
+    "Minneapolis AI Automation",
+    "Minneapolis Business Automation",
+    "Next.js Web Development",
+    "AI Integration",
+    "Business Automation Minneapolis",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
   openGraph: {
-    title: "DYNASTY LABZ | Plug AI Into Your Workflow",
-    description: "Stop losing time to manual grunt work. We help business owners automate and scale using custom AI solutions.",
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "Dynasty Labz",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
+};
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#business`,
+      name: "Dynasty Labz",
+      url: siteUrl,
+      description: siteDescription,
+      areaServed: [
+        {
+          "@type": "City",
+          name: "Minneapolis",
+          containedInPlace: {
+            "@type": "State",
+            name: "Minnesota",
+          },
+        },
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Minneapolis",
+        addressRegion: "MN",
+        addressCountry: "US",
+      },
+      sameAs: [siteUrl],
+    },
+    {
+      "@type": "Service",
+      "@id": `${siteUrl}/#service`,
+      name: "AI Automation & Workflow Scaling",
+      provider: {
+        "@id": `${siteUrl}/#business`,
+      },
+      serviceType: ["AI Automation", "Workflow Scaling", "Web Development"],
+      areaServed: {
+        "@type": "City",
+        name: "Minneapolis",
+      },
+      url: siteUrl,
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -30,6 +110,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${firaCode.variable} antialiased selection:bg-matrix-green selection:text-white`}
       >

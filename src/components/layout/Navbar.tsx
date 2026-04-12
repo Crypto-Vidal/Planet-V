@@ -26,8 +26,8 @@ export default function Navbar() {
     return (
         <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "py-4 bg-dark-bg/80 backdrop-blur-lg border-b border-white/10" : "py-6 bg-transparent"}`}>
             <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                <a href="#" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 bg-matrix-green rounded-xl flex items-center justify-center text-white font-black text-2xl italic group-hover:rotate-12 group-hover:scale-110 shadow-lg shadow-matrix-green/20 transition-all duration-300">D</div>
+                <a href="#" className="flex items-center gap-2 group" aria-label="Dynasty Labz home">
+                    <div aria-hidden="true" className="w-10 h-10 bg-matrix-green rounded-xl flex items-center justify-center text-white font-black text-2xl italic group-hover:rotate-12 group-hover:scale-110 shadow-lg shadow-matrix-green/20 transition-all duration-300">D</div>
                     <span className="text-2xl font-black tracking-tighter text-[#050505] uppercase group-hover:text-matrix-green transition-colors">
                         Dynasty <span className="text-matrix-green">Labz</span>
                     </span>

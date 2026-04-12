@@ -40,7 +40,7 @@ export default function Hero() {
 
                     <p className="text-2xl text-slate-500 mb-12 max-w-xl leading-relaxed font-medium">
                         Free up 20+ hours a week from manual work.
-                        Custom AI built and integrated into your operations — for ambitious businesses generating $7K–$21K/month.
+                        Custom AI built and integrated into your operations — serving Minneapolis businesses generating $7K–$21K/month.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 mb-16">
