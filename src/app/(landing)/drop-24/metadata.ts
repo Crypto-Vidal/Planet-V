@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://planet-v.vercel.app/og-drop-24.png",
+        url: "https://planet-v.vercel.app/og-drop-24.svg",
         width: 1200,
         height: 630,
         alt: "Drop 24 — Your website in 24 hours",
