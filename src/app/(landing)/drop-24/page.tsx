@@ -109,37 +109,32 @@ export default function Drop24Page() {
           {/* Label */}
           <motion.div
             {...fadeUp}
-            className="inline-block mb-8 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border"
-            style={{ color: BLUE, borderColor: "#bfdbfe", backgroundColor: "#eff6ff" }}
-          >
-            Drop 24
+            className="mb-6 text-xs font-black uppercase tracking-widest"
+            style={{ color: BLUE }}>
+            Launch Your Business Today
           </motion.div>
 
           <motion.h1
             {...stagger(0.08)}
-            className="text-5xl md:text-7xl font-black text-[#050505] leading-[1.05] tracking-tighter mb-6"
-          >
-            Your website.{" "}
-            <span style={{ color: BLUE }}>24 hours.</span>{" "}
-            $350.
+            className="text-5xl md:text-7xl font-black text-[#050505] leading-[1.05] tracking-tighter mb-6">
+            Get a High-Converting Website
+            <span style={{ color: BLUE }}> in 24 Hours.</span>
           </motion.h1>
 
           <motion.p
             {...stagger(0.18)}
-            className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-xl mx-auto mb-12"
-          >
-            If you don&apos;t love it, you don&apos;t pay.
+            className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-xl mx-auto mb-12">
+            Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. No risks, just results.
           </motion.p>
 
           <motion.div {...stagger(0.28)}>
-            <CTAButton />
+            <CTAButton label="Launch Your Site Now" />
           </motion.div>
 
           <motion.p
             {...stagger(0.36)}
-            className="mt-5 text-sm text-slate-400 font-medium"
-          >
-            No contract. No agency overhead. Just a site that works.
+            className="mt-5 text-sm text-slate-400 font-medium">
+            Limited spots available. Secure your slot and get online fast.
           </motion.p>
         </div>
       </section>
@@ -154,29 +149,22 @@ export default function Drop24Page() {
           <motion.div
             {...fadeUp}
             className="text-xs font-black uppercase tracking-widest mb-8"
-            style={{ color: BLUE }}
-          >
-            The Problem
+            style={{ color: BLUE }}>
+            The Challenge
           </motion.div>
 
           <motion.div
             {...stagger(0.1)}
-            className="space-y-5 text-lg md:text-xl text-slate-600 font-medium leading-relaxed"
-          >
+            className="space-y-5 text-lg md:text-xl text-slate-600 font-medium leading-relaxed">
             <p>
-              Most local business websites exist. They don&apos;t convert.
-              They were built to look professional, not to turn visitors into
-              paying customers.
+              Your business deserves a website that performs, not just exists.
+              Many local businesses struggle with sites that look pretty but fail to turn visitors into valuable leads and customers.
             </p>
             <p>
-              You got charged $1,500–$5,000 for something that sits there, does
-              nothing, and slowly embarrasses you every time you hand out your
-              card.
+              You've invested your resources, time, and trust, only to see your website become a digital placeholder—doing little to grow your bottom line.
             </p>
             <p>
-              The fix isn&apos;t more pages or a rebrand. It&apos;s one clear
-              page that tells the right person exactly what you do and what to
-              do next.
+              The solution isn't a complex, costly rebuild. It's a precisely crafted, conversion-focused page that clearly communicates your value and guides potential clients to their next step.
             </p>
           </motion.div>
         </div>
@@ -200,32 +188,30 @@ export default function Drop24Page() {
           <div className="space-y-8">
             {[
               {
-                title: "A converting landing page",
-                desc: "One focused page built around your offer, your customer, and one clear action — book, call, or buy.",
+                title: "Conversion-Optimized Landing Page",
+                desc: "A single, powerful page designed to capture leads, built around your unique offer and target audience. Clear CTAs for immediate action.",
               },
               {
-                title: "Live in 24 hours",
-                desc: "Send us your info at noon, you&apos;ll have a live URL by noon tomorrow. No waiting weeks for a \"discovery call\" to go nowhere.",
+                title: "Delivered in 24 Hours",
+                desc: "From your information to a live URL in just one day. No endless discovery calls or design revisions—get online, fast.",
               },
               {
-                title: "Mobile-first design",
-                desc: "Over 70% of local searches happen on mobile. Your page will look sharp on every screen size.",
+                title: "Flawless Mobile Experience",
+                desc: "With over 70% of local searches on mobile, your page is engineered to look and perform perfectly on any device, ensuring no lost opportunities.",
               },
               {
-                title: "Copy included",
-                desc: "You don't need to write a word. We write the headline, subheadline, and call-to-action based on what works.",
+                title: "Expertly Written Copy",
+                desc: "Forget content creation. Our team crafts compelling headlines, subheadlines, and calls-to-action proven to resonate with your customers.",
               },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
                 {...stagger(idx * 0.08)}
-                className="flex gap-5"
-              >
+                className="flex gap-5">
                 <div
                   className="mt-1 w-5 h-5 rounded-full shrink-0 flex items-center justify-center"
-                  style={{ backgroundColor: "#eff6ff" }}
-                >
-                  <Check size={12} style={{ color: BLUE }} />
+                  style={{ backgroundColor: BLUE }}>
+                  <Check size={12} className="text-white" />
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-[#050505] tracking-tight mb-1">
@@ -294,29 +280,27 @@ export default function Drop24Page() {
             {[
               {
                 step: "01",
-                title: "Send your info",
-                desc: "Fill out a short form — your business name, what you offer, who you serve, and how people should contact you. Takes 5 minutes.",
+                title: "Provide Your Business Details",
+                desc: "Share key information about your business, what you offer, your unique selling proposition, and contact preferences. Our streamlined form takes only 5 minutes.",
               },
               {
                 step: "02",
-                title: "We build in 24 hours",
-                desc: "We handle the copy, design, and launch. You don't lift a finger. No back-and-forth, no revision loops before you've even seen it.",
+                title: "We Design & Launch in 24 Hours",
+                desc: "Our expert team crafts compelling copy and modern design, then launches your site. No revisions until you see the live result, maximizing speed and efficiency.",
               },
               {
                 step: "03",
-                title: "You approve — or we fix it",
-                desc: "If you love it, we're done. If something's off, we revise it until it's right. And if you genuinely hate it, you pay nothing.",
+                title: "Approve or Request Revisions",
+                desc: "Review your live site. If you love it, we're done! If it needs tweaks, we refine until perfect. And if it doesn't meet your standards, you owe us nothing. Your satisfaction is our guarantee.",
               },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
                 {...stagger(idx * 0.1)}
-                className="flex gap-6"
-              >
+                className="flex gap-6">
                 <div
                   className="text-3xl font-black leading-none tracking-tighter pt-1 shrink-0 w-10"
-                  style={{ color: "#bfdbfe" }}
-                >
+                  style={{ color: \"#3b82f6\" }}>
                   {item.step}
                 </div>
                 <div>
@@ -345,26 +329,26 @@ export default function Drop24Page() {
             className="text-xs font-black uppercase tracking-widest mb-12"
             style={{ color: BLUE }}
           >
-            Common Questions
+            Frequently Asked Questions
           </motion.div>
 
           <motion.div {...stagger(0.1)}>
             {[
               {
-                q: "What if I don't like the design?",
-                a: "We revise it — no questions asked. If after revisions you still don't love it, you pay nothing. That's the guarantee. We'd rather earn your trust than keep your $350.",
+                q: "What if I'm not satisfied with the design?",
+                a: "Your satisfaction is our priority. We offer revisions until you're delighted with your new site. And if, even after adjustments, you're not completely happy, you don't pay a dime. Our goal is to earn your trust, not just your payment.",
               },
               {
-                q: "What if I need changes later?",
-                a: "Minor tweaks (copy edits, updated hours, new phone number) are free within 7 days of launch. For bigger updates after that, we offer affordable one-time change packages.",
+                q: "What if I need updates or changes after launch?",
+                a: "Minor content tweaks (e.g., updated hours, new contact info) are complimentary within 7 days post-launch. For more significant updates down the road, we provide transparent, affordable one-time service packages tailored to your needs.",
               },
               {
-                q: "What's actually included for $350?",
-                a: "A single-page, conversion-focused website — live on your domain or a subdomain. Includes headline, offer copy, contact/booking CTA, mobile optimization, and hosting setup. No custom web app or e-commerce store — just a page that converts.",
+                q: "What precisely is included in the $350 package?",
+                a: "You receive a high-impact, single-page website specifically engineered for conversion. This includes compelling headlines, persuasive offer copy, a clear call-to-action for bookings or inquiries, mobile-responsive design, and comprehensive hosting setup. This package focuses exclusively on generating leads, not on custom web applications or e-commerce functionalities.",
               },
               {
-                q: "Do I need to own a domain?",
-                a: "You can use your existing domain or we can set you up on a clean subdomain to start. Either way, we handle the technical side.",
+                q: "Do I need to already own a domain name?",
+                a: "Not necessarily. You can leverage your existing domain, or we can seamlessly integrate your new site onto a clean subdomain. We manage all the technical configurations, ensuring a smooth online presence.",
               },
             ].map((item, idx) => (
               <FAQItem key={idx} q={item.q} a={item.a} />
@@ -385,34 +369,33 @@ export default function Drop24Page() {
             className="text-xs font-black uppercase tracking-widest mb-6"
             style={{ color: BLUE }}
           >
-            Ready to launch?
+            Don't Wait, Elevate Your Online Presence
           </motion.div>
 
           <motion.h2
             {...stagger(0.1)}
             className="text-4xl md:text-5xl font-black text-[#050505] tracking-tighter leading-tight mb-5"
           >
-            Your site could be live{" "}
-            <span style={{ color: BLUE }}>tomorrow morning.</span>
+            Your new, high-converting site
+            <span style={{ color: BLUE }}> could be live tomorrow morning.</span>
           </motion.h2>
 
           <motion.p
             {...stagger(0.18)}
             className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl mx-auto mb-12"
           >
-            Drop 24 is built for local businesses that are ready to move now —
-            not next quarter. One page. One price. Zero risk.
+            Drop 24 is designed for ambitious local businesses ready to act now. Get a professional, effective online presence with zero upfront risk and maximum impact.
           </motion.p>
 
           <motion.div {...stagger(0.26)}>
-            <CTAButton label="Start My Site" />
+            <CTAButton label="Get Started Today" />
           </motion.div>
 
           <motion.p
             {...stagger(0.34)}
             className="mt-5 text-sm text-slate-400 font-medium"
           >
-            You&apos;ll fill out a short form — takes about 5 minutes.
+            Our simple onboarding form takes just 5 minutes.
           </motion.p>
         </div>
       </section>
