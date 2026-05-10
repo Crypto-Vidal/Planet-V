@@ -300,7 +300,7 @@ export default function Drop24Page() {
                 className="flex gap-6">
                 <div
                   className="text-3xl font-black leading-none tracking-tighter pt-1 shrink-0 w-10"
-                  style={{ color: \"#3b82f6\" }}>
+                  style={{ color: "#3b82f6" }}>
                   {item.step}
                 </div>
                 <div>
