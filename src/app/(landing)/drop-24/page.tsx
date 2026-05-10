@@ -101,6 +101,47 @@ export default function Drop24Page() {
         </div>
       </header>
 
+      {/* SEO Metadata and JSON-LD injected here */}
+      <meta name="description" content="Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. Get a High-Converting Website in 24 Hours. Target Minneapolis businesses needing fast, high-converting websites." />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: `
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Dynasty Labz",
+            "image": "https://planet-v.vercel.app/dynasty-labz-logo.png", // Placeholder: Replace with actual logo URL
+            "@id": "https://planet-v.vercel.app/drop-24",
+            "url": "https://planet-v.vercel.app/drop-24",
+            "telephone": "+1-800-555-0199", // Placeholder: Replace with actual business phone
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "123 Main St", // Placeholder: Replace with actual street address
+              "addressLocality": "Minneapolis",
+              "addressRegion": "MN",
+              "postalCode": "55401", // Placeholder: Replace with actual postal code
+              "addressCountry": "US"
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday"
+                ],
+                "opens": "09:00",
+                "closes": "17:00"
+              }
+            ],
+            "priceRange": "$350"
+          }
+        `}}
+      />
+      {/* End SEO Metadata and JSON-LD */}
+
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 1 — HERO
       ═══════════════════════════════════════════════════════════════ */}
