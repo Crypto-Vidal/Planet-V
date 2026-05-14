@@ -1,16 +1,18 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronDown, Zap, Clock, Smartphone, Pen } from "lucide-react";
+import { useState, useRef } from "react";
 
-/* ─── Animation Helpers ───────────────────────────────────────────── */
+/* ─── Constants ─────────────────────────────────────────────────────────── */
+const BLUE = "#3b82f6";
 
+/* ─── Animation Presets ─────────────────────────────────────────────────── */
 const fadeUp = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.6, ease: "easeOut" as const },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
 };
 
 const stagger = (delay: number) => ({
@@ -18,63 +20,73 @@ const stagger = (delay: number) => ({
   transition: { ...fadeUp.transition, delay },
 });
 
-/* ─── Blue accent color ───────────────────────────────────────────── */
-const BLUE = "#3b82f6";
-
-/* ─── Divider ─────────────────────────────────────────────────────── */
-function Divider() {
+/* ─── Glow Orb ──────────────────────────────────────────────────────────── */
+function GlowOrb({ size = 400, color = "rgba(59,130,246,0.12)", className = "" }: {
+  size?: number; color?: string; className?: string;
+}) {
   return (
-    <div className="max-w-4xl mx-auto px-6">
-      <hr className="border-slate-100" />
-    </div>
+    <div
+      className={`absolute pointer-events-none rounded-full blur-3xl ${className}`}
+      style={{ width: size, height: size, background: `radial-gradient(circle, ${color} 0%, transparent 70%)` }}
+    />
   );
 }
 
-/* ─── CTA Button ──────────────────────────────────────────────────── */
-function CTAButton({ label = "Get Started" }: { label?: string }) {
+/* ─── CTA Button ────────────────────────────────────────────────────────── */
+function CTAButton({ label = "Get Started", size = "lg" }: { label?: string; size?: "sm" | "lg" }) {
+  const lg = size === "lg";
   return (
     <a
       href="https://calendly.com/vcrypto1991/drop24-meeting"
-      className="inline-flex items-center gap-3 px-10 py-5 rounded-xl font-black text-lg text-white transition-all shadow-xl group"
-      style={{ backgroundColor: BLUE }}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group relative inline-flex items-center gap-3 font-black text-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+        lg ? "px-10 py-5 text-lg" : "px-6 py-3.5 text-sm"
+      }`}
+      style={{
+        background: "linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)",
+        boxShadow: "0 0 32px rgba(59,130,246,0.35), 0 4px 16px rgba(0,0,0,0.4)",
+      }}
     >
-      {label}
-      <ArrowRight
-        size={20}
-        className="group-hover:translate-x-1 transition-transform"
+      <span
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.12), transparent 70%)" }}
       />
+      <span className="relative">{label}</span>
+      <ArrowRight size={lg ? 20 : 16} className="relative group-hover:translate-x-1 transition-transform duration-300" />
     </a>
   );
 }
 
-/* ─── FAQ Item ────────────────────────────────────────────────────── */
+/* ─── FAQ Item ──────────────────────────────────────────────────────────── */
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-b border-slate-100 last:border-none">
+    <div style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }} className="last:border-none">
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between gap-4 py-6 text-left group"
       >
-        <span className="text-base md:text-lg font-black text-[#050505] tracking-tight group-hover:text-blue-500 transition-colors">
+        <span className="text-base md:text-lg font-bold text-white/90 tracking-tight group-hover:text-blue-400 transition-colors duration-200">
           {q}
         </span>
         <ChevronDown
-          size={20}
-          className={`shrink-0 text-slate-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          size={18}
+          className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          style={{ color: "rgba(59,130,246,0.6)" }}
         />
       </button>
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
-            key="answer"
+            key="a"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-6 text-slate-500 font-medium leading-relaxed">
+            <p className="pb-6 leading-relaxed font-medium text-sm" style={{ color: "#64748b" }}>
               {a}
             </p>
           </motion.div>
@@ -84,163 +96,245 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-/* ─── Page ────────────────────────────────────────────────────────── */
+/* ─── Page ──────────────────────────────────────────────────────────────── */
 export default function Drop24Page() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+
   return (
-    <main className="bg-white min-h-screen">
-      {/* ── Header ── */}
-      <header className="py-7 px-6 border-b border-slate-100">
-        <div className="max-w-4xl mx-auto flex items-center gap-2">
-          <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-black text-xl italic shadow-md"
-            style={{ backgroundColor: BLUE }}
-          >
-            D
+    <main style={{ backgroundColor: "#050505", color: "#f8fafc" }} className="min-h-screen">
+
+      {/* SEO */}
+      <meta name="description" content="Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. Get a High-Converting Website in 24 Hours." />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Dynasty Labz",
+            "@id": "https://planet-v.vercel.app/drop-24",
+            url: "https://planet-v.vercel.app/drop-24",
+            priceRange: "$350",
+          }),
+        }}
+      />
+
+      {/* ── Sticky Header ── */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 py-4 px-6"
+        style={{
+          backdropFilter: "blur(20px)",
+          backgroundColor: "rgba(5,5,5,0.85)",
+          borderBottom: "1px solid rgba(255,255,255,0.05)",
+        }}
+      >
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-base italic"
+              style={{ background: "linear-gradient(135deg, #3b82f6, #6366f1)", boxShadow: "0 0 12px rgba(59,130,246,0.5)" }}
+            >
+              D
+            </div>
+            <span className="text-base font-black tracking-tighter text-white uppercase">
+              Drop<span style={{ color: BLUE }}>24</span>
+            </span>
           </div>
-          <span className="text-xl font-black tracking-tighter text-[#050505] uppercase">Drop<span style={{ color: BLUE }}>24</span></span>
+          <CTAButton label="Book a Call" size="sm" />
         </div>
       </header>
 
-      {/* SEO Metadata and JSON-LD injected here */}
-      <meta name="description" content="Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. Get a High-Converting Website in 24 Hours. Target Minneapolis businesses needing fast, high-converting websites." />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: `
-          {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Dynasty Labz",
-            "image": "https://planet-v.vercel.app/dynasty-labz-logo.png", // Placeholder: Replace with actual logo URL
-            "@id": "https://planet-v.vercel.app/drop-24",
-            "url": "https://planet-v.vercel.app/drop-24",
-            "telephone": "+1-800-555-0199", // Placeholder: Replace with actual business phone
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "123 Main St", // Placeholder: Replace with actual street address
-              "addressLocality": "Minneapolis",
-              "addressRegion": "MN",
-              "postalCode": "55401", // Placeholder: Replace with actual postal code
-              "addressCountry": "US"
-            },
-            "openingHoursSpecification": [
-              {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday"
-                ],
-                "opens": "09:00",
-                "closes": "17:00"
-              }
-            ],
-            "priceRange": "$350"
-          }
-        `}}
-      />
-      {/* End SEO Metadata and JSON-LD */}
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 1 — HERO
+          HERO
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="pt-20 pb-28 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Label */}
+      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-32 px-6 overflow-hidden">
+        <GlowOrb size={700} color="rgba(59,130,246,0.1)" className="-top-40 left-1/2 -translate-x-1/2" />
+        <GlowOrb size={350} color="rgba(99,102,241,0.08)" className="top-1/3 -left-24" />
+        <GlowOrb size={280} color="rgba(59,130,246,0.07)" className="bottom-24 -right-16" />
+
+        {/* Subtle noise */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            opacity: 0.025,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "128px",
+          }}
+        />
+
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="relative z-10 max-w-4xl mx-auto text-center">
+          {/* Badge */}
           <motion.div
             {...fadeUp}
-            className="mb-6 text-xs font-black uppercase tracking-widest"
-            style={{ color: BLUE }}>
+            className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest"
+            style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             Launch Your Business Today
           </motion.div>
 
           <motion.h1
             {...stagger(0.08)}
-            className="text-5xl md:text-7xl font-black text-[#050505] leading-[1.05] tracking-tighter mb-6">
-            Get a High-Converting Website
-            <span style={{ color: BLUE }}> in 24 Hours.</span>
+            className="text-5xl sm:text-6xl md:text-8xl font-black leading-[1.0] tracking-tighter mb-8"
+          >
+            Get a
+            <span
+              className="block"
+              style={{
+                background: "linear-gradient(135deg, #93c5fd 0%, #3b82f6 45%, #8b5cf6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              High-Converting
+            </span>
+            Website in{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #3b82f6, #6366f1)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              24 Hours.
+            </span>
           </motion.h1>
 
           <motion.p
             {...stagger(0.18)}
-            className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-xl mx-auto mb-12">
-            Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. No risks, just results.
+            className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12 font-medium"
+            style={{ color: "#94a3b8" }}
+          >
+            Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert,{" "}
+            <span className="text-white font-bold">or you don&apos;t pay.</span>{" "}
+            No risks, just results.
           </motion.p>
 
-          <motion.div {...stagger(0.28)}>
+          <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <CTAButton label="Launch Your Site Now" />
+            <span className="text-sm font-medium" style={{ color: "#475569" }}>
+              5-min call · $350 flat · 24hr delivery
+            </span>
           </motion.div>
+        </motion.div>
 
-          <motion.p
-            {...stagger(0.36)}
-            className="mt-5 text-sm text-slate-400 font-medium">
-            Limited spots available. Secure your slot and get online fast.
-          </motion.p>
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        >
+          <div
+            className="w-6 h-10 rounded-full border flex items-start justify-center pt-2"
+            style={{ borderColor: "rgba(255,255,255,0.12)" }}
+          >
+            <motion.div
+              animate={{ y: [0, 14, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1 h-2 rounded-full"
+              style={{ backgroundColor: BLUE }}
+            />
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          STATS BAR
+      ═══════════════════════════════════════════════════════════════ */}
+      <section style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)" }} className="py-12 px-6">
+        <div className="max-w-4xl mx-auto grid grid-cols-3 divide-x" style={{ divideColor: "rgba(255,255,255,0.06)" } as React.CSSProperties}>
+          {[
+            { value: "24hr", label: "Turnaround" },
+            { value: "$350", label: "Flat Rate" },
+            { value: "100%", label: "Money-Back" },
+          ].map((stat, idx) => (
+            <motion.div key={idx} {...stagger(idx * 0.1)} className="text-center px-6">
+              <div
+                className="text-3xl md:text-4xl font-black tracking-tighter mb-1"
+                style={{
+                  background: "linear-gradient(135deg, #f8fafc, #94a3b8)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {stat.value}
+              </div>
+              <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: "#334155" }}>
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      <Divider />
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 2 — THE PROBLEM
+          THE PROBLEM
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6">
+      <section className="py-28 px-6 relative overflow-hidden">
+        <GlowOrb size={400} color="rgba(239,68,68,0.04)" className="top-0 right-0" />
+
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            {...fadeUp}
-            className="text-xs font-black uppercase tracking-widest mb-8"
-            style={{ color: BLUE }}>
+          <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-10" style={{ color: BLUE }}>
             The Challenge
           </motion.div>
 
-          <motion.div
-            {...stagger(0.1)}
-            className="space-y-5 text-lg md:text-xl text-slate-600 font-medium leading-relaxed">
-            <p>
-              Your business deserves a website that performs, not just exists.
-              Many local businesses struggle with sites that look pretty but fail to turn visitors into valuable leads and customers.
-            </p>
-            <p>
-              You've invested your resources, time, and trust, only to see your website become a digital placeholder—doing little to grow your bottom line.
-            </p>
-            <p>
-              The solution isn't a complex, costly rebuild. It's a precisely crafted, conversion-focused page that clearly communicates your value and guides potential clients to their next step.
-            </p>
-          </motion.div>
+          <div className="space-y-6">
+            {[
+              { text: "Your business deserves a website that performs, not just exists. Many local businesses struggle with sites that look pretty but fail to turn visitors into valuable leads and customers.", bright: true },
+              { text: "You've invested your resources, time, and trust, only to see your website become a digital placeholder—doing little to grow your bottom line.", bright: false },
+              { text: "The solution isn't a complex, costly rebuild. It's a precisely crafted, conversion-focused page that clearly communicates your value and guides potential clients to their next step.", bright: false },
+            ].map((item, idx) => (
+              <motion.p
+                key={idx}
+                {...stagger(idx * 0.1)}
+                className="text-lg md:text-xl leading-relaxed font-medium"
+                style={{ color: item.bright ? "#e2e8f0" : "#64748b" }}
+              >
+                {item.text}
+              </motion.p>
+            ))}
+          </div>
         </div>
       </section>
 
-      <Divider />
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 3 — THE OFFER
+          WHAT YOU GET
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6">
+      <section className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <GlowOrb size={500} color="rgba(59,130,246,0.06)" className="-left-40 top-1/2 -translate-y-1/2" />
+
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            {...fadeUp}
-            className="text-xs font-black uppercase tracking-widest mb-12"
-            style={{ color: BLUE }}
-          >
+          <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-14" style={{ color: BLUE }}>
             What You Get
           </motion.div>
 
-          <div className="space-y-8">
+          <div className="space-y-3">
             {[
               {
+                icon: <Zap size={17} />,
                 title: "Conversion-Optimized Landing Page",
                 desc: "A single, powerful page designed to capture leads, built around your unique offer and target audience. Clear CTAs for immediate action.",
               },
               {
+                icon: <Clock size={17} />,
                 title: "Delivered in 24 Hours",
                 desc: "From your information to a live URL in just one day. No endless discovery calls or design revisions—get online, fast.",
               },
               {
+                icon: <Smartphone size={17} />,
                 title: "Flawless Mobile Experience",
                 desc: "With over 70% of local searches on mobile, your page is engineered to look and perform perfectly on any device, ensuring no lost opportunities.",
               },
               {
+                icon: <Pen size={17} />,
                 title: "Expertly Written Copy",
                 desc: "Forget content creation. Our team crafts compelling headlines, subheadlines, and calls-to-action proven to resonate with your customers.",
               },
@@ -248,20 +342,19 @@ export default function Drop24Page() {
               <motion.div
                 key={idx}
                 {...stagger(idx * 0.08)}
-                className="flex gap-5">
+                className="group flex gap-5 p-5 rounded-2xl transition-all duration-300 cursor-default"
+                style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "rgba(255,255,255,0.02)" }}
+                whileHover={{ borderColor: "rgba(59,130,246,0.28)", backgroundColor: "rgba(59,130,246,0.04)" }}
+              >
                 <div
-                  className="mt-1 w-5 h-5 rounded-full shrink-0 flex items-center justify-center"
-                  style={{ backgroundColor: BLUE }}>
-                  <Check size={12} className="text-white" />
+                  className="shrink-0 mt-0.5 w-9 h-9 rounded-xl flex items-center justify-center"
+                  style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.1)", color: "#60a5fa" }}
+                >
+                  {item.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-[#050505] tracking-tight mb-1">
-                    {item.title}
-                  </h3>
-                  <p
-                    className="text-slate-500 font-medium leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: item.desc }}
-                  />
+                  <h3 className="text-base md:text-lg font-black text-white tracking-tight mb-1.5">{item.title}</h3>
+                  <p className="text-sm leading-relaxed font-medium" style={{ color: "#64748b" }}>{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -270,50 +363,46 @@ export default function Drop24Page() {
           {/* Pricing callout */}
           <motion.div
             {...stagger(0.4)}
-            className="mt-16 p-8 rounded-2xl border-2"
-            style={{ borderColor: "#bfdbfe", backgroundColor: "#f0f7ff" }}
+            className="mt-12 p-8 rounded-2xl relative overflow-hidden"
+            style={{
+              border: "1px solid rgba(59,130,246,0.2)",
+              background: "linear-gradient(135deg, rgba(59,130,246,0.07) 0%, rgba(99,102,241,0.04) 100%)",
+            }}
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <GlowOrb size={280} color="rgba(59,130,246,0.1)" className="-right-16 -top-16" />
+            <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
-                <div
-                  className="text-xs font-black uppercase tracking-widest mb-2"
-                  style={{ color: BLUE }}
-                >
-                  The Price
-                </div>
-                <div className="text-4xl md:text-5xl font-black text-[#050505] tracking-tight">
+                <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: BLUE }}>The Price</div>
+                <div className="text-5xl md:text-6xl font-black tracking-tighter text-white">
                   $350{" "}
-                  <span className="text-lg text-slate-400 font-medium">flat</span>
+                  <span className="text-xl font-medium" style={{ color: "#334155" }}>flat</span>
                 </div>
-                <p className="mt-2 text-sm text-slate-500 font-medium">
-                  One-time. No monthly fees. No hidden costs.
-                </p>
+                <p className="mt-2 text-sm font-medium" style={{ color: "#475569" }}>One-time. No monthly fees. No hidden costs.</p>
               </div>
               <div
-                className="shrink-0 text-center px-8 py-5 rounded-xl font-black text-white text-lg leading-snug"
-                style={{ backgroundColor: BLUE }}
+                className="shrink-0 text-center px-8 py-5 rounded-2xl font-black text-white text-lg leading-snug"
+                style={{
+                  background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                  boxShadow: "0 0 40px rgba(59,130,246,0.3)",
+                }}
               >
                 24hr
                 <br />
-                <span className="text-sm font-medium opacity-80">turnaround</span>
+                <span className="text-sm font-medium opacity-75">turnaround</span>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <Divider />
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 4 — HOW IT WORKS
+          HOW IT WORKS
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6">
+      <section className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <GlowOrb size={400} color="rgba(99,102,241,0.06)" className="-right-32 top-1/2 -translate-y-1/2" />
+
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            {...fadeUp}
-            className="text-xs font-black uppercase tracking-widest mb-12"
-            style={{ color: BLUE }}
-          >
+          <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-14" style={{ color: BLUE }}>
             How It Works
           </motion.div>
 
@@ -332,25 +421,25 @@ export default function Drop24Page() {
               {
                 step: "03",
                 title: "Approve or Request Revisions",
-                desc: "Review your live site. If you love it, we're done! If it needs tweaks, we refine until perfect. And if it doesn't meet your standards, you owe us nothing. Your satisfaction is our guarantee.",
+                desc: "Review your live site. If you love it, we're done! If it needs tweaks, we refine until perfect. And if it doesn't meet your standards, you owe us nothing.",
               },
             ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                {...stagger(idx * 0.1)}
-                className="flex gap-6">
+              <motion.div key={idx} {...stagger(idx * 0.1)} className="flex gap-6 relative">
+                {idx < 2 && (
+                  <div
+                    className="absolute left-[17px] top-11 w-px h-12"
+                    style={{ background: "linear-gradient(to bottom, rgba(59,130,246,0.25), transparent)" }}
+                  />
+                )}
                 <div
-                  className="text-3xl font-black leading-none tracking-tighter pt-1 shrink-0 w-10"
-                  style={{ color: "#3b82f6" }}>
+                  className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black"
+                  style={{ border: "1px solid rgba(59,130,246,0.35)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
+                >
                   {item.step}
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-[#050505] tracking-tight mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-500 font-medium leading-relaxed">
-                    {item.desc}
-                  </p>
+                  <h3 className="text-lg md:text-xl font-black text-white tracking-tight mb-2">{item.title}</h3>
+                  <p className="leading-relaxed font-medium text-sm md:text-base" style={{ color: "#64748b" }}>{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -358,18 +447,12 @@ export default function Drop24Page() {
         </div>
       </section>
 
-      <Divider />
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 5 — FAQ
+          FAQ
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6">
+      <section className="py-28 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            {...fadeUp}
-            className="text-xs font-black uppercase tracking-widest mb-12"
-            style={{ color: BLUE }}
-          >
+          <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-14" style={{ color: BLUE }}>
             Frequently Asked Questions
           </motion.div>
 
@@ -385,7 +468,7 @@ export default function Drop24Page() {
               },
               {
                 q: "What precisely is included in the $350 package?",
-                a: "You receive a high-impact, single-page website specifically engineered for conversion. This includes compelling headlines, persuasive offer copy, a clear call-to-action for bookings or inquiries, mobile-responsive design, and comprehensive hosting setup. This package focuses exclusively on generating leads, not on custom web applications or e-commerce functionalities.",
+                a: "You receive a high-impact, single-page website specifically engineered for conversion. This includes compelling headlines, persuasive offer copy, a clear call-to-action for bookings or inquiries, mobile-responsive design, and comprehensive hosting setup.",
               },
               {
                 q: "Do I need to already own a domain name?",
@@ -398,52 +481,63 @@ export default function Drop24Page() {
         </div>
       </section>
 
-      <Divider />
-
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 6 — FINAL CTA
+          FINAL CTA
       ═══════════════════════════════════════════════════════════════ */}
-      <section className="py-28 px-6">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="py-32 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <GlowOrb size={700} color="rgba(59,130,246,0.09)" className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <GlowOrb size={320} color="rgba(99,102,241,0.08)" className="-bottom-20 -left-16" />
+        <GlowOrb size={250} color="rgba(59,130,246,0.06)" className="-top-10 right-10" />
+
+        <div className="relative max-w-3xl mx-auto text-center">
           <motion.div
             {...fadeUp}
-            className="text-xs font-black uppercase tracking-widest mb-6"
-            style={{ color: BLUE }}
+            className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest"
+            style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
           >
-            Don't Wait, Elevate Your Online Presence
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+            Don&apos;t Wait, Elevate
           </motion.div>
 
           <motion.h2
             {...stagger(0.1)}
-            className="text-4xl md:text-5xl font-black text-[#050505] tracking-tighter leading-tight mb-5"
+            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight mb-6 text-white"
           >
-            Your new, high-converting site
-            <span style={{ color: BLUE }}> could be live tomorrow morning.</span>
+            Your new site could be
+            <span
+              className="block"
+              style={{
+                background: "linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #8b5cf6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              live tomorrow morning.
+            </span>
           </motion.h2>
 
           <motion.p
             {...stagger(0.18)}
-            className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl mx-auto mb-12"
+            className="text-lg leading-relaxed max-w-xl mx-auto mb-12 font-medium"
+            style={{ color: "#94a3b8" }}
           >
-            Drop 24 is designed for ambitious local businesses ready to act now. Get a professional, effective online presence with zero upfront risk and maximum impact.
+            Drop 24 is designed for ambitious local businesses ready to act now. Zero upfront risk. Maximum impact.
           </motion.p>
 
           <motion.div {...stagger(0.26)}>
             <CTAButton label="Get Started Today" />
           </motion.div>
 
-          <motion.p
-            {...stagger(0.34)}
-            className="mt-5 text-sm text-slate-400 font-medium"
-          >
+          <motion.p {...stagger(0.34)} className="mt-5 text-sm font-medium" style={{ color: "#334155" }}>
             Our simple onboarding form takes just 5 minutes.
           </motion.p>
         </div>
       </section>
 
       {/* ── Footer ── */}
-      <footer className="py-7 px-6 border-t border-slate-100">
-        <div className="max-w-4xl mx-auto text-center text-slate-400 text-[10px] font-mono uppercase tracking-[0.2em]">
+      <footer className="py-7 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <div className="max-w-5xl mx-auto text-center text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "#1e293b" }}>
           &copy; {new Date().getFullYear()} DYNASTY LABZ. ALL RIGHTS RESERVED.
         </div>
       </footer>
