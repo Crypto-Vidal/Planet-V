@@ -96,6 +96,44 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+/* ─── Recent Work Data ──────────────────────────────────────────────────── */
+const recentWork = [
+  { name: "Cake Jar Co.", url: "https://cakes-five-eta.vercel.app/", desc: "Bakery & custom desserts — Minneapolis", tag: "Food & Beverage" },
+  { name: "The Jamaican Chef", url: "https://vcrypto1991.wixsite.com/jamaican", desc: "Caribbean restaurant & catering", tag: "Restaurant" },
+  { name: "Masona Salon", url: "https://masona-salon.vercel.app/", desc: "Luxury beauty studio — Twin Cities", tag: "Beauty & Wellness" },
+  { name: "Dynasty Labz", url: "https://planet-v.vercel.app/", desc: "AI & web development agency", tag: "Technology" },
+];
+
+/* ─── Work Card ─────────────────────────────────────────────────────────── */
+function WorkCard({ item, delay }: { item: typeof recentWork[0]; delay: number }) {
+  return (
+    <motion.a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      {...stagger(delay)}
+      className="group block p-6 rounded-2xl transition-all duration-300"
+      style={{ border: "1px solid rgba(255,255,255,0.07)", backgroundColor: "rgba(255,255,255,0.02)" }}
+      whileHover={{ borderColor: "rgba(59,130,246,0.35)", backgroundColor: "rgba(59,130,246,0.05)", y: -4 }}
+    >
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <span
+          className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full"
+          style={{ backgroundColor: "rgba(59,130,246,0.12)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.2)" }}
+        >
+          {item.tag}
+        </span>
+        <ArrowRight size={14} className="shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" style={{ color: "#60a5fa" }} />
+      </div>
+      <h3 className="text-lg font-black text-white tracking-tight mb-1">{item.name}</h3>
+      <p className="text-sm font-medium" style={{ color: "#64748b" }}>{item.desc}</p>
+      <div className="mt-4 text-[10px] font-mono uppercase tracking-widest group-hover:text-blue-400 transition-colors duration-300" style={{ color: "#334155" }}>
+        View live site →
+      </div>
+    </motion.a>
+  );
+}
+
 /* ─── Page ──────────────────────────────────────────────────────────────── */
 export default function Drop24Page() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -211,16 +249,20 @@ export default function Drop24Page() {
             className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12 font-medium"
             style={{ color: "#94a3b8" }}
           >
-            Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert,{" "}
+            Minneapolis &amp; Twin Cities businesses — stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert,{" "}
             <span className="text-white font-bold">or you don&apos;t pay.</span>{" "}
             No risks, just results.
           </motion.p>
 
           <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center gap-5">
             <CTAButton label="Launch Your Site Now" />
-            <span className="text-sm font-medium" style={{ color: "#475569" }}>
-              5-min call · $350 flat · 24hr delivery
-            </span>
+            <a
+              href="#recent-work"
+              className="text-sm font-medium underline-offset-2 hover:underline transition-colors duration-200"
+              style={{ color: "#475569" }}
+            >
+              See proof first ↓
+            </a>
           </motion.div>
         </motion.div>
 
@@ -267,11 +309,38 @@ export default function Drop24Page() {
               >
                 {stat.value}
               </div>
-              <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: "#334155" }}>
+              <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: "#64748b" }}>
                 {stat.label}
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          RECENT WORK
+      ═══════════════════════════════════════════════════════════════ */}
+      <section id="recent-work" className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+        <GlowOrb size={500} color="rgba(59,130,246,0.07)" className="top-0 right-0 -translate-y-1/2 translate-x-1/4" />
+
+        <div className="max-w-4xl mx-auto">
+          <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BLUE }}>
+            Recent Work
+          </motion.div>
+
+          <motion.h2 {...stagger(0.08)} className="text-3xl md:text-4xl font-black tracking-tighter text-white mb-4">
+            Sites we&apos;ve built for real businesses.
+          </motion.h2>
+
+          <motion.p {...stagger(0.14)} className="text-base font-medium max-w-xl mb-14" style={{ color: "#64748b" }}>
+            Every site below is live, built with the same Drop 24 process. Click to see them.
+          </motion.p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {recentWork.map((item, idx) => (
+              <WorkCard key={item.url} item={item} delay={idx * 0.08} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -522,7 +591,7 @@ export default function Drop24Page() {
             className="text-lg leading-relaxed max-w-xl mx-auto mb-12 font-medium"
             style={{ color: "#94a3b8" }}
           >
-            Drop 24 is designed for ambitious local businesses ready to act now. Zero upfront risk. Maximum impact.
+            Drop 24 is built for Minneapolis and Twin Cities businesses ready to act now. Zero upfront risk. Maximum impact.
           </motion.p>
 
           <motion.div {...stagger(0.26)}>
@@ -537,8 +606,18 @@ export default function Drop24Page() {
 
       {/* ── Footer ── */}
       <footer className="py-7 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <div className="max-w-5xl mx-auto text-center text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "#1e293b" }}>
-          &copy; {new Date().getFullYear()} DYNASTY LABZ. ALL RIGHTS RESERVED.
+        <div className="max-w-5xl mx-auto text-center space-y-2">
+          <div className="text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "#334155" }}>
+            DYNASTY LABZ · MINNEAPOLIS, MN
+          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: "#1e293b" }}>
+            &copy; {new Date().getFullYear()} DYNASTY LABZ. ALL RIGHTS RESERVED.
+          </div>
+          <div className="text-[10px] font-mono" style={{ color: "#1e293b" }}>
+            <a href="/drop-24/intake" className="hover:text-blue-400 transition-colors duration-200">
+              Start your project →
+            </a>
+          </div>
         </div>
       </footer>
     </main>
