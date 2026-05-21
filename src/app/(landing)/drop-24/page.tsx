@@ -98,10 +98,34 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 /* ─── Recent Work Data ──────────────────────────────────────────────────── */
 const recentWork = [
-  { name: "Cake Jar Co.", url: "https://cakes-five-eta.vercel.app/", desc: "Bakery & custom desserts — Minneapolis", tag: "Food & Beverage" },
-  { name: "The Jamaican Chef", url: "https://vcrypto1991.wixsite.com/jamaican", desc: "Caribbean restaurant & catering", tag: "Restaurant" },
-  { name: "Masona Salon", url: "https://masona-salon.vercel.app/", desc: "Luxury beauty studio — Twin Cities", tag: "Beauty & Wellness" },
-  { name: "Dynasty Labz", url: "https://planet-v.vercel.app/", desc: "AI & web development agency", tag: "Technology" },
+  {
+    name: "Cake Jar Co.",
+    url: "https://cakes-five-eta.vercel.app/",
+    desc: "Bakery & custom desserts — Minneapolis",
+    tag: "Food & Beverage",
+    image: "/drop24-previews/cake-jar-site.png",
+  },
+  {
+    name: "The Jamaican Chef",
+    url: "https://vcrypto1991.wixsite.com/jamaican",
+    desc: "Caribbean restaurant & catering",
+    tag: "Restaurant",
+    image: "/drop24-previews/jamaican-chef-site.png",
+  },
+  {
+    name: "Masona Salon",
+    url: "https://masona-salon.vercel.app/",
+    desc: "Luxury beauty studio — Twin Cities",
+    tag: "Beauty & Wellness",
+    image: "/drop24-previews/masona-salon-site.png",
+  },
+  {
+    name: "Dynasty Labz",
+    url: "https://planet-v.vercel.app/",
+    desc: "AI & web development agency",
+    tag: "Technology",
+    image: "/drop24-previews/planet-v-site.png",
+  },
 ];
 
 /* ─── Work Card ─────────────────────────────────────────────────────────── */
@@ -116,6 +140,31 @@ function WorkCard({ item, delay }: { item: typeof recentWork[0]; delay: number }
       style={{ border: "1px solid rgba(255,255,255,0.07)", backgroundColor: "rgba(255,255,255,0.02)" }}
       whileHover={{ borderColor: "rgba(59,130,246,0.35)", backgroundColor: "rgba(59,130,246,0.05)", y: -4 }}
     >
+      <div
+        className="relative aspect-video rounded-xl overflow-hidden mb-5"
+        style={{
+          border: "1px solid rgba(255,255,255,0.08)",
+          background: "linear-gradient(135deg, rgba(15,23,42,0.95), rgba(2,6,23,0.95))",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}
+      >
+        <div
+          role="img"
+          aria-label={`${item.name} website preview`}
+          className="absolute inset-0 bg-cover bg-top transition-transform duration-700 group-hover:scale-105"
+          style={{ backgroundImage: `url(${item.image})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-white/5" />
+        <div className="absolute top-3 left-3 right-3 h-5 rounded-full bg-black/55 backdrop-blur-md border border-white/10 flex items-center gap-1.5 px-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+          <span className="w-1.5 h-1.5 rounded-full bg-yellow-300" />
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+          <span className="ml-2 text-[8px] font-mono uppercase tracking-widest truncate" style={{ color: "#94a3b8" }}>
+            Live Preview
+          </span>
+        </div>
+      </div>
+
       <div className="flex items-start justify-between gap-3 mb-3">
         <span
           className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full"
