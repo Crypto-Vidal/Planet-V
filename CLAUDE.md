@@ -10,7 +10,7 @@
 - **Animations:** Framer Motion 12.x
 - **Icons:** Lucide React
 - **SEO:** Next.js Metadata API + next-seo
-- **Deployment:** Vercel (default Next.js deployment)
+- **Deployment:** Vercel — manual, no CI/CD/GitHub-integration auto-deploy wired up. `git push origin main` updates GitHub only; you must also run `vercel --prod` to update production (planet-v.vercel.app). Repo and production were resynced 2026-07-08 (commit `9f28c63`) after months of prod-only deploys that never got pushed — keep both in sync going forward.
 
 ## Quick Commands
 
@@ -21,29 +21,42 @@ npm start        # Run production server
 npm run lint     # ESLint (flat config, ESLint 9)
 ```
 
+## When asked to "push live" / "deploy" / "make it live"
+
+Do BOTH, in this order — they are independent, neither triggers the other:
+```bash
+git push origin main   # updates GitHub (Crypto-Vidal/Planet-V)
+vercel --prod           # updates the live site (planet-v.vercel.app)
+```
+Skipping either one silently desyncs GitHub from production again (this happened for ~6 weeks until 2026-07-08).
+
 ## Project Structure
 
 ```
 Planet-V/
 ├── public/                        # Static assets (images, SVGs)
-│   ├── *.png                      # Portfolio project screenshots
+│   ├── *.png                      # Portfolio/site preview screenshots
 │   └── *.svg                      # UI icons (arrow-right, check, etc.)
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx             # Root layout (fonts, metadata, html/body)
-│   │   ├── globals.css            # Global styles, Tailwind theme, CSS utilities
-│   │   ├── (main)/                # Main site route group
-│   │   │   ├── layout.tsx         # Wraps pages with Navbar + Footer
-│   │   │   └── page.tsx           # Homepage (Hero, Services, Portfolio, etc.)
-│   │   └── (landing)/             # Service landing pages route group
-│   │       ├── layout.tsx         # Minimal layout wrapper
+│   │   ├── globals.css            # Global styles, Aurora theme tokens
+│   │   ├── opengraph-image.tsx    # Generated OG image (1200×630)
+│   │   ├── (main)/
+│   │   │   ├── layout.tsx         # Pass-through only — homepage is self-contained
+│   │   │   └── page.tsx           # Homepage: full rebuild, own header/footer, reads content.ts
+│   │   └── (landing)/             # Service/offer landing pages, minimal shared layout
+│   │       ├── drop-24/page.tsx       # Drop24 offer ($350) + intake/ subpage
+│   │       ├── start/page.tsx         # Qualifier funnel (Calendly embed)
 │   │       ├── efficiency-engine/page.tsx
 │   │       ├── web-development/page.tsx
-│   │       └── content-maintenance/page.tsx
-│   └── components/
-│       ├── layout/                # Navbar.tsx, Footer.tsx
-│       ├── sections/              # Hero, Services, Portfolio, SocialProof, CTA
-│       └── templates/             # ServiceLandingPage.tsx (reusable template)
+│   │       ├── content-maintenance/page.tsx
+│   │       └── cat-food/page.tsx
+│   ├── components/
+│   │   ├── home/ui.tsx            # Homepage primitives: GlowOrb, CTAButton, GhostButton, CountUp, FAQItem, Section, animation presets
+│   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the 3 service landing pages
+│   └── lib/
+│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / BUSINESS copy — feeds both UI and JSON-LD
 ├── package.json
 ├── tsconfig.json
 ├── next.config.ts
@@ -51,79 +64,66 @@ Planet-V/
 └── postcss.config.mjs             # Tailwind CSS v4 PostCSS plugin
 ```
 
+**Legacy/unused (still present, not deleted, not imported anywhere in `src/app`):** `src/components/sections/` (Hero, Services, Portfolio, CTA) and `src/components/layout/` (Navbar, Footer) are pre-6/24-merge components, dead code from before the homepage was rebuilt as a single self-contained file. Don't build on them — they're not wired into any route.
+
+**Known live bug:** `src/components/templates/ServiceLandingPage.tsx` (used by `web-development`, `efficiency-engine`, `content-maintenance`) still references `matrix-green`/`bg-matrix-green` Tailwind classes, but that color token was removed from `globals.css` when the site moved to the Aurora theme. Those classes currently resolve to nothing (Tailwind v4 won't generate a utility for an undefined `@theme` token), so accent color/branding on those 3 pages is likely broken or missing. Not fixed here — flagging so it isn't mistaken for intentional styling if you're debugging those pages.
+
 ## Architecture & Patterns
 
 ### Route Groups
 
-Next.js route groups (parenthesized directories) separate layouts without affecting URLs:
-
-- `(main)/` — Pages that share the full Navbar + Footer layout
-- `(landing)/` — Service-specific landing pages with a minimal layout (no shared nav/footer; each uses `ServiceLandingPage` template)
+- `(main)/` — Homepage only; the page itself carries its own header/footer, no shared layout chrome.
+- `(landing)/` — Offer/service pages, each self-contained or built on `ServiceLandingPage`.
 
 ### Component Types
 
-- **Server Components** — All `page.tsx` files are server components (no `"use client"` directive)
-- **Client Components** — Interactive components use `"use client"` at the top: `Navbar`, `Hero`, `Services`, `Portfolio`, `SocialProof`, `CTA`, `ServiceLandingPage`
-
-### Reusable Template
-
-`ServiceLandingPage.tsx` is a data-driven template used by all three landing pages. It accepts props for headline, CTA, value stack, qualification criteria, and guarantee sections. When adding a new service landing page, create a new directory under `(landing)/` and pass content via props to this template.
+- **Server Components** — `page.tsx` files by default (no `"use client"`).
+- **Client Components** — anything interactive/animated: homepage `page.tsx`, `ServiceLandingPage`, `home/ui.tsx` primitives.
 
 ### Data Handling
 
-All content (services, portfolio items, testimonials, navigation links) is hardcoded as arrays/objects directly within the component files. There is no CMS, database, or API layer.
+Copy for the homepage (services, offers, pricing plans, FAQ) lives centrally in `src/lib/content.ts` — edit there, not inline in `page.tsx`, so the visible UI and the JSON-LD schema never drift apart. Content for the individual service landing pages is still passed as props inline per-page. No CMS, database, or API layer.
 
 ## Styling Conventions
 
 ### Tailwind CSS v4
 
-- Configured via `@tailwindcss/postcss` plugin in `postcss.config.mjs`
-- Custom theme tokens defined in `globals.css` using `@theme { }` block
-- Utility-first approach throughout all components
+- Configured via `@tailwindcss/postcss` plugin in `postcss.config.mjs`.
+- Theme tokens defined in `globals.css` via `@theme { }`.
+- Utility-first throughout.
 
-### Design Tokens (defined in `globals.css`)
+### Design Tokens (defined in `globals.css`, "Aurora" theme)
 
 | Token | Value | Usage |
 |---|---|---|
-| `--color-matrix-green` | `#10b981` | Primary brand color (emerald green) |
-| `--color-matrix-dark` | `#064e3b` | Dark green accent |
-| `--color-professional-black` | `#050505` | Primary text, dark backgrounds |
+| `--color-aurora-blue` / `--color-aurora-indigo` | `#2f88ff` | Primary accent (buttons, links, highlights) |
+| `--color-aurora-violet` / `--color-aurora-sky` | `#7cb2ff` / `#60a5fa` | Secondary accent, gradients |
+| `--color-professional-black` | `#050505` | Page background |
 | `--font-sans` | Inter | Body text |
 | `--font-mono` | Geist Mono | Monospace accents |
 
-Use Tailwind classes like `text-matrix-green`, `bg-professional-black` to reference these tokens.
+The homepage also exports a `BLUE = "#2f88ff"` constant from `src/components/home/ui.tsx` used directly in inline styles/gradients rather than via a Tailwind class — check there too when changing the accent color.
 
-### Custom CSS Utility Classes
-
-Defined in `globals.css` — use these instead of recreating the patterns:
-
-- `.section-dark` — Dark background section
-- `.button-primary` — Green CTA button with hover lift
-- `.card-white` — White card with border, hover turns green
-- `.hover-lift` — Subtle translateY(-4px) on hover
-- `.glass-card` — Frosted glass effect (backdrop-filter blur)
-- `.shadow-deep` — Heavy drop shadow
-- `.text-gradient-green` — Green gradient text fill
-- `.mesh-gradient` — Decorative radial gradient background
+Only one custom utility class exists in `globals.css`: `.no-scrollbar` (hides scrollbars on horizontal strips). Older docs describing `.section-dark`, `.button-primary`, `.card-white`, `.glass-card`, etc. are stale — those classes don't exist in the current stylesheet.
 
 ### Typography
 
-- **Fonts loaded in root layout:** Inter (variable, `--font-inter`) and Fira Code (`--font-fira-code`) via `next/font/google`
-- **Headings:** Large, bold (`text-5xl`/`text-6xl`, `font-black`, `tracking-tighter`)
-- **Accent labels:** Uppercase, extra-wide tracking (`text-xs`, `uppercase`, `tracking-widest`, `font-black`, green color)
-- **Body text:** Slate gray (`text-slate-500` or `text-slate-600`), `font-medium`, `leading-relaxed`
+- **Fonts loaded in root layout:** Inter (`--font-inter`) and Fira Code (`--font-fira-code`) via `next/font/google`.
+- **Headings:** Large, bold, tight tracking (`font-black`, `tracking-tighter`).
+- **Accent labels:** Uppercase, wide tracking, small size, blue accent color.
+- **Body text:** Light gray/slate on the dark background (`text-white/70` or similar), not the slate-on-white pairing from the old light theme.
 
 ## Animation Conventions
 
-Framer Motion is used for entrance and interaction animations:
+Framer Motion, consistent with the pre-merge conventions:
 
-- **Fade-up pattern:** `{ opacity: 0, y: 24 }` → `{ opacity: 1, y: 0 }` with `duration: 0.6`
-- **Staggered children:** Use incremental delay (`idx * 0.08` or similar)
-- **Viewport trigger:** `viewport: { once: true }` so animations play only on first scroll
-- **Hover effects:** Scale, translateY, color transitions via Tailwind `hover:` utilities
-- **AnimatePresence:** Used for modals and conditional UI (e.g., portfolio gallery)
+- **Fade-up pattern:** `{ opacity: 0, y: 24 }` → `{ opacity: 1, y: 0 }`, `duration: ~0.6`.
+- **Staggered children:** incremental delay (`idx * 0.08` or similar).
+- **Viewport trigger:** `viewport: { once: true }`.
+- **Hover effects:** scale/translateY/color via Tailwind `hover:` utilities.
+- **AnimatePresence:** used for the pricing toggle (one-time vs. monthly plans) and modals.
 
-When adding new animated sections, follow the `fadeUp` / `stagger` helper pattern established in `ServiceLandingPage.tsx`.
+`fadeUp` / `stagger` presets are exported from `src/components/home/ui.tsx` — reuse them rather than redefining per component.
 
 ## Code Conventions
 

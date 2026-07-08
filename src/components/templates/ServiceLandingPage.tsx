@@ -70,7 +70,7 @@ function CTAButton({ label, url }: { label: string; url: string }) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-4 px-12 py-6 bg-[#050505] text-white font-black text-lg rounded-2xl hover:bg-matrix-green transition-all shadow-2xl shadow-black/20 group"
+      className="inline-flex items-center gap-4 px-12 py-6 bg-[#050505] text-white font-black text-lg rounded-2xl hover:bg-aurora-blue transition-all shadow-2xl shadow-black/20 group"
     >
       {label}
       <ArrowRight
@@ -115,11 +115,11 @@ export default function ServiceLandingPage({
       {/* ── Minimal Logo Header (non-clickable) ── */}
       <header className="py-8 px-6">
         <div className="max-w-7xl mx-auto flex items-center gap-2">
-          <div className="w-10 h-10 bg-matrix-green rounded-xl flex items-center justify-center text-white font-black text-2xl italic shadow-lg shadow-matrix-green/20">
+          <div className="w-10 h-10 bg-aurora-blue rounded-xl flex items-center justify-center text-white font-black text-2xl italic shadow-lg shadow-aurora-blue/20">
             D
           </div>
           <span className="text-2xl font-black tracking-tighter text-[#050505] uppercase">
-            Dynasty <span className="text-matrix-green">Labz</span>
+            Dynasty <span className="text-aurora-blue">Labz</span>
           </span>
         </div>
       </header>
@@ -167,7 +167,7 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto">
           <motion.div
             {...fadeUp}
-            className="text-matrix-green font-black text-xs uppercase tracking-widest mb-6"
+            className="text-aurora-blue font-black text-xs uppercase tracking-widest mb-6"
           >
             {agitationTitle}
           </motion.div>
@@ -190,7 +190,7 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto">
           <motion.div
             {...fadeUp}
-            className="text-matrix-green font-black text-xs uppercase tracking-widest mb-6"
+            className="text-aurora-blue font-black text-xs uppercase tracking-widest mb-6"
           >
             {solutionTitle}
           </motion.div>
@@ -213,7 +213,7 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto">
           <motion.div
             {...fadeUp}
-            className="text-matrix-green font-black text-xs uppercase tracking-widest mb-12"
+            className="text-aurora-blue font-black text-xs uppercase tracking-widest mb-12"
           >
             {valueStackTitle}
           </motion.div>
@@ -244,9 +244,9 @@ export default function ServiceLandingPage({
             {bonusItem && (
               <motion.div
                 {...stagger(valueItems.length * 0.08)}
-                className="p-8 rounded-2xl bg-matrix-green/5 border border-matrix-green/15"
+                className="p-8 rounded-2xl bg-aurora-blue/5 border border-aurora-blue/15"
               >
-                <div className="text-matrix-green font-black text-xs uppercase tracking-widest mb-3">
+                <div className="text-aurora-blue font-black text-xs uppercase tracking-widest mb-3">
                   Bonus
                 </div>
                 <div className="flex items-baseline justify-between gap-4 mb-2">
@@ -277,7 +277,7 @@ export default function ServiceLandingPage({
               </span>
             </div>
             <div className="text-4xl md:text-5xl font-black text-[#050505] tracking-tight">
-              Your Investment: <span className="text-matrix-green">{investmentPrice}</span>
+              Your Investment: <span className="text-aurora-blue">{investmentPrice}</span>
             </div>
           </motion.div>
         </div>
@@ -292,7 +292,7 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto">
           <motion.div
             {...fadeUp}
-            className="text-matrix-green font-black text-xs uppercase tracking-widest mb-12"
+            className="text-aurora-blue font-black text-xs uppercase tracking-widest mb-12"
           >
             {qualificationTitle}
           </motion.div>
@@ -311,7 +311,7 @@ export default function ServiceLandingPage({
                   >
                     <Check
                       size={18}
-                      className="text-matrix-green mt-0.5 shrink-0"
+                      className="text-aurora-blue mt-0.5 shrink-0"
                     />
                     {item}
                   </li>
