@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 
-const BLUE = "#3b82f6";
+const BLUE = "#2f88ff";
 
 const questions = [
   {

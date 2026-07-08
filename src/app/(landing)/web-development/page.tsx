@@ -27,7 +27,7 @@ export default function WebDevelopmentPage() {
       }
       subheadline="We build clean, modern websites designed to make your business look established, trustworthy, and professional."
       ctaLabel="Start Your Web Project"
-      ctaUrl="https://calendly.com/vcrypto1991/30min"
+      ctaUrl="https://calendly.com/vcrypto1991/drop24-meeting"
       ctaDisclaimer="No bloated features. No confusing layouts. Just a site that works."
       /* ── Agitation ── */
       agitationTitle="Why This Exists"

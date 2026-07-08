@@ -45,7 +45,7 @@ export default function Hero() {
 
                     <div className="flex flex-col sm:flex-row gap-6 mb-16">
                         <a
-                            href="https://calendly.com/vcrypto1991/30min"
+                            href="https://calendly.com/vcrypto1991/drop24-meeting"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-12 py-6 bg-[#050505] text-white font-black text-lg rounded-2xl hover:bg-matrix-green transition-all shadow-2xl shadow-black/20 flex items-center justify-center gap-4 group"

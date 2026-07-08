@@ -5,7 +5,7 @@ import { ArrowRight, ChevronDown, Zap, Clock, Smartphone, Pen } from "lucide-rea
 import { useState, useRef } from "react";
 
 /* ─── Constants ─────────────────────────────────────────────────────────── */
-const BLUE = "#3b82f6";
+const BLUE = "#2f88ff";
 
 /* ─── Animation Presets ─────────────────────────────────────────────────── */
 const fadeUp = {
@@ -21,7 +21,7 @@ const stagger = (delay: number) => ({
 });
 
 /* ─── Glow Orb ──────────────────────────────────────────────────────────── */
-function GlowOrb({ size = 400, color = "rgba(59,130,246,0.12)", className = "" }: {
+function GlowOrb({ size = 400, color = "rgba(47,136,255,0.12)", className = "" }: {
   size?: number; color?: string; className?: string;
 }) {
   return (
@@ -44,8 +44,8 @@ function CTAButton({ label = "Get Started", size = "lg" }: { label?: string; siz
         lg ? "px-10 py-5 text-lg" : "px-6 py-3.5 text-sm"
       }`}
       style={{
-        background: "linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)",
-        boxShadow: "0 0 32px rgba(59,130,246,0.35), 0 4px 16px rgba(0,0,0,0.4)",
+        background: "linear-gradient(135deg, #2f88ff 0%, #2f88ff 100%)",
+        boxShadow: "0 0 32px rgba(47,136,255,0.35), 0 4px 16px rgba(0,0,0,0.4)",
       }}
     >
       <span
@@ -73,7 +73,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         <ChevronDown
           size={18}
           className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-          style={{ color: "rgba(59,130,246,0.6)" }}
+          style={{ color: "rgba(47,136,255,0.6)" }}
         />
       </button>
       <AnimatePresence initial={false}>
@@ -138,7 +138,7 @@ function WorkCard({ item, delay }: { item: typeof recentWork[0]; delay: number }
       {...stagger(delay)}
       className="group block p-6 rounded-2xl transition-all duration-300"
       style={{ border: "1px solid rgba(255,255,255,0.07)", backgroundColor: "rgba(255,255,255,0.02)" }}
-      whileHover={{ borderColor: "rgba(59,130,246,0.35)", backgroundColor: "rgba(59,130,246,0.05)", y: -4 }}
+      whileHover={{ borderColor: "rgba(47,136,255,0.35)", backgroundColor: "rgba(47,136,255,0.05)", y: -4 }}
     >
       <div
         className="relative aspect-video rounded-xl overflow-hidden mb-5"
@@ -168,7 +168,7 @@ function WorkCard({ item, delay }: { item: typeof recentWork[0]; delay: number }
       <div className="flex items-start justify-between gap-3 mb-3">
         <span
           className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full"
-          style={{ backgroundColor: "rgba(59,130,246,0.12)", color: "#60a5fa", border: "1px solid rgba(59,130,246,0.2)" }}
+          style={{ backgroundColor: "rgba(47,136,255,0.12)", color: "#60a5fa", border: "1px solid rgba(47,136,255,0.2)" }}
         >
           {item.tag}
         </span>
@@ -222,7 +222,7 @@ export default function Drop24Page() {
           <div className="flex items-center gap-2">
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-base italic"
-              style={{ background: "linear-gradient(135deg, #3b82f6, #6366f1)", boxShadow: "0 0 12px rgba(59,130,246,0.5)" }}
+              style={{ background: "linear-gradient(135deg, #2f88ff, #2f88ff)", boxShadow: "0 0 12px rgba(47,136,255,0.5)" }}
             >
               D
             </div>
@@ -238,9 +238,9 @@ export default function Drop24Page() {
           HERO
       ═══════════════════════════════════════════════════════════════ */}
       <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-32 px-6 overflow-hidden">
-        <GlowOrb size={700} color="rgba(59,130,246,0.1)" className="-top-40 left-1/2 -translate-x-1/2" />
-        <GlowOrb size={350} color="rgba(99,102,241,0.08)" className="top-1/3 -left-24" />
-        <GlowOrb size={280} color="rgba(59,130,246,0.07)" className="bottom-24 -right-16" />
+        <GlowOrb size={700} color="rgba(47,136,255,0.1)" className="-top-40 left-1/2 -translate-x-1/2" />
+        <GlowOrb size={350} color="rgba(47,136,255,0.08)" className="top-1/3 -left-24" />
+        <GlowOrb size={280} color="rgba(47,136,255,0.07)" className="bottom-24 -right-16" />
 
         {/* Subtle noise */}
         <div
@@ -258,7 +258,7 @@ export default function Drop24Page() {
           <motion.div
             {...fadeUp}
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest"
-            style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
+            style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.08)", color: "#60a5fa" }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             Launch Your Business Today
@@ -272,7 +272,7 @@ export default function Drop24Page() {
             <span
               className="block"
               style={{
-                background: "linear-gradient(135deg, #93c5fd 0%, #3b82f6 45%, #8b5cf6 100%)",
+                background: "linear-gradient(135deg, #ffffff 0%, #2f88ff 45%, #7cb2ff 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -283,7 +283,7 @@ export default function Drop24Page() {
             Website in{" "}
             <span
               style={{
-                background: "linear-gradient(90deg, #3b82f6, #6366f1)",
+                background: "linear-gradient(90deg, #2f88ff, #2f88ff)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -370,7 +370,7 @@ export default function Drop24Page() {
           RECENT WORK
       ═══════════════════════════════════════════════════════════════ */}
       <section id="recent-work" className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <GlowOrb size={500} color="rgba(59,130,246,0.07)" className="top-0 right-0 -translate-y-1/2 translate-x-1/4" />
+        <GlowOrb size={500} color="rgba(47,136,255,0.07)" className="top-0 right-0 -translate-y-1/2 translate-x-1/4" />
 
         <div className="max-w-4xl mx-auto">
           <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BLUE }}>
@@ -427,7 +427,7 @@ export default function Drop24Page() {
           WHAT YOU GET
       ═══════════════════════════════════════════════════════════════ */}
       <section className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <GlowOrb size={500} color="rgba(59,130,246,0.06)" className="-left-40 top-1/2 -translate-y-1/2" />
+        <GlowOrb size={500} color="rgba(47,136,255,0.06)" className="-left-40 top-1/2 -translate-y-1/2" />
 
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-14" style={{ color: BLUE }}>
@@ -462,11 +462,11 @@ export default function Drop24Page() {
                 {...stagger(idx * 0.08)}
                 className="group flex gap-5 p-5 rounded-2xl transition-all duration-300 cursor-default"
                 style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "rgba(255,255,255,0.02)" }}
-                whileHover={{ borderColor: "rgba(59,130,246,0.28)", backgroundColor: "rgba(59,130,246,0.04)" }}
+                whileHover={{ borderColor: "rgba(47,136,255,0.28)", backgroundColor: "rgba(47,136,255,0.04)" }}
               >
                 <div
                   className="shrink-0 mt-0.5 w-9 h-9 rounded-xl flex items-center justify-center"
-                  style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.1)", color: "#60a5fa" }}
+                  style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.1)", color: "#60a5fa" }}
                 >
                   {item.icon}
                 </div>
@@ -483,11 +483,11 @@ export default function Drop24Page() {
             {...stagger(0.4)}
             className="mt-12 p-8 rounded-2xl relative overflow-hidden"
             style={{
-              border: "1px solid rgba(59,130,246,0.2)",
-              background: "linear-gradient(135deg, rgba(59,130,246,0.07) 0%, rgba(99,102,241,0.04) 100%)",
+              border: "1px solid rgba(47,136,255,0.2)",
+              background: "linear-gradient(135deg, rgba(47,136,255,0.07) 0%, rgba(47,136,255,0.04) 100%)",
             }}
           >
-            <GlowOrb size={280} color="rgba(59,130,246,0.1)" className="-right-16 -top-16" />
+            <GlowOrb size={280} color="rgba(47,136,255,0.1)" className="-right-16 -top-16" />
             <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
                 <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: BLUE }}>The Price</div>
@@ -500,8 +500,8 @@ export default function Drop24Page() {
               <div
                 className="shrink-0 text-center px-8 py-5 rounded-2xl font-black text-white text-lg leading-snug"
                 style={{
-                  background: "linear-gradient(135deg, #3b82f6, #8b5cf6)",
-                  boxShadow: "0 0 40px rgba(59,130,246,0.3)",
+                  background: "linear-gradient(135deg, #2f88ff, #7cb2ff)",
+                  boxShadow: "0 0 40px rgba(47,136,255,0.3)",
                 }}
               >
                 24hr
@@ -517,7 +517,7 @@ export default function Drop24Page() {
           HOW IT WORKS
       ═══════════════════════════════════════════════════════════════ */}
       <section className="py-28 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <GlowOrb size={400} color="rgba(99,102,241,0.06)" className="-right-32 top-1/2 -translate-y-1/2" />
+        <GlowOrb size={400} color="rgba(47,136,255,0.06)" className="-right-32 top-1/2 -translate-y-1/2" />
 
         <div className="max-w-3xl mx-auto">
           <motion.div {...fadeUp} className="text-xs font-black uppercase tracking-widest mb-14" style={{ color: BLUE }}>
@@ -546,12 +546,12 @@ export default function Drop24Page() {
                 {idx < 2 && (
                   <div
                     className="absolute left-[17px] top-11 w-px h-12"
-                    style={{ background: "linear-gradient(to bottom, rgba(59,130,246,0.25), transparent)" }}
+                    style={{ background: "linear-gradient(to bottom, rgba(47,136,255,0.25), transparent)" }}
                   />
                 )}
                 <div
                   className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black"
-                  style={{ border: "1px solid rgba(59,130,246,0.35)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
+                  style={{ border: "1px solid rgba(47,136,255,0.35)", backgroundColor: "rgba(47,136,255,0.08)", color: "#60a5fa" }}
                 >
                   {item.step}
                 </div>
@@ -603,15 +603,15 @@ export default function Drop24Page() {
           FINAL CTA
       ═══════════════════════════════════════════════════════════════ */}
       <section className="py-32 px-6 relative overflow-hidden" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-        <GlowOrb size={700} color="rgba(59,130,246,0.09)" className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        <GlowOrb size={320} color="rgba(99,102,241,0.08)" className="-bottom-20 -left-16" />
-        <GlowOrb size={250} color="rgba(59,130,246,0.06)" className="-top-10 right-10" />
+        <GlowOrb size={700} color="rgba(47,136,255,0.09)" className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <GlowOrb size={320} color="rgba(47,136,255,0.08)" className="-bottom-20 -left-16" />
+        <GlowOrb size={250} color="rgba(47,136,255,0.06)" className="-top-10 right-10" />
 
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div
             {...fadeUp}
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest"
-            style={{ border: "1px solid rgba(59,130,246,0.3)", backgroundColor: "rgba(59,130,246,0.08)", color: "#60a5fa" }}
+            style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.08)", color: "#60a5fa" }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             Don&apos;t Wait, Elevate
@@ -625,7 +625,7 @@ export default function Drop24Page() {
             <span
               className="block"
               style={{
-                background: "linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #8b5cf6 100%)",
+                background: "linear-gradient(135deg, #ffffff 0%, #2f88ff 50%, #7cb2ff 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

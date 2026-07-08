@@ -45,7 +45,7 @@ export default function Navbar() {
                         </a>
                     ))}
                     <a
-                        href="https://calendly.com/vcrypto1991/30min"
+                        href="https://calendly.com/vcrypto1991/drop24-meeting"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-6 py-2.5 rounded-full border-2 border-matrix-green text-matrix-green font-black text-xs hover:bg-matrix-green hover:text-white transition-all duration-300 shadow-sm hover:shadow-matrix-green/30"
@@ -84,7 +84,7 @@ export default function Navbar() {
                                 </a>
                             ))}
                             <a
-                                href="https://calendly.com/vcrypto1991/30min"
+                                href="https://calendly.com/vcrypto1991/drop24-meeting"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => setMobileMenuOpen(false)}

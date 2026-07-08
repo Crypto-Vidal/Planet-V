@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 
-const BLUE = "#3b82f6";
+const BLUE = "#2f88ff";
 
 export default function CatFoodPage() {
   return (
@@ -11,7 +11,7 @@ export default function CatFoodPage() {
       {/* Header */}
       <header className="py-6 px-6 border-b border-slate-100">
         <div className="max-w-4xl mx-auto flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#3b82f6] flex items-center justify-center text-white font-black text-xl italic shadow-lg shadow-blue-500/20">
+          <div className="w-10 h-10 rounded-xl bg-[#2f88ff] flex items-center justify-center text-white font-black text-xl italic shadow-lg shadow-blue-500/20">
             P
           </div>
           <span className="text-xl font-black tracking-tighter text-[#050505] uppercase">

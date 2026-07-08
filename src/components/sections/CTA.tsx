@@ -45,7 +45,7 @@ export default function CTA() {
                         whileTap={{ scale: 0.98 }}
                     >
                         <a
-                            href="https://calendly.com/vcrypto1991/30min"
+                            href="https://calendly.com/vcrypto1991/drop24-meeting"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-3 px-12 py-6 bg-matrix-green text-white font-black text-lg rounded-xl shadow-2xl shadow-matrix-green/20 hover:bg-white hover:text-[#050505] transition-all"
