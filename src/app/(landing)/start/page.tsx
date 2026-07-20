@@ -253,7 +253,8 @@ export default function StartPage() {
   const setField = (id: string, v: string) => setAnswers((p) => ({ ...p, [id]: v }));
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
-  const contactOk = contact.name.trim() && contact.businessName.trim() && emailOk;
+  const phoneOk = contact.phone.replace(/\D/g, "").length >= 10;
+  const contactOk = contact.name.trim() && contact.businessName.trim() && emailOk && phoneOk;
   const fieldsOk = (s: Extract<Step, { type: "fields" }>) => s.fields.every((f) => f.optional || (answers[f.id] as string)?.trim());
 
   const canContinue =
@@ -343,7 +344,7 @@ export default function StartPage() {
             )}
 
             {mode !== "select" && step && step.type === "contact" && (
-              <ContactStep contact={contact} setContact={setContact} sources={SOURCES} emailOk={emailOk} showLinks={!!step.links} drop24={mode === "drop24"} />
+              <ContactStep contact={contact} setContact={setContact} sources={SOURCES} emailOk={emailOk} phoneOk={phoneOk} showLinks={!!step.links} drop24={mode === "drop24"} />
             )}
 
             {mode !== "select" && step && step.type === "booking" && (
@@ -505,8 +506,8 @@ function FieldsStep({ step, answers, onChange }: { step: Extract<Step, { type: "
   );
 }
 
-function ContactStep({ contact, setContact, sources, emailOk, showLinks, drop24 }: {
-  contact: Contact; setContact: React.Dispatch<React.SetStateAction<Contact>>; sources: string[]; emailOk: boolean; showLinks: boolean; drop24: boolean;
+function ContactStep({ contact, setContact, sources, emailOk, phoneOk, showLinks, drop24 }: {
+  contact: Contact; setContact: React.Dispatch<React.SetStateAction<Contact>>; sources: string[]; emailOk: boolean; phoneOk: boolean; showLinks: boolean; drop24: boolean;
 }) {
   const set = (k: keyof Contact) => (v: string) => setContact((p) => ({ ...p, [k]: v }));
   return (
@@ -521,9 +522,10 @@ function ContactStep({ contact, setContact, sources, emailOk, showLinks, drop24 
         <Field label="Your name" value={contact.name} onChange={set("name")} placeholder="Jordan Rivera" autoFocus />
         <Field label="Business name" value={contact.businessName} onChange={set("businessName")} placeholder="Rivera Auto Detailing" />
         <Field label="Email" type="email" value={contact.email} onChange={set("email")} placeholder="you@business.com" />
-        <Field label="Phone" type="tel" value={contact.phone} onChange={set("phone")} placeholder="(612) 555-0199" optional />
+        <Field label="Phone" type="tel" value={contact.phone} onChange={set("phone")} placeholder="(612) 555-0199" />
       </div>
       {contact.email.length > 3 && !emailOk && <p className="mt-3 text-xs font-bold" style={{ color: "#f87171" }}>That email looks off — mind double-checking?</p>}
+      {contact.phone.length > 0 && !phoneOk && <p className="mt-3 text-xs font-bold" style={{ color: "#f87171" }}>Enter a complete phone number with area code.</p>}
       {showLinks && (
         <div className="mt-5">
           <Field label="Current website or social links" value={contact.links} onChange={set("links")} placeholder="instagram.com/yourshop, yoursite.com" optional />

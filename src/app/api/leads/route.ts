@@ -48,8 +48,9 @@ export async function POST(request: Request) {
   const name = contact.name?.trim() ?? "";
   const businessName = contact.businessName?.trim() ?? "";
   const email = contact.email?.trim() ?? "";
-  if (!name || !businessName || !EMAIL_RE.test(email)) {
-    return NextResponse.json({ ok: false, error: "Name, business, and a valid email are required." }, { status: 400 });
+  const phone = contact.phone?.trim() ?? "";
+  if (!name || !businessName || !EMAIL_RE.test(email) || phone.replace(/\D/g, "").length < 10) {
+    return NextResponse.json({ ok: false, error: "Name, business, a valid email, and a complete phone number are required." }, { status: 400 });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
