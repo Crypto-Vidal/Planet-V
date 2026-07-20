@@ -26,6 +26,7 @@ export type Service = {
   title: string;
   desc: string;
   points: string[];
+  href: string;
 };
 
 export const SERVICES: Service[] = [
@@ -34,18 +35,21 @@ export const SERVICES: Service[] = [
     title: "Websites that book customers",
     desc: "A fast, modern site that turns visitors into booked appointments and phone calls — not a pretty page that just sits there. Loads in under a second and looks perfect on every phone.",
     points: ["Designed to convert, not just look good", "Loads in under a second", "Flawless on mobile"],
+    href: "/drop-24",
   },
   {
     icon: "sparkles",
     title: "AI that handles the busywork",
     desc: "Stop doing everything by hand. We set up AI to reply to new leads instantly, follow up automatically, book appointments, and chase no-shows — 24/7, even while you sleep.",
     points: ["Instant lead replies & follow-up", "Automatic booking & reminders", "Runs 24/7 without you"],
+    href: "/efficiency-engine",
   },
   {
     icon: "megaphone",
     title: "Social media, handled",
     desc: "Stay visible without the stress. We keep your Instagram and Facebook posting consistently and on-brand, so customers see a business that's clearly open, active, and busy.",
     points: ["Consistent, on-brand posts", "Instagram & Facebook managed", "No more blank-page Mondays"],
+    href: "/content-maintenance",
   },
 ];
 
@@ -78,7 +82,7 @@ export const OFFERS: Offer[] = [
     priceFrom: 997,
     blurb: "Your first automations, set up for you: instant replies to new leads, automatic follow-ups, and booking that runs itself while you work.",
     best: false,
-    href: "/start",
+    href: "/start?offer=efficiency-engine",
     cta: "Book a Call",
   },
   {
@@ -88,7 +92,7 @@ export const OFFERS: Offer[] = [
     priceFrom: 2500,
     blurb: "A complete AI system across your business that captures, follows up with, and books customers — the work of another employee, without the payroll.",
     best: true,
-    href: "/start",
+    href: "/start?offer=growth-system",
     cta: "Book a Call",
   },
   {
@@ -98,12 +102,13 @@ export const OFFERS: Offer[] = [
     priceFrom: 7500,
     blurb: "A custom AI employee trained on how your business works — answering customers, qualifying leads, and handling tasks around the clock.",
     best: false,
-    href: "/start",
+    href: "/start?offer=digital-employee",
     cta: "Book a Call",
   },
 ];
 
 export type Plan = {
+  slug: string;
   name: string;
   price: string;
   priceFrom: number;
@@ -116,40 +121,44 @@ export type Plan = {
 
 export const PLANS: Plan[] = [
   {
+    slug: "keep-running",
     name: "Keep Everything Running",
     price: "$99",
     priceFrom: 99,
     cadence: "/mo",
-    blurb: "We host your site, watch it 24/7, and handle the small fixes — so your online presence never breaks or goes stale.",
-    points: ["Hosting & uptime monitoring", "Monthly tune-ups", "Priority small edits"],
+    blurb: "Core hosting, monitoring, and a small monthly edit allowance — with clear limits and no surprise scope.",
+    points: ["Hosting, uptime & security updates", "Up to 30 minutes of small edits / month", "2-business-day response"],
     best: false,
   },
   {
+    slug: "keep-improving",
     name: "Keep Getting Better",
     price: "$299",
     priceFrom: 299,
     cadence: "/mo",
-    blurb: "Everything above, plus we improve your site and add a new automation every month — so your business keeps pulling ahead.",
-    points: ["Everything in Running", "Monthly improvements", "A new automation each month"],
+    blurb: "Ongoing site improvements plus one clearly scoped workflow update each month.",
+    points: ["Everything in Keep Running", "Up to 2 hours of improvements / month", "One scoped workflow update / month"],
     best: false,
   },
   {
+    slug: "managed-ai",
     name: "We Run Your AI For You",
     price: "$999",
     priceFrom: 999,
     cadence: "/mo",
-    blurb: "We run the whole system for you. You focus on the customer in front of you; we keep the leads, follow-ups, and bookings flowing.",
-    points: ["Fully managed AI operations", "Completely hands-off for you", "Monthly strategy check-ins"],
+    blurb: "We monitor and maintain your active automations, fix issues, and review performance with you monthly.",
+    points: ["Manage up to 3 live automations", "Monitoring, fixes & monthly reporting", "Monthly strategy check-in"],
     best: true,
     tag: "Most chosen",
   },
   {
+    slug: "ai-department",
     name: "Outsourced AI Department",
     price: "$1,500 – $2,500+",
     priceFrom: 1500,
     cadence: "/mo",
-    blurb: "Your own AI team on call — we plan it, build it, and run it. The upside of an in-house tech department, none of the salaries.",
-    points: ["Fractional AI director", "Quarterly growth roadmap", "We build it and run it"],
+    blurb: "A managed automation program with a roadmap, priority support, and capacity for multiple live systems.",
+    points: ["Manage up to 6 live systems", "Quarterly roadmap & priority queue", "New builds scoped separately"],
     best: false,
   },
 ];

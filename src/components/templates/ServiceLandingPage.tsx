@@ -65,11 +65,11 @@ const stagger = (delay: number) => ({
 /* ─── CTA Button (reused throughout) ─────────────────────────────── */
 
 function CTAButton({ label, url }: { label: string; url: string }) {
+  const external = url.startsWith("http");
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className="inline-flex items-center gap-4 px-12 py-6 bg-[#050505] text-white font-black text-lg rounded-2xl hover:bg-aurora-blue transition-all shadow-2xl shadow-black/20 group"
     >
       {label}

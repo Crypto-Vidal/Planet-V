@@ -27,7 +27,7 @@ export default function ContentMaintenancePage() {
       }
       subheadline="Recurring, low-friction content management — so your business stays active, consistent, and professional without you having to think about it."
       ctaLabel="Get Started"
-      ctaUrl="https://calendly.com/vcrypto1991/drop24-meeting"
+      ctaUrl="/start?offer=content-maintenance"
       ctaDisclaimer="No chasing trends. No overposting. Just steady, reliable presence."
       /* ── Agitation ── */
       agitationTitle="Why This Exists"

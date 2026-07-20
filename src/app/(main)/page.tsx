@@ -372,8 +372,9 @@ function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {SERVICES.map((s, i) => (
-            <motion.div
-              key={i}
+            <motion.a
+              key={s.title}
+              href={s.href}
               {...stagger(i * 0.1)}
               whileHover={{ y: -6, borderColor: "rgba(47,136,255,0.35)" }}
               className="group p-8 rounded-2xl transition-colors duration-300"
@@ -397,7 +398,8 @@ function Services() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+              <span className="mt-6 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-blue-400">See details <ArrowRight size={14} /></span>
+            </motion.a>
           ))}
         </div>
       </div>
@@ -517,6 +519,7 @@ function Pricing() {
 
         <AnimatePresence mode="wait">
           {mode === "monthly" ? (
+            <div>
             <motion.div
               key="monthly"
               initial={{ opacity: 0, y: 16 }}
@@ -555,7 +558,7 @@ function Pricing() {
                     ))}
                   </ul>
                   <a
-                    href="/start"
+                    href={`/start?plan=${p.slug}`}
                     className="relative text-center py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300"
                     style={
                       p.best
@@ -568,6 +571,10 @@ function Pricing() {
                 </div>
               ))}
             </motion.div>
+            <p className="mt-6 text-center text-xs leading-relaxed" style={{ color: "#64748b" }}>
+              Month-to-month. Cancel before renewal. Unused time does not roll over. Third-party software and new custom builds are billed separately.
+            </p>
+            </div>
           ) : (
             <motion.div
               key="project"

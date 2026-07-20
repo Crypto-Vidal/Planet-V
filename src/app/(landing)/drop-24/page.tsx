@@ -37,9 +37,7 @@ function CTAButton({ label = "Get Started", size = "lg" }: { label?: string; siz
   const lg = size === "lg";
   return (
     <a
-      href="https://calendly.com/vcrypto1991/drop24-meeting"
-      target="_blank"
-      rel="noopener noreferrer"
+      href="/start?offer=drop24"
       className={`group relative inline-flex items-center gap-3 font-black text-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
         lg ? "px-10 py-5 text-lg" : "px-6 py-3.5 text-sm"
       }`}
@@ -230,7 +228,7 @@ export default function Drop24Page() {
               Drop<span style={{ color: BLUE }}>24</span>
             </span>
           </div>
-          <CTAButton label="Book a Call" size="sm" />
+          <CTAButton label="Start My Site" size="sm" />
         </div>
       </header>
 
@@ -663,7 +661,7 @@ export default function Drop24Page() {
             &copy; {new Date().getFullYear()} DYNASTY LABZ. ALL RIGHTS RESERVED.
           </div>
           <div className="text-[10px] font-mono" style={{ color: "#1e293b" }}>
-            <a href="/drop-24/intake" className="hover:text-blue-400 transition-colors duration-200">
+            <a href="/start?offer=drop24" className="hover:text-blue-400 transition-colors duration-200">
               Start your project →
             </a>
           </div>

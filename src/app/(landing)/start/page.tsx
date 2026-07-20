@@ -8,15 +8,8 @@ import {
   Phone, ShoppingCart, MapPin, FileText, Palette, Image as ImageIcon, Type, Link2,
 } from "lucide-react";
 import { useState, useEffect, useRef, ReactNode } from "react";
+import Link from "next/link";
 import { BLUE, CALENDLY, GlowOrb } from "@/components/home/ui";
-
-/* ════════════════════════════════════════════════════════════════════════
-   SUBMISSION CONFIG
-   Set FORMSPREE_ENDPOINT to your Formspree form URL to deliver the $350 build
-   briefs straight to your inbox. Until then, a mailto fallback is used.
-   ════════════════════════════════════════════════════════════════════════ */
-const FORMSPREE_ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxxxxx"
-const NOTIFY_EMAIL = "cryptov1991@gmail.com";
 
 /* ════════════════════════════════════════════════════════════════════════
    STEP TYPES
@@ -219,6 +212,20 @@ export default function StartPage() {
   const [dir, setDir] = useState(1);
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [contact, setContact] = useState<Contact>({ name: "", businessName: "", email: "", phone: "", source: "", links: "" });
+  const [selectedOffer, setSelectedOffer] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    const offer = params.get("offer");
+    const selected = plan || offer;
+    if (!selected) return;
+    const timer = window.setTimeout(() => {
+      setSelectedOffer(selected);
+      setMode(offer === "drop24" ? "drop24" : "consult");
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const steps = mode === "consult" ? CONSULT_STEPS : mode === "drop24" ? DROP24_STEPS : [];
   const step = steps[i];
@@ -259,6 +266,7 @@ export default function StartPage() {
   const summary = (() => {
     const a = answers, parts: string[] = [];
     if (contact.businessName) parts.push(`Business: ${contact.businessName}${a.businessType ? ` (${a.businessType})` : ""}`);
+    if (selectedOffer) parts.push(`Requested offer: ${selectedOffer}`);
     if (a.goal) parts.push(`Main goal: ${a.goal}`);
     if (a.vibe) parts.push(`Vibe: ${a.vibe}`);
     if (a.sell) parts.push(`Sells: ${a.sell}`);
@@ -298,10 +306,10 @@ export default function StartPage() {
 
       {/* Top bar */}
       <header className="relative z-20 max-w-3xl mx-auto px-6 pt-7 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-base italic" style={{ background: "linear-gradient(135deg, #2f88ff, #7cb2ff)" }}>D</div>
           <span className="text-base font-black tracking-tighter text-white uppercase">Dynasty <span style={{ color: BLUE }}>Labz</span></span>
-        </a>
+        </Link>
         {mode !== "select" && !lastIsTerminal && (
           <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: "#475569" }}>
             Step {i + 1} <span style={{ color: "#1e293b" }}>/ {steps.length - 1}</span>
@@ -339,11 +347,11 @@ export default function StartPage() {
             )}
 
             {mode !== "select" && step && step.type === "booking" && (
-              <BookingStep name={contact.name} build={answers.build as string} prefill={{ name: contact.name, email: contact.email, customAnswers: { a1: summary } }} />
+              <BookingStep name={contact.name} build={answers.build as string} offer={selectedOffer || "AI automation consultation"} answers={answers} contact={contact} summary={summary} prefill={{ name: contact.name, email: contact.email, customAnswers: { a1: summary } }} />
             )}
 
             {mode !== "select" && step && step.type === "submit" && (
-              <SubmitStep name={contact.name} email={contact.email} answers={answers} contact={contact} summary={summary} />
+              <SubmitStep name={contact.name} email={contact.email} offer={selectedOffer || "Drop 24"} answers={answers} contact={contact} summary={summary} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -542,8 +550,22 @@ function ContactStep({ contact, setContact, sources, emailOk, showLinks, drop24 
 /* ════════════════════════════════════════════════════════════════════════
    BOOKING (consult) + SUBMIT (drop24)
    ════════════════════════════════════════════════════════════════════════ */
-function BookingStep({ name, build, prefill }: { name: string; build?: string; prefill: { name?: string; email?: string; customAnswers?: Record<string, string> } }) {
+function BookingStep({ name, build, offer, answers, contact, summary, prefill }: {
+  name: string; build?: string; offer: string; answers: Record<string, string | string[]>; contact: Contact; summary: string;
+  prefill: { name?: string; email?: string; customAnswers?: Record<string, string> };
+}) {
   const first = name.trim().split(" ")[0];
+  const [delivery, setDelivery] = useState<"sending" | "done" | "error">("sending");
+  const sent = useRef(false);
+
+  useEffect(() => {
+    if (sent.current) return;
+    sent.current = true;
+    sendLead("consult", offer, answers, contact, summary)
+      .then(() => setDelivery("done"))
+      .catch(() => setDelivery("error"));
+  }, [answers, contact, offer, summary]);
+
   return (
     <div>
       <div className="text-center mb-8">
@@ -554,73 +576,65 @@ function BookingStep({ name, build, prefill }: { name: string; build?: string; p
         <p className="text-base font-medium max-w-lg mx-auto" style={{ color: "#94a3b8" }}>
           {build ? <>We&apos;ll come ready to talk through <span className="text-white font-bold">{build.toLowerCase()}</span> and the fastest path to get you there.</> : "We'll come ready with the fastest path for your business."} Grab a slot below — your details are already filled in.
         </p>
+        {delivery === "sending" && <p className="mt-3 text-xs font-bold text-blue-300">Saving your details…</p>}
+        {delivery === "error" && <p className="mt-3 text-xs font-bold text-red-400">Your details did not save. Go back and press Continue to retry before booking.</p>}
       </div>
-      <div className="rounded-2xl p-1.5" style={{ border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.015)" }}>
+      {delivery !== "error" && <div className="rounded-2xl p-1.5" style={{ border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.015)" }}>
         <CalendlyEmbed prefill={prefill} />
-      </div>
+      </div>}
     </div>
   );
 }
 
-function SubmitStep({ name, email, answers, contact, summary }: {
-  name: string; email: string; answers: Record<string, string | string[]>; contact: Contact; summary: string;
+function SubmitStep({ name, email, offer, answers, contact, summary }: {
+  name: string; email: string; offer: string; answers: Record<string, string | string[]>; contact: Contact; summary: string;
 }) {
-  const [status, setStatus] = useState<"sending" | "done" | "fallback">("sending");
+  const [status, setStatus] = useState<"sending" | "done" | "error">("sending");
   const first = name.trim().split(" ")[0];
+  const sent = useRef(false);
 
   useEffect(() => {
-    let active = true;
-    const payload = {
-      _subject: `Drop 24 build brief — ${contact.businessName || name}`,
-      ...flatten(answers), ...contact, summary,
-    };
-    (async () => {
-      if (FORMSPREE_ENDPOINT) {
-        try {
-          const r = await fetch(FORMSPREE_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) });
-          if (active) setStatus(r.ok ? "done" : "fallback");
-        } catch { if (active) setStatus("fallback"); }
-      } else {
-        if (active) setStatus("fallback");
-      }
-    })();
-    return () => { active = false; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const mailto = `mailto:${NOTIFY_EMAIL}?subject=${encodeURIComponent(`Drop 24 build brief — ${contact.businessName || name}`)}&body=${encodeURIComponent(`${summary}\n\nName: ${name}\nEmail: ${email}`)}`;
+    if (sent.current) return;
+    sent.current = true;
+    sendLead("drop24", offer, answers, contact, summary)
+      .then(() => setStatus("done"))
+      .catch(() => setStatus("error"));
+  }, [answers, contact, offer, summary]);
 
   return (
     <div className="text-center pt-6">
       <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-7" style={{ background: "linear-gradient(135deg, #2f88ff, #7cb2ff)", boxShadow: "0 0 36px rgba(47,136,255,0.4)" }}>
-        {status === "sending" ? <div className="w-7 h-7 rounded-full animate-spin" style={{ border: "3px solid rgba(255,255,255,0.4)", borderTopColor: "#fff" }} /> : <Check size={32} className="text-white" />}
+        {status === "sending" ? <div className="w-7 h-7 rounded-full animate-spin" style={{ border: "3px solid rgba(255,255,255,0.4)", borderTopColor: "#fff" }} /> : status === "done" ? <Check size={32} className="text-white" /> : <HelpCircle size={32} className="text-white" />}
       </div>
       <h2 className="text-3xl sm:text-4xl font-black tracking-tighter mb-4">
-        {status === "sending" ? "Sending your project…" : first ? `You're all set, ${first}.` : "You're all set."}
+        {status === "sending" ? "Sending your project…" : status === "error" ? "That didn't send." : first ? `You're all set, ${first}.` : "You're all set."}
       </h2>
-      {status !== "sending" && (
+      {status === "done" && (
         <p className="text-lg font-medium max-w-lg mx-auto mb-8" style={{ color: "#94a3b8" }}>
           We&apos;ve got your details. Your first draft lands in your inbox at <span className="text-white font-bold">{email}</span> within <span className="text-white font-bold">24 hours</span> — and you don&apos;t pay a cent until you love it.
         </p>
       )}
-      {status === "fallback" && (
+      {status === "error" && (
         <div className="max-w-md mx-auto">
-          <p className="text-sm font-medium mb-4" style={{ color: "#64748b" }}>One tap to send your brief over so we can start building:</p>
-          <a href={mailto} className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-black text-white text-sm transition-all hover:scale-[1.02]"
+          <p className="text-sm font-medium mb-4" style={{ color: "#64748b" }}>Your details are still here. Retry the secure send:</p>
+          <button onClick={() => { setStatus("sending"); sendLead("drop24", offer, answers, contact, summary).then(() => setStatus("done")).catch(() => setStatus("error")); }} className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-black text-white text-sm transition-all hover:scale-[1.02]"
             style={{ background: "linear-gradient(135deg, #2f88ff, #2f88ff, #7cb2ff)", boxShadow: "0 0 28px rgba(47,136,255,0.35)" }}>
-            Send my brief <ArrowRight size={16} />
-          </a>
+            Retry send <ArrowRight size={16} />
+          </button>
         </div>
       )}
       {status === "done" && (
-        <a href="/" className="inline-flex items-center gap-2 text-sm font-bold text-white/60 hover:text-white transition-colors">Back to home</a>
+        <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-white/60 hover:text-white transition-colors">Back to home</Link>
       )}
     </div>
   );
 }
 
-function flatten(a: Record<string, string | string[]>): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (const [k, v] of Object.entries(a)) out[k] = Array.isArray(v) ? v.join("; ") : v;
-  return out;
+async function sendLead(mode: string, offer: string, answers: Record<string, string | string[]>, contact: Contact, summary: string) {
+  const response = await fetch("/api/leads", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mode, offer, answers, contact, summary, website: "" }),
+  });
+  if (!response.ok) throw new Error("Lead delivery failed");
 }

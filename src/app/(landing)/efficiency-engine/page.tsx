@@ -27,7 +27,7 @@ export default function EfficiencyEnginePage() {
       }
       subheadline="Automate the majority of your repetitive tasks in under 14 days — or you don't pay."
       ctaLabel="Secure Your Efficiency Audit"
-      ctaUrl="https://calendly.com/vcrypto1991/drop24-meeting"
+      ctaUrl="/start?offer=efficiency-engine"
       ctaDisclaimer="This is a focused build-out, not a long-term contract."
       /* ── Agitation ── */
       agitationTitle="Why This Exists"
