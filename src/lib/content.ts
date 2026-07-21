@@ -11,7 +11,7 @@ export const BUSINESS = {
   name: "Dynasty Labz",
   /* One-sentence definition — this is what AI answer engines quote back. */
   summary:
-    "Dynasty Labz is a Minneapolis web design and AI automation company that helps local businesses get more customers and win back their time.",
+    "Dynasty Labz builds done-for-you lead systems for Twin Cities home-service contractors — websites, automated lead capture, and AI follow-up that turn missed calls into booked jobs.",
   city: "Minneapolis",
   region: "MN",
   regionName: "Minnesota",
@@ -32,24 +32,24 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     icon: "code",
-    title: "Websites that book customers",
-    desc: "A fast, modern site that turns visitors into booked appointments and phone calls — not a pretty page that just sits there. Loads in under a second and looks perfect on every phone.",
-    points: ["Designed to convert, not just look good", "Loads in under a second", "Flawless on mobile"],
+    title: "Websites that book jobs",
+    desc: "A fast, mobile-perfect site built for contractors — it turns visitors into quote requests and phone calls, not a brochure that just sits there. Loads in under a second and looks flawless on every phone.",
+    points: ["Built to book jobs, not just look good", "Loads in under a second", "Flawless on every phone"],
     href: "/drop-24",
   },
   {
     icon: "sparkles",
-    title: "AI that handles the busywork",
-    desc: "Stop doing everything by hand. We set up AI to reply to new leads instantly, follow up automatically, book appointments, and chase no-shows — 24/7, even while you sleep.",
-    points: ["Instant lead replies & follow-up", "Automatic booking & reminders", "Runs 24/7 without you"],
+    title: "AI that answers every lead",
+    desc: "Never lose a job to a missed call again. AI replies to new leads instantly, follows up automatically, books the estimate, and chases no-shows — 24/7, even while you're on the roof.",
+    points: ["Instant reply to every lead", "Automatic follow-up & booking", "Works 24/7 while you're on the job"],
     href: "/efficiency-engine",
   },
   {
     icon: "megaphone",
-    title: "Social media, handled",
-    desc: "Stay visible without the stress. We keep your Instagram and Facebook posting consistently and on-brand, so customers see a business that's clearly open, active, and busy.",
-    points: ["Consistent, on-brand posts", "Instagram & Facebook managed", "No more blank-page Mondays"],
-    href: "/content-maintenance",
+    title: "A lead system that never drops a job",
+    desc: "Every call, form, and quote request captured in one place, routed to you the second it comes in, and followed up automatically — plus automatic review requests after every job. The exact system we built for a local contractor.",
+    points: ["Every lead captured & organized", "Instant alerts + auto follow-up", "Automatic Google review requests"],
+    href: "/start",
   },
 ];
 
@@ -80,17 +80,17 @@ export const OFFERS: Offer[] = [
     name: "Save Time With AI",
     price: "$997 – $1,500",
     priceFrom: 997,
-    blurb: "Your first automations, set up for you: instant replies to new leads, automatic follow-ups, and booking that runs itself while you work.",
+    blurb: "Your first automations, set up for you: instant replies to new leads, automatic follow-ups, and booking that runs itself while you're on a job.",
     best: false,
     href: "/start?offer=efficiency-engine",
     cta: "Book a Call",
   },
   {
     n: "03",
-    name: "Grow Without Hiring",
+    name: "The “Never Miss a Job” System",
     price: "$2,500 – $5,000",
     priceFrom: 2500,
-    blurb: "A complete AI system across your business that captures, follows up with, and books customers — the work of another employee, without the payroll.",
+    blurb: "The complete lead system for your business: every call and quote request captured, routed to you instantly, followed up automatically, and turned into booked jobs and 5-star reviews — the work of another employee, without the payroll.",
     best: true,
     href: "/start?offer=growth-system",
     cta: "Book a Call",
@@ -100,7 +100,7 @@ export const OFFERS: Offer[] = [
     name: "Hire a Digital Employee",
     price: "$7,500 – $15k+",
     priceFrom: 7500,
-    blurb: "A custom AI employee trained on how your business works — answering customers, qualifying leads, and handling tasks around the clock.",
+    blurb: "A custom-built AI employee trained on exactly how your business runs — answering customers, qualifying leads, and handling tasks around the clock. Built from scratch, the way we build full custom platforms.",
     best: false,
     href: "/start?offer=digital-employee",
     cta: "Book a Call",
@@ -193,6 +193,6 @@ export const FAQS: Faq[] = [
   },
   {
     q: "How much does it cost to have you manage everything monthly?",
-    a: "Monthly partnership plans start at $99/mo to keep your site running, $299/mo to keep improving it, and $999/mo for us to fully run your AI and marketing systems for you. Most businesses choose the $999/mo managed plan.",
+    a: "Monthly partnership plans start at $99/mo to keep your site running, $299/mo to keep improving it, and $999/mo for us to fully run your lead and AI follow-up systems for you. Most businesses choose the $999/mo managed plan.",
   },
 ];

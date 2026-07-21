@@ -142,10 +142,10 @@ const jsonLd = {
         "Web Design",
         "Web Development",
         "AI Automation",
-        "Small Business Marketing",
-        "Lead Generation",
+        "Contractor Lead Generation",
+        "Automated Lead Capture & CRM",
         "Online Booking Systems",
-        "Social Media Management",
+        "AI Lead Follow-Up",
       ],
       areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "City", name: a })),
       address: {
