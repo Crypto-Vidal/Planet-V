@@ -101,28 +101,28 @@ const recentWork = [
     url: "https://cakes-five-eta.vercel.app/",
     desc: "Bakery & custom desserts — Minneapolis",
     tag: "Food & Beverage",
-    image: "/drop24-previews/cake-jar-site.png",
+    image: "/drop24-previews/cake-jar-site.webp",
   },
   {
     name: "The Jamaican Chef",
     url: "https://vcrypto1991.wixsite.com/jamaican",
     desc: "Caribbean restaurant & catering",
     tag: "Restaurant",
-    image: "/drop24-previews/jamaican-chef-site.png",
+    image: "/drop24-previews/jamaican-chef-site.webp",
   },
   {
     name: "Masona Salon",
     url: "https://masona-salon.vercel.app/",
     desc: "Luxury beauty studio — Twin Cities",
     tag: "Beauty & Wellness",
-    image: "/drop24-previews/masona-salon-site.png",
+    image: "/drop24-previews/masona-salon-site.webp",
   },
   {
     name: "Dynasty Labz",
     url: "https://planet-v.vercel.app/",
     desc: "AI & web development agency",
     tag: "Technology",
-    image: "/drop24-previews/planet-v-site.png",
+    image: "/drop24-previews/planet-v-site.webp",
   },
 ];
 

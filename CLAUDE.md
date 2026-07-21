@@ -4,13 +4,15 @@
 
 **Planet-V** is the marketing and portfolio website for **DYNASTY LABZ**, a business offering AI automation, web development, and content maintenance services. It targets business owners making $7k–$21k+/month who want to automate workflows and scale operations.
 
-- **Framework:** Next.js 16.1.5 (App Router)
+- **Framework:** Next.js 16.2.x (App Router)
 - **Language:** TypeScript 5.9.3 (strict mode)
 - **Styling:** Tailwind CSS v4 with PostCSS
 - **Animations:** Framer Motion 12.x
 - **Icons:** Lucide React
-- **SEO:** Next.js Metadata API + next-seo
-- **Deployment:** Vercel — manual, no CI/CD/GitHub-integration auto-deploy wired up. `git push origin main` updates GitHub only; you must also run `vercel --prod` to update production (planet-v.vercel.app). Repo and production were resynced 2026-07-08 (commit `9f28c63`) after months of prod-only deploys that never got pushed — keep both in sync going forward.
+- **Email:** Resend (transactional lead notifications)
+- **Analytics:** `@vercel/analytics`
+- **SEO:** Next.js Metadata API + a static `public/sitemap.xml` and `public/robots.txt`
+- **Deployment:** Vercel, **connected to GitHub** (`Crypto-Vidal/Planet-V`). A push to `main` auto-deploys production (planet-v.vercel.app). See the deploy section below.
 
 ## Quick Commands
 
@@ -23,66 +25,89 @@ npm run lint     # ESLint (flat config, ESLint 9)
 
 ## When asked to "push live" / "deploy" / "make it live"
 
-Do BOTH, in this order — they are independent, neither triggers the other:
+The Vercel project is connected to the GitHub repo, so **`git push origin main` auto-deploys to production** — no separate CLI step is required anymore.
+
 ```bash
-git push origin main   # updates GitHub (Crypto-Vidal/Planet-V)
-vercel --prod           # updates the live site (planet-v.vercel.app)
+git push origin main   # updates GitHub AND triggers the Vercel production deploy
 ```
-Skipping either one silently desyncs GitHub from production again (this happened for ~6 weeks until 2026-07-08).
+
+`vercel --prod` still works as a manual override (e.g. to deploy uncommitted local work without pushing), but it is no longer required for a normal deploy. Prefer pushing to keep GitHub and production in sync automatically.
+
+> History: from ~2026-05 until 2026-07-08 this repo deployed via `vercel --prod` only and GitHub sat stale. The repo was resynced (commit `9f28c63`) and the GitHub↔Vercel integration is now wired, closing that gap.
 
 ## Project Structure
 
 ```
 Planet-V/
-├── public/                        # Static assets (images, SVGs)
-│   ├── *.png                      # Portfolio/site preview screenshots
-│   └── *.svg                      # UI icons (arrow-right, check, etc.)
+├── public/                        # Static assets
+│   ├── drop24-previews/*.webp     # Portfolio site preview screenshots (WebP)
+│   ├── og-drop-24.svg             # OG image for the Drop-24 page
+│   ├── robots.txt                 # AEO-friendly crawl rules
+│   └── sitemap.xml                # Static sitemap (4 public URLs)
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx             # Root layout (fonts, metadata, html/body)
+│   │   ├── layout.tsx             # Root layout (fonts, metadata, JSON-LD, <Analytics/>)
 │   │   ├── globals.css            # Global styles, Aurora theme tokens
 │   │   ├── opengraph-image.tsx    # Generated OG image (1200×630)
+│   │   ├── api/
+│   │   │   └── leads/route.ts     # POST endpoint — validates, saves to Google Sheets, emails via Resend
 │   │   ├── (main)/
 │   │   │   ├── layout.tsx         # Pass-through only — homepage is self-contained
-│   │   │   └── page.tsx           # Homepage: full rebuild, own header/footer, reads content.ts
+│   │   │   └── page.tsx           # Homepage: full build, own header/footer, reads content.ts
 │   │   └── (landing)/             # Service/offer landing pages, minimal shared layout
-│   │       ├── drop-24/page.tsx       # Drop24 offer ($350) + intake/ subpage
-│   │       ├── start/page.tsx         # Qualifier funnel (Calendly embed)
-│   │       ├── efficiency-engine/page.tsx
-│   │       ├── web-development/page.tsx
-│   │       ├── content-maintenance/page.tsx
-│   │       └── cat-food/page.tsx
+│   │       ├── layout.tsx
+│   │       ├── drop-24/           # Drop24 offer landing (layout.tsx + page.tsx)
+│   │       ├── start/             # Qualifier funnel — POSTs the brief to /api/leads
+│   │       ├── efficiency-engine/page.tsx     # built on ServiceLandingPage
+│   │       └── content-maintenance/page.tsx   # built on ServiceLandingPage
 │   ├── components/
 │   │   ├── home/ui.tsx            # Homepage primitives: GlowOrb, CTAButton, GhostButton, CountUp, FAQItem, Section, animation presets
-│   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the 3 service landing pages
+│   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the service landing pages
 │   └── lib/
 │       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / BUSINESS copy — feeds both UI and JSON-LD
-├── package.json
+├── package.json                   # name: "planet-v"
 ├── tsconfig.json
-├── next.config.ts
+├── next.config.ts                 # Turbopack root config
 ├── eslint.config.mjs              # ESLint 9 flat config
 └── postcss.config.mjs             # Tailwind CSS v4 PostCSS plugin
 ```
 
-**Legacy/unused (still present, not deleted, not imported anywhere in `src/app`):** `src/components/sections/` (Hero, Services, Portfolio, CTA) and `src/components/layout/` (Navbar, Footer) are pre-6/24-merge components, dead code from before the homepage was rebuilt as a single self-contained file. Don't build on them — they're not wired into any route.
+## Backend — Lead Capture API
 
-**Known live bug:** `src/components/templates/ServiceLandingPage.tsx` (used by `web-development`, `efficiency-engine`, `content-maintenance`) still references `matrix-green`/`bg-matrix-green` Tailwind classes, but that color token was removed from `globals.css` when the site moved to the Aurora theme. Those classes currently resolve to nothing (Tailwind v4 won't generate a utility for an undefined `@theme` token), so accent color/branding on those 3 pages is likely broken or missing. Not fixed here — flagging so it isn't mistaken for intentional styling if you're debugging those pages.
+`src/app/api/leads/route.ts` (`runtime = "nodejs"`) is the site's only backend. It handles `POST` requests from the `/start` funnel:
+
+1. Rejects non-JSON, oversized (>50KB), or malformed requests.
+2. **Honeypot:** if the `website` field is filled, it silently returns `{ ok: true }` without saving (bot trap).
+3. **Validation:** requires `name`, `businessName`, a valid `email`, and a phone with ≥10 digits.
+4. **Storage:** POSTs the lead to a Google Sheets webhook (`saveLeadToGoogleSheet`). If storage fails, the whole request fails with a `502` so no lead is silently lost.
+5. **Notification:** sends an email via Resend. If only the email fails, the lead is still saved and the response includes a `warning`.
+
+### Required environment variables (set in the Vercel project settings)
+
+| Variable | Purpose | Required |
+|---|---|---|
+| `RESEND_API_KEY` | Resend API key for lead notification emails | Yes — without it the route returns `503` |
+| `GOOGLE_SHEETS_WEBHOOK_URL` | Apps Script / webhook URL that appends the lead row | Yes — without it the route returns `502` |
+| `GOOGLE_SHEETS_WEBHOOK_SECRET` | Shared secret sent in the webhook body | Yes |
+| `LEAD_NOTIFICATION_EMAIL` | Where lead emails are sent | Optional — defaults to `cryptov1991@gmail.com` |
+
+There is no `.env` file committed. These live in Vercel env vars; pull them with `vercel env pull` for local testing. **If any required var is unset in production, real leads bounce with a 5xx — verify with one live end-to-end submission after any change to the lead flow.**
 
 ## Architecture & Patterns
 
 ### Route Groups
 
-- `(main)/` — Homepage only; the page itself carries its own header/footer, no shared layout chrome.
+- `(main)/` — Homepage only; the page carries its own header/footer, no shared layout chrome.
 - `(landing)/` — Offer/service pages, each self-contained or built on `ServiceLandingPage`.
 
 ### Component Types
 
 - **Server Components** — `page.tsx` files by default (no `"use client"`).
-- **Client Components** — anything interactive/animated: homepage `page.tsx`, `ServiceLandingPage`, `home/ui.tsx` primitives.
+- **Client Components** — anything interactive/animated: homepage `page.tsx`, the `/start` funnel, `ServiceLandingPage`, `home/ui.tsx` primitives.
 
 ### Data Handling
 
-Copy for the homepage (services, offers, pricing plans, FAQ) lives centrally in `src/lib/content.ts` — edit there, not inline in `page.tsx`, so the visible UI and the JSON-LD schema never drift apart. Content for the individual service landing pages is still passed as props inline per-page. No CMS, database, or API layer.
+Homepage copy (services, offers, pricing plans, FAQ) lives centrally in `src/lib/content.ts` — edit there, not inline in `page.tsx`, so the visible UI and the JSON-LD schema never drift apart. Service landing pages pass their content as inline props per-page. Lead data flows through `/api/leads` to Google Sheets + Resend; there is no database.
 
 ## Styling Conventions
 
@@ -102,26 +127,26 @@ Copy for the homepage (services, offers, pricing plans, FAQ) lives centrally in 
 | `--font-sans` | Inter | Body text |
 | `--font-mono` | Geist Mono | Monospace accents |
 
-The homepage also exports a `BLUE = "#2f88ff"` constant from `src/components/home/ui.tsx` used directly in inline styles/gradients rather than via a Tailwind class — check there too when changing the accent color.
+The homepage also exports a `BLUE = "#2f88ff"` constant from `src/components/home/ui.tsx` used directly in inline styles/gradients rather than via a Tailwind class — check there too when changing the accent color. `ServiceLandingPage` uses the `aurora-blue` token for its accent (the old `matrix-green` token bug was removed when the site moved to the Aurora theme).
 
-Only one custom utility class exists in `globals.css`: `.no-scrollbar` (hides scrollbars on horizontal strips). Older docs describing `.section-dark`, `.button-primary`, `.card-white`, `.glass-card`, etc. are stale — those classes don't exist in the current stylesheet.
+Only one custom utility class exists in `globals.css`: `.no-scrollbar` (hides scrollbars on horizontal strips).
 
 ### Typography
 
-- **Fonts loaded in root layout:** Inter (`--font-inter`) and Fira Code (`--font-fira-code`) via `next/font/google`.
+- **Fonts loaded in root layout** via `next/font/google`.
 - **Headings:** Large, bold, tight tracking (`font-black`, `tracking-tighter`).
 - **Accent labels:** Uppercase, wide tracking, small size, blue accent color.
-- **Body text:** Light gray/slate on the dark background (`text-white/70` or similar), not the slate-on-white pairing from the old light theme.
+- **Body text:** Light gray/slate on the dark background.
 
 ## Animation Conventions
 
-Framer Motion, consistent with the pre-merge conventions:
+Framer Motion:
 
 - **Fade-up pattern:** `{ opacity: 0, y: 24 }` → `{ opacity: 1, y: 0 }`, `duration: ~0.6`.
 - **Staggered children:** incremental delay (`idx * 0.08` or similar).
 - **Viewport trigger:** `viewport: { once: true }`.
 - **Hover effects:** scale/translateY/color via Tailwind `hover:` utilities.
-- **AnimatePresence:** used for the pricing toggle (one-time vs. monthly plans) and modals.
+- **AnimatePresence:** used for the pricing toggle and the multi-step `/start` funnel.
 
 `fadeUp` / `stagger` presets are exported from `src/components/home/ui.tsx` — reuse them rather than redefining per component.
 
@@ -129,40 +154,42 @@ Framer Motion, consistent with the pre-merge conventions:
 
 ### Naming
 
-- **Components:** PascalCase filenames and exports (`Hero.tsx`, `ServiceLandingPage.tsx`)
-- **Directories:** lowercase, kebab-case for route segments (`efficiency-engine/`)
-- **Variables/functions:** camelCase
+- **Components:** PascalCase filenames and exports.
+- **Directories:** lowercase, kebab-case for route segments (`efficiency-engine/`).
+- **Variables/functions:** camelCase.
 
 ### Imports
 
-- Use the `@/` path alias for all `src/` imports (configured in `tsconfig.json`)
-- Example: `import Hero from "@/components/sections/Hero"`
+- Use the `@/` path alias for all `src/` imports (configured in `tsconfig.json`).
+- Example: `import { CTAButton, fadeUp } from "@/components/home/ui"`.
 
 ### Component Organization
 
-- One component per file
-- Type interfaces defined at the top of the file (inline, not in separate type files)
-- Hardcoded data arrays placed at the top of the component or inline
-- Section comment dividers using box-drawing characters for readability
+- One component per file.
+- Type interfaces defined at the top of the file (inline).
+- Hardcoded data arrays placed at the top of the component or inline.
 
 ### External Links
 
-- All external links (Calendly, etc.) use `target="_blank" rel="noopener noreferrer"`
-- Primary CTA URL: `https://calendly.com/vcrypto1991/30min`
+- All external links use `target="_blank" rel="noopener noreferrer"`.
+- Primary CTA URL: `https://calendly.com/vcrypto1991/30min`.
+
+## Images
+
+Portfolio preview screenshots live in `public/drop24-previews/` as **WebP** (converted from PNG on 2026-07-21 for an ~93% size cut). They are rendered as CSS `background-image` on the homepage and `/drop-24`. If you add a new preview, convert it to WebP first (`cwebp -q 80 in.png -o out.webp`) and reference the `.webp` path.
 
 ## ESLint Configuration
 
-- ESLint 9 flat config format (`eslint.config.mjs`)
-- Extends: `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`
-- Ignored paths: `.next/`, `out/`, `build/`, `next-env.d.ts`
-- Run with: `npm run lint`
+- ESLint 9 flat config format (`eslint.config.mjs`).
+- Extends: `eslint-config-next/core-web-vitals` and `eslint-config-next/typescript`.
+- Run with: `npm run lint`.
 
 ## What This Project Does NOT Have
 
 - No test framework (no Jest, Vitest, or test files)
-- No backend / API routes / database
-- No environment variables or `.env` files
-- No CI/CD pipeline (GitHub Actions, etc.)
+- No database (leads go to Google Sheets via webhook)
+- No CMS
+- No CI/CD workflow files (deploys run through Vercel's GitHub integration, not GitHub Actions)
 - No Prettier config (formatting via ESLint only)
 - No pre-commit hooks (husky, lint-staged, etc.)
 - No i18n / localization
@@ -170,26 +197,19 @@ Framer Motion, consistent with the pre-merge conventions:
 
 ## Adding New Pages
 
-### New main page (with Navbar/Footer)
+### New landing page on the shared template
 
-1. Create a directory under `src/app/(main)/`
-2. Add a `page.tsx` file (server component by default)
-3. The `(main)/layout.tsx` automatically wraps it with Navbar and Footer
+1. Create a directory under `src/app/(landing)/` (e.g. `new-service/`).
+2. Create `page.tsx` that imports and renders `ServiceLandingPage` with the appropriate props.
+3. Follow the prop interface at the top of `src/components/templates/ServiceLandingPage.tsx`.
 
-### New service landing page
+### New homepage-style page
 
-1. Create a directory under `src/app/(landing)/` (e.g., `new-service/`)
-2. Create `page.tsx` that imports and renders `ServiceLandingPage` with appropriate props
-3. Follow the prop interface in `src/components/templates/ServiceLandingPage.tsx`
-
-### New section component
-
-1. Create a `.tsx` file in `src/components/sections/`
-2. Add `"use client"` if it needs interactivity or Framer Motion
-3. Import and place it in the relevant `page.tsx`
+1. Create a directory under `src/app/(main)/` with a `page.tsx`.
+2. Reuse primitives and animation presets from `src/components/home/ui.tsx`.
 
 ## Git Workflow
 
-- Feature development happens on `claude/*` branches
-- Changes are merged via pull requests
-- Commit messages should be descriptive and reference the feature being added
+- `main` is the production branch — pushing it deploys.
+- Feature work on `claude/*` branches, merged via PR when practical.
+- Keep `AGENTS.md` (Codex guide) in sync with this file when the architecture changes.

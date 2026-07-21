@@ -44,28 +44,28 @@ const WORK = [
     url: "https://masona-salon.vercel.app/",
     desc: "Luxury beauty studio — real-time booking & admin dashboard",
     tag: "Beauty & Wellness",
-    image: "/drop24-previews/masona-salon-site.png",
+    image: "/drop24-previews/masona-salon-site.webp",
   },
   {
     name: "Cake Jar Co.",
     url: "https://cakes-five-eta.vercel.app/",
     desc: "Bakery & custom desserts — Minneapolis storefront",
     tag: "Food & Beverage",
-    image: "/drop24-previews/cake-jar-site.png",
+    image: "/drop24-previews/cake-jar-site.webp",
   },
   {
     name: "The Jamaican Chef",
     url: "https://vcrypto1991.wixsite.com/jamaican",
     desc: "Caribbean restaurant & catering — bookings + menus",
     tag: "Restaurant",
-    image: "/drop24-previews/jamaican-chef-site.png",
+    image: "/drop24-previews/jamaican-chef-site.webp",
   },
   {
     name: "Dynasty Labz",
     url: "https://planet-v.vercel.app/drop-24",
     desc: "Drop 24 — our own 24-hour landing-page product",
     tag: "AI & Web",
-    image: "/drop24-previews/planet-v-site.png",
+    image: "/drop24-previews/planet-v-site.webp",
   },
 ];
 
