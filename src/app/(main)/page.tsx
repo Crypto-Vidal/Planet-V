@@ -230,14 +230,14 @@ function Hero() {
           style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.08)", color: "#60a5fa" }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          Minneapolis Web Design + AI Automation
+          Minneapolis · Lead Systems for Contractors
         </motion.div>
 
         <motion.h1
           {...stagger(0.08)}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.98] tracking-tighter mb-8"
         >
-          Win more customers
+          Never lose another job
           <span
             className="block"
             style={{
@@ -247,7 +247,7 @@ function Hero() {
               backgroundClip: "text",
             }}
           >
-            without working more hours.
+            to a missed call.
           </span>
         </motion.h1>
 
@@ -256,9 +256,9 @@ function Hero() {
           className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-11 font-medium"
           style={{ color: "#94a3b8" }}
         >
-          We build modern websites that turn visitors into booked customers — and set up AI to handle
-          the follow-ups, scheduling, and busywork behind the scenes. For Minneapolis businesses{" "}
-          <span className="text-white font-bold">ready to grow without burning out.</span>
+          We build websites and AI lead systems for Twin Cities home-service contractors — so every call,
+          text, and quote request gets captured, answered, and booked,{" "}
+          <span className="text-white font-bold">even when you&apos;re on the job.</span>
         </motion.p>
 
         <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -822,7 +822,7 @@ function Footer() {
               <span className="text-lg font-black tracking-tighter text-white uppercase">Dynasty <span style={{ color: BLUE }}>Labz</span></span>
             </div>
             <p className="text-sm font-medium max-w-sm leading-relaxed mb-5" style={{ color: "#64748b" }}>
-              Custom AI automation, high-converting websites, and digital employees for businesses ready to grow without working more hours.
+              Websites and AI lead systems for Twin Cities home-service contractors — so no job is ever lost to a missed call.
             </p>
             <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#475569" }}>
               <MapPin size={13} style={{ color: BLUE }} /> Minneapolis &amp; Twin Cities, MN
