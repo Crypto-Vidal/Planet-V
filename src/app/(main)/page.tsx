@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Menu, X, Sparkles, Code2, Megaphone, Zap,
-  Check, Star, ArrowUpRight, Mail, Globe, MapPin,
+  Check, Star, ArrowUpRight, Mail, Globe, MapPin, Clock,
 } from "lucide-react";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import {
@@ -452,14 +452,28 @@ function Offers() {
                 <div className="text-5xl font-black tracking-tighter mb-5" style={{ color: "rgba(255,255,255,0.10)" }}>{o.n}</div>
                 <h3 className="text-2xl font-black text-white tracking-tight mb-2">{o.name}</h3>
                 <div
-                  className="text-lg font-black mb-4"
+                  className="text-lg font-black mb-2"
                   style={{ background: "linear-gradient(90deg, #60a5fa, #7cb2ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
                 >
                   {o.price}
                 </div>
-                <p className="text-sm leading-relaxed font-medium mb-7 max-w-md" style={{ color: "#94a3b8" }}>
+                <div
+                  className="inline-flex items-center gap-1.5 mb-4 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
+                  style={{ color: "#93c5fd", backgroundColor: "rgba(47,136,255,0.10)", border: "1px solid rgba(47,136,255,0.25)" }}
+                >
+                  <Clock size={11} /> {o.timeline}
+                </div>
+                <p className="text-sm leading-relaxed font-medium mb-5 max-w-md" style={{ color: "#94a3b8" }}>
                   {o.blurb}
                 </p>
+                <ul className="space-y-2 mb-7">
+                  {o.deliverables.map((d) => (
+                    <li key={d} className="flex items-start gap-2.5 text-xs font-medium" style={{ color: "#cbd5e1" }}>
+                      <Check size={14} className="mt-0.5 shrink-0" style={{ color: BLUE }} />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
                 <a
                   href={o.href}
                   {...(o.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -592,10 +606,21 @@ function Pricing() {
                 >
                   <div className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: "#475569" }}>{o.n}</div>
                   <h3 className="text-base font-black text-white mb-3 leading-snug min-h-[2.5rem]">{o.name}</h3>
-                  <div className="text-2xl font-black tracking-tighter mb-4" style={{ background: "linear-gradient(90deg, #60a5fa, #7cb2ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                  <div className="text-2xl font-black tracking-tighter mb-2" style={{ background: "linear-gradient(90deg, #60a5fa, #7cb2ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                     {o.price}
                   </div>
-                  <p className="text-xs leading-relaxed font-medium mb-7 flex-1" style={{ color: "#94a3b8" }}>{o.blurb}</p>
+                  <div className="inline-flex items-center gap-1.5 mb-4 text-[10px] font-black uppercase tracking-widest" style={{ color: "#93c5fd" }}>
+                    <Clock size={11} /> {o.timeline}
+                  </div>
+                  <p className="text-xs leading-relaxed font-medium mb-4" style={{ color: "#94a3b8" }}>{o.blurb}</p>
+                  <ul className="space-y-1.5 mb-7 flex-1">
+                    {o.deliverables.map((d) => (
+                      <li key={d} className="flex items-start gap-2 text-[11px] font-medium leading-snug" style={{ color: "#cbd5e1" }}>
+                        <Check size={12} className="mt-0.5 shrink-0" style={{ color: BLUE }} />
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
                   <a
                     href={o.href}
                     {...(o.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}

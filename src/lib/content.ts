@@ -58,7 +58,9 @@ export type Offer = {
   name: string;
   price: string;
   priceFrom: number; // starting price, for schema
+  timeline: string; // plain-English delivery time
   blurb: string;
+  deliverables: string[]; // itemized — exactly what lands
   best: boolean;
   href: string;
   cta: string;
@@ -68,19 +70,34 @@ export const OFFERS: Offer[] = [
   {
     n: "01",
     name: "Get Online Fast",
-    price: "from $350",
+    price: "$350",
     priceFrom: 350,
-    blurb: "A professional, high-converting website — live in 24 hours. The fastest way to stop losing customers to a slow or outdated site.",
+    timeline: "Live in 24 hours",
+    blurb: "A one-page contractor website with a lead form wired straight to your phone — so you look legit and start catching jobs by the weekend.",
+    deliverables: [
+      "1-page, mobile-perfect website",
+      "Your branding, colors & photos",
+      "Click-to-call + lead form to your inbox",
+      "Live on your own domain",
+    ],
     best: false,
     href: "/drop-24",
     cta: "See Drop 24",
   },
   {
     n: "02",
-    name: "Save Time With AI",
-    price: "$997 – $1,500",
-    priceFrom: 997,
-    blurb: "Your first automations, set up for you: instant replies to new leads, automatic follow-ups, and booking that runs itself while you're on a job.",
+    name: "Never Miss a Lead",
+    price: "$1,497",
+    priceFrom: 1497,
+    timeline: "Ready in about 1 week",
+    blurb: "Your site plus automatic instant replies and follow-up, so no lead ever goes cold — even when you're on a roof.",
+    deliverables: [
+      "Everything in Get Online Fast",
+      "Instant auto-reply to every new lead",
+      "3-step automated follow-up",
+      "Online booking link",
+      "Simple Google Sheet CRM",
+    ],
     best: false,
     href: "/start?offer=efficiency-engine",
     cta: "Book a Call",
@@ -88,19 +105,36 @@ export const OFFERS: Offer[] = [
   {
     n: "03",
     name: "The “Never Miss a Job” System",
-    price: "$2,500 – $5,000",
-    priceFrom: 2500,
-    blurb: "The complete lead system for your business: every call and quote request captured, routed to you instantly, followed up automatically, and turned into booked jobs and 5-star reviews — the work of another employee, without the payroll.",
+    price: "from $3,500",
+    priceFrom: 3500,
+    timeline: "Built in 2–3 weeks",
+    blurb: "The complete done-for-you lead pipeline — every call and quote captured, followed up, booked, and turned into 5-star reviews, on autopilot. A system that runs itself, not another thing for you to manage.",
+    deliverables: [
+      "Multi-page website",
+      "All-channel lead capture",
+      "Automated follow-up sequences",
+      "Online booking",
+      "Automatic review requests after each job",
+      "CRM + simple reporting dashboard",
+    ],
     best: true,
     href: "/start?offer=growth-system",
     cta: "Book a Call",
   },
   {
     n: "04",
-    name: "Hire a Digital Employee",
-    price: "$7,500 – $15k+",
-    priceFrom: 7500,
-    blurb: "A custom-built AI employee trained on exactly how your business runs — answering customers, qualifying leads, and handling tasks around the clock. Built from scratch, the way we build full custom platforms.",
+    name: "Digital Employee + Custom Build",
+    price: "from $8,000",
+    priceFrom: 8000,
+    timeline: "Scoped over 4–8 weeks",
+    blurb: "A custom AI teammate that actually talks to your customers — answering, qualifying, and booking in real conversation — plus any custom software built from scratch for how your business runs.",
+    deliverables: [
+      "Everything in the System",
+      "Conversational AI agent (calls, texts & chat)",
+      "Trained on exactly how you work",
+      "Optional custom app or portal (scheduling, dispatch, customer portal)",
+      "Scoped and quoted to your business",
+    ],
     best: false,
     href: "/start?offer=digital-employee",
     cta: "Book a Call",
@@ -121,44 +155,44 @@ export type Plan = {
 
 export const PLANS: Plan[] = [
   {
-    slug: "keep-running",
-    name: "Keep Everything Running",
+    slug: "site-care",
+    name: "Site Care",
     price: "$99",
     priceFrom: 99,
     cadence: "/mo",
-    blurb: "Core hosting, monitoring, and a small monthly edit allowance — with clear limits and no surprise scope.",
-    points: ["Hosting, uptime & security updates", "Up to 30 minutes of small edits / month", "2-business-day response"],
+    blurb: "Keeps your site fast, secure, and current — the natural next step after Get Online Fast.",
+    points: ["Hosting, uptime & security updates", "Up to 30 minutes of edits / month", "2-business-day response"],
     best: false,
   },
   {
-    slug: "keep-improving",
-    name: "Keep Getting Better",
+    slug: "lead-care",
+    name: "Lead Care",
     price: "$299",
     priceFrom: 299,
     cadence: "/mo",
-    blurb: "Ongoing site improvements plus one clearly scoped workflow update each month.",
-    points: ["Everything in Keep Running", "Up to 2 hours of improvements / month", "One scoped workflow update / month"],
+    blurb: "Keeps your automations running and improving — pairs with Never Miss a Lead or the Job System.",
+    points: ["Everything in Site Care", "Automations kept running + monthly tune-ups", "Monthly performance report"],
     best: false,
   },
   {
-    slug: "managed-ai",
-    name: "We Run Your AI For You",
+    slug: "we-run-it",
+    name: "We Run It",
     price: "$999",
     priceFrom: 999,
     cadence: "/mo",
-    blurb: "We monitor and maintain your active automations, fix issues, and review performance with you monthly.",
-    points: ["Manage up to 3 live automations", "Monitoring, fixes & monthly reporting", "Monthly strategy check-in"],
+    blurb: "We fully manage your lead machine — monitor, fix, and optimize — the natural partner to the Job System.",
+    points: ["Manage your full lead system", "Monitoring, fixes & optimization", "Monthly strategy call"],
     best: true,
     tag: "Most chosen",
   },
   {
-    slug: "ai-department",
-    name: "Outsourced AI Department",
+    slug: "ai-director",
+    name: "Fractional AI Director",
     price: "$1,500 – $2,500+",
     priceFrom: 1500,
     cadence: "/mo",
-    blurb: "A managed automation program with a roadmap, priority support, and capacity for multiple live systems.",
-    points: ["Manage up to 6 live systems", "Quarterly roadmap & priority queue", "New builds scoped separately"],
+    blurb: "Your outsourced AI department — multiple live systems, a roadmap, and ongoing custom builds. Pairs with the Digital Employee.",
+    points: ["Manage multiple live systems", "Quarterly roadmap & priority queue", "Ongoing custom builds in scope"],
     best: false,
   },
 ];
@@ -169,11 +203,11 @@ export type Faq = { q: string; a: string };
 export const FAQS: Faq[] = [
   {
     q: "How much does a website cost in Minneapolis?",
-    a: "At Dynasty Labz, a professional small-business website starts at $350 and is delivered in 24 hours through our Drop 24 service. Larger websites with AI automation, online booking, and lead follow-up range from about $997 to $5,000+ depending on what your business needs.",
+    a: "At Dynasty Labz, a professional contractor website starts at $350 and is delivered in 24 hours through our Drop 24 service. Larger lead systems with AI automation, online booking, and automatic follow-up range from about $1,497 to $8,000+ depending on what your business needs.",
   },
   {
     q: "What is AI automation for a small business?",
-    a: "AI automation means using software to handle repetitive tasks for you — instantly replying to new leads, following up with customers, booking appointments, and sending reminders. For a local business it's like adding a tireless employee who works 24/7 and never forgets to follow up. Our AI setups start at $997.",
+    a: "AI automation means using software to handle repetitive tasks for you — instantly replying to new leads, following up with customers, booking appointments, and sending reminders. For a local contractor it's like adding a tireless employee who works 24/7 and never forgets to follow up. Our lead automation setups start at $1,497.",
   },
   {
     q: "How long does it take to build my website?",
@@ -193,6 +227,6 @@ export const FAQS: Faq[] = [
   },
   {
     q: "How much does it cost to have you manage everything monthly?",
-    a: "Monthly partnership plans start at $99/mo to keep your site running, $299/mo to keep improving it, and $999/mo for us to fully run your lead and AI follow-up systems for you. Most businesses choose the $999/mo managed plan.",
+    a: "Monthly partnership plans start at $99/mo for Site Care to keep your site running, $299/mo for Lead Care to keep your automations running and improving, and $999/mo for We Run It — where we fully manage your lead system for you. Most businesses choose the $999/mo We Run It plan.",
   },
 ];
