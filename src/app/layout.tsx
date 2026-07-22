@@ -134,7 +134,7 @@ const jsonLd = {
       alternateName: "Dynasty Labz Web Design & AI Automation",
       url: SITE_URL,
       description: BUSINESS.summary,
-      slogan: "Win more customers without working more hours.",
+      slogan: "Never lose another job to a missed call.",
       image: `${SITE_URL}/opengraph-image`,
       logo: `${SITE_URL}/opengraph-image`,
       priceRange: BUSINESS.priceRange,

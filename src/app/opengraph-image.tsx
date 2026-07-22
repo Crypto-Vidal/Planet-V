@@ -46,7 +46,7 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", fontSize: 78, fontWeight: 900, letterSpacing: -3, lineHeight: 1.02, color: "#f8fafc" }}>
-          <span>Win more customers</span>
+          <span>Never lose another job</span>
           <span
             style={{
               background: "linear-gradient(120deg, #93c5fd, #2f88ff 45%, #7cb2ff)",
@@ -54,12 +54,12 @@ export default function OpengraphImage() {
               color: "transparent",
             }}
           >
-            without working more hours.
+            to a missed call.
           </span>
         </div>
 
         <div style={{ marginTop: 44, fontSize: 30, fontWeight: 500, color: "#94a3b8", maxWidth: 940 }}>
-          Minneapolis web design + AI automation. Websites from $350, live in 24 hours.
+          Websites &amp; AI lead systems for Twin Cities contractors. Sites from $350, live in 24 hours.
         </div>
       </div>
     ),
