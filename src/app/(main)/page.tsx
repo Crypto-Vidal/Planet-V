@@ -262,7 +262,7 @@ function Hero() {
         </motion.p>
 
         <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <CTAButton label="Book a Free Discovery Call" />
+          <CTAButton label="Get a Free Lead Leak Audit" href="/start?offer=audit" />
           <GhostButton label="See our work" href="#work" />
         </motion.div>
 
