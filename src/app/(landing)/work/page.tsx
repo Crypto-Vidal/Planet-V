@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  motion, useScroll, useTransform, useSpring, useReducedMotion, MotionValue,
+  motion, useScroll, useTransform, useSpring, useReducedMotion, useInView, MotionValue,
 } from "framer-motion";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, ReactNode } from "react";
 import { WORK, LABZ, type WorkItem } from "@/lib/content";
 
 /* ── /work identity: yellow on black, Bebas Neue + DM Mono ───────────────── */
@@ -41,8 +41,8 @@ function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const left = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
-  const right = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
+  const left = useTransform(scrollYProgress, [0, 1], ["0%", "-11%"]);
+  const right = useTransform(scrollYProgress, [0, 1], ["0%", "11%"]);
   const fade = useTransform(scrollYProgress, [0.35, 0.85], [1, 0]);
   const glow = useTransform(scrollYProgress, [0, 1], [1, 1.8]);
 
@@ -81,7 +81,7 @@ function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1, duration: 0.8 }}
           style={mono}
-          className="absolute bottom-7 left-5 right-5 md:left-10 md:right-10 flex items-end justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em]"
+          className="absolute bottom-16 left-5 right-5 md:left-10 md:right-10 flex items-end justify-between gap-4 text-[10px] md:text-xs uppercase tracking-[0.2em]"
         >
           <span style={{ color: DIM }}>
             {pad(TOTAL)} projects · all live<br />Minneapolis, MN
@@ -130,24 +130,76 @@ function Manifesto() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   GROUP TITLE — giant type that travels sideways with the scroll
+   GROUP TITLE — a headline band that runs on its own, like a sports ticker
    ════════════════════════════════════════════════════════════════════════ */
 function GroupTitle({ label, count, note }: { label: string; count: number; note: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["8%", "-45%"]);
+  const run = (
+    <>
+      {[0, 1, 2, 3].map((k) => (
+        <span key={k} className="flex items-center">
+          <span style={k % 2 ? outline : undefined} className="px-[4vw]">{label}</span>
+          <span style={{ color: Y }} className="text-[0.45em]">★</span>
+        </span>
+      ))}
+    </>
+  );
   return (
-    <section ref={ref} className="py-20 md:py-28 overflow-x-clip" style={{ borderTop: `1px solid ${Y}26` }}>
-      <div style={mono} className="px-5 md:px-10 mb-6 flex items-baseline justify-between gap-6 text-[10px] md:text-xs uppercase tracking-[0.2em]">
+    <section className="py-16 md:py-24 overflow-x-clip" style={{ borderTop: `1px solid ${Y}26` }}>
+      <div style={mono} className="px-5 md:px-10 mb-5 flex items-baseline justify-between gap-6 text-[10px] md:text-xs uppercase tracking-[0.2em]">
         <span style={{ color: Y }}>{pad(count)} projects</span>
         <span className="text-right" style={{ color: DIM }}>{note}</span>
       </div>
-      <motion.h2 style={{ ...display, x: reduce ? 0 : x }} className="whitespace-nowrap text-[28vw] md:text-[18vw] leading-[0.85] uppercase">
-        {label} <span style={outline}>{label}</span> {label}
-      </motion.h2>
+      <h2 style={display} className="text-[17vw] md:text-[12vw] leading-[0.9] uppercase whitespace-nowrap" aria-label={label}>
+        <span className="marquee-track" style={{ animationDuration: "22s" }} aria-hidden>
+          {run}
+          {run}
+        </span>
+      </h2>
     </section>
   );
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   BOTTOM TICKER — always-on headline crawl pinned to the bottom of the screen
+   ════════════════════════════════════════════════════════════════════════ */
+function Ticker({ label }: { label: string }) {
+  const item = (text: string, strong = false) => (
+    <span className="flex items-center gap-5 pr-5">
+      <span style={strong ? { color: Y } : undefined}>{text}</span>
+      <span style={{ color: Y }} className="text-[0.6em]">◆</span>
+    </span>
+  );
+  const run = (
+    <>
+      {item("Client work", true)}
+      {WORK.map((w) => <span key={w.name}>{item(w.name)}</span>)}
+      {item("Built in the Labz", true)}
+      {LABZ.map((w) => <span key={w.name}>{item(w.name)}</span>)}
+      {item(`${pad(TOTAL)} projects — all live`, true)}
+    </>
+  );
+  return (
+    <div
+      className="fixed bottom-0 left-0 right-0 z-50 flex items-stretch h-10 md:h-11"
+      style={{ backgroundColor: "#000", borderTop: `2px solid ${Y}` }}
+      aria-hidden
+    >
+      <div style={{ ...display, backgroundColor: Y, color: K }} className="shrink-0 flex items-center px-3 md:px-5 text-lg md:text-xl tracking-wider uppercase">
+        {label}
+      </div>
+      <div style={display} className="flex-1 overflow-hidden flex items-center text-lg md:text-xl tracking-wider uppercase whitespace-nowrap">
+        <span className="marquee-track pl-5" style={{ animationDuration: "30s" }}>
+          {run}
+          {run}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* Wraps a group so the page knows which one is on screen (drives the ticker label). */
+function Group({ children, onRef }: { children: ReactNode; onRef: React.RefObject<HTMLDivElement | null> }) {
+  return <div ref={onRef}>{children}</div>;
 }
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -182,9 +234,9 @@ function Panel({
     <div className="sticky top-0 h-[100svh]">
       <motion.article
         style={{ scale: reduce || last ? 1 : sink, backgroundColor: K, borderTop: `1px solid ${Y}33` }}
-        className="relative h-full origin-top overflow-hidden rounded-t-[28px] px-5 md:px-10 pt-20 pb-6 md:pt-24 md:pb-10 flex items-center"
+        className="relative h-full origin-top overflow-hidden rounded-t-[28px] px-5 md:px-10 pt-14 pb-12 md:pt-24 md:pb-20 flex items-center"
       >
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-6 lg:gap-16">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-4 lg:gap-16">
           {/* screenshot in a browser frame */}
           <div className={flip ? "lg:order-2" : ""} style={{ perspective: 1400 }}>
             <motion.a
@@ -192,8 +244,8 @@ function Panel({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open ${item.name} live`}
-              style={reduce ? { boxShadow: `10px 10px 0 ${Y}` } : { rotateX, rotateY, scale: frameScale, boxShadow: `10px 10px 0 ${Y}` }}
-              className="group block rounded-xl overflow-hidden"
+              style={reduce ? { boxShadow: `8px 8px 0 ${Y}` } : { rotateX, rotateY, scale: frameScale, boxShadow: `8px 8px 0 ${Y}` }}
+              className="group block rounded-xl overflow-hidden mr-2 lg:mr-0"
             >
               <div className="flex items-center gap-1.5 px-3 h-7" style={{ backgroundColor: "#16150f", borderBottom: `1px solid ${Y}26` }}>
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: Y }} />
@@ -203,7 +255,7 @@ function Panel({
                   {item.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
                 </span>
               </div>
-              <div className="relative aspect-[3/2] max-h-[34svh] lg:max-h-none w-full overflow-hidden">
+              <div className="relative aspect-[3/2] max-h-[27svh] lg:max-h-none w-full overflow-hidden">
                 <div
                   role="img"
                   aria-label={`${item.name} website preview`}
@@ -216,14 +268,14 @@ function Panel({
 
           {/* copy */}
           <motion.div style={reduce ? undefined : { y: textY, opacity: textOpacity }} className={flip ? "lg:order-1" : ""}>
-            <div className="flex items-baseline gap-3 mb-2 md:mb-4">
-              <span style={{ ...display, ...outline }} className="text-5xl md:text-8xl leading-none">{pad(n)}</span>
+            <div className="flex items-baseline gap-3 mb-1 md:mb-4">
+              <span style={{ ...display, ...outline }} className="text-4xl md:text-8xl leading-none">{pad(n)}</span>
               <span style={{ ...mono, color: DIM }} className="text-xs tracking-[0.2em]">/ {pad(TOTAL)}</span>
             </div>
-            <div style={{ ...mono, color: Y }} className="text-[10px] md:text-xs uppercase tracking-[0.25em] mb-2 md:mb-3">{item.tag}</div>
-            <h3 style={display} className="text-5xl md:text-7xl xl:text-8xl leading-[0.88] uppercase mb-3 md:mb-5">{item.name}</h3>
-            <p style={{ ...mono, color: DIM }} className="text-xs md:text-sm leading-relaxed max-w-md mb-4 md:mb-6">{item.desc}</p>
-            <ul className="flex flex-wrap gap-2 mb-5 md:mb-8 [@media(max-height:720px)]:hidden">
+            <div style={{ ...mono, color: Y }} className="text-[10px] md:text-xs uppercase tracking-[0.25em] mb-1.5 md:mb-3">{item.tag}</div>
+            <h3 style={display} className="text-[13vw] sm:text-6xl md:text-7xl xl:text-8xl leading-[0.88] uppercase mb-2 md:mb-5">{item.name}</h3>
+            <p style={{ ...mono, color: DIM }} className="text-xs md:text-sm leading-relaxed max-w-md mb-3 md:mb-6 line-clamp-3 md:line-clamp-none [@media(max-height:640px)]:hidden">{item.desc}</p>
+            <ul className="flex flex-wrap gap-2 mb-4 md:mb-8 [@media(max-height:780px)]:hidden">
               {item.highlights.map((h) => (
                 <li key={h} style={{ ...mono, border: `1px solid ${Y}40`, color: "#e9e6d3" }} className="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-widest">
                   {h}
@@ -235,7 +287,7 @@ function Panel({
               target="_blank"
               rel="noopener noreferrer"
               style={{ ...display, backgroundColor: Y, color: K }}
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full text-xl tracking-wider uppercase transition-transform duration-300 hover:scale-105 active:scale-95"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-full text-lg md:text-xl tracking-wider uppercase transition-transform duration-300 hover:scale-105 active:scale-95"
             >
               Visit live <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
@@ -273,7 +325,7 @@ function Outro() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
   const scale = useTransform(scrollYProgress, [0, 1], [0.55, 1]);
   return (
-    <section ref={ref} className="relative min-h-[100svh] flex flex-col items-center justify-center text-center px-5 py-24 overflow-hidden" style={{ backgroundColor: Y, color: K }}>
+    <section ref={ref} className="relative min-h-[100svh] flex flex-col items-center justify-center text-center px-5 pt-28 pb-24 overflow-hidden" style={{ backgroundColor: Y, color: K }}>
       <motion.h2 style={{ ...display, scale: reduce ? 1 : scale }} className="text-[30vw] md:text-[20vw] leading-[0.8] uppercase">
         Your<br />turn.
       </motion.h2>
@@ -299,31 +351,46 @@ export default function WorkPage() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
+  // which group is crossing the middle of the screen → ticker label
+  const clientRef = useRef<HTMLDivElement>(null);
+  const labzRef = useRef<HTMLDivElement>(null);
+  const inClient = useInView(clientRef, { margin: "-50% 0px -50% 0px" });
+  const inLabz = useInView(labzRef, { margin: "-50% 0px -50% 0px" });
+  const tickerLabel = inLabz ? "The Labz" : inClient ? "Clients" : "Work";
+
   return (
     <main style={{ backgroundColor: K, color: "#f4f1de" }} className="min-h-screen overflow-x-clip">
       <motion.div aria-hidden className="fixed top-0 left-0 right-0 h-[3px] z-[60] origin-left" style={{ scaleX, backgroundColor: Y }} />
 
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 py-4 mix-blend-difference">
-        <Link href="/" style={display} className="text-2xl tracking-wider uppercase text-white">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 py-3.5"
+        style={{ backgroundColor: "rgba(8,8,7,0.88)", backdropFilter: "blur(14px)", borderBottom: `1px solid ${Y}1f` }}
+      >
+        <Link href="/" style={display} className="text-xl sm:text-2xl tracking-wider uppercase text-white whitespace-nowrap">
           Dynasty Labz <span style={{ color: Y }}>/ Work</span>
         </Link>
-        <Link href="/start" style={mono} className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white">
-          Start a project →
+        <Link href="/start" style={mono} className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white whitespace-nowrap">
+          <span className="hidden min-[380px]:inline">Start a project</span><span className="min-[380px]:hidden">Start</span> →
         </Link>
       </header>
 
       <Hero />
       <Manifesto />
 
-      <GroupTitle label="Client work" count={WORK.length} note="Built for real businesses" />
-      <Stack items={WORK} startAt={1} />
+      <Group onRef={clientRef}>
+        <GroupTitle label="Client work" count={WORK.length} note="Built for real businesses" />
+        <Stack items={WORK} startAt={1} />
+      </Group>
 
-      <GroupTitle label="Built in the Labz" count={LABZ.length} note="My own products" />
-      <Stack items={LABZ} startAt={WORK.length + 1} />
+      <Group onRef={labzRef}>
+        <GroupTitle label="Built in the Labz" count={LABZ.length} note="My own products" />
+        <Stack items={LABZ} startAt={WORK.length + 1} />
+      </Group>
 
       <Outro />
+      <Ticker label={tickerLabel} />
 
-      <footer style={{ ...mono, backgroundColor: K, color: DIM }} className="px-5 md:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] uppercase tracking-[0.2em]">
+      <footer style={{ ...mono, backgroundColor: K, color: DIM }} className="px-5 md:px-10 pt-6 pb-16 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] uppercase tracking-[0.2em]">
         <span>&copy; {new Date().getFullYear()} Dynasty Labz · Minneapolis, MN</span>
         <span>Every project above is live</span>
       </footer>
