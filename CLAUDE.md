@@ -59,6 +59,7 @@ Planet-V/
 │   │       ├── layout.tsx
 │   │       ├── drop-24/           # Drop24 offer landing (layout.tsx + page.tsx)
 │   │       ├── start/             # Qualifier funnel — POSTs the brief to /api/leads
+│   │       ├── work/              # Portfolio page (layout.tsx + page.tsx) — scroll-driven stacking panels; own yellow/black Bebas Neue + DM Mono identity; reads WORK / LABZ from content.ts
 │   │       └── efficiency-engine/page.tsx     # "Never Miss a Lead" offer page — ServiceLandingPage; price/timeline read from content.ts OFFERS[1]
 │   ├── components/
 │   │   ├── home/ui.tsx            # Homepage primitives: GlowOrb, CTAButton, GhostButton, CountUp, FAQItem, Section, animation presets
@@ -66,7 +67,7 @@ Planet-V/
 │   │   ├── home/LeakCalculator.tsx # "Run the math" slider calculator (payback price read from content.ts)
 │   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the service landing pages
 │   └── lib/
-│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / AUDIT / BUSINESS copy — feeds both UI and JSON-LD. Never hardcode a price elsewhere.
+│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / AUDIT / WORK / LABZ / BUSINESS copy — feeds both UI and JSON-LD. Never hardcode a price elsewhere.
 ├── package.json                   # name: "planet-v"
 ├── tsconfig.json
 ├── next.config.ts                 # Turbopack root config

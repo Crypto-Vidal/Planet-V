@@ -250,3 +250,79 @@ export const FAQS: Faq[] = [
     a: "Monthly partnership plans start at $99/mo for Site Care to keep your site running, $299/mo for Lead Care to keep your automations running and improving, and $999/mo for We Run It — where we fully manage your lead system for you. Plans are optional and month-to-month.",
   },
 ];
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Portfolio — shared by the homepage Work section and the /work page.
+   ────────────────────────────────────────────────────────────────────────── */
+export type WorkItem = {
+  name: string;
+  url: string;
+  desc: string;
+  tag: string;
+  image: string;
+  highlights: string[]; // short facts shown as chips on /work
+};
+
+/* Client builds — the contractor one leads, because that's who this site sells to. */
+export const WORK: WorkItem[] = [
+  {
+    name: "All Good Egress",
+    url: "https://www.allgoodegress.com/",
+    desc: "Egress window contractor — quote-request site wired to an automated lead intake pipeline",
+    tag: "Home Services · Contractor",
+    image: "/work/all-good-egress.webp",
+    highlights: ["Quote-request funnel", "Automated lead intake", "Photo uploads"],
+  },
+  {
+    name: "Masona Salon",
+    url: "https://masona-salon.vercel.app/",
+    desc: "Luxury beauty studio — real-time booking & admin dashboard",
+    tag: "Beauty & Wellness",
+    image: "/drop24-previews/masona-salon-site.webp",
+    highlights: ["Real-time booking", "Admin dashboard"],
+  },
+  {
+    name: "Cake Jar Co.",
+    url: "https://cakes-five-eta.vercel.app/",
+    desc: "Bakery & custom desserts — Minneapolis storefront",
+    tag: "Food & Beverage",
+    image: "/drop24-previews/cake-jar-site.webp",
+    highlights: ["Storefront", "Custom desserts"],
+  },
+  {
+    name: "The Jamaican Chef",
+    url: "https://vcrypto1991.wixsite.com/jamaican",
+    desc: "Caribbean restaurant & catering — bookings + menus",
+    tag: "Restaurant",
+    image: "/drop24-previews/jamaican-chef-site.webp",
+    highlights: ["Bookings", "Menus", "Catering"],
+  },
+];
+
+/* Our own products — proof we ship real software, not just brochure sites. */
+export const LABZ: WorkItem[] = [
+  {
+    name: "Nok Nok",
+    url: "https://noknok-blue.vercel.app/",
+    desc: "AI door-knock simulator for roofing sales teams — reps practice the pitch out loud, get scored, and get greenlit before a real door",
+    tag: "Sales Training · SaaS",
+    image: "/work/noknok.webp",
+    highlights: ["Voice AI roleplay", "Scored sessions", "Owner dashboard"],
+  },
+  {
+    name: "Cosmic OS",
+    url: "https://cosmic-os-alpha.vercel.app/",
+    desc: "Astrology app on its own ephemeris engine — every placement computed to the exact degree, never guessed by AI",
+    tag: "Consumer App",
+    image: "/work/cosmic-os.webp",
+    highlights: ["Custom ephemeris engine", "3D sky", "Accuracy test suite"],
+  },
+  {
+    name: "Drop 24",
+    url: "https://planet-v.vercel.app/drop-24",
+    desc: "Our own 24-hour website product — intake form to live site in a day",
+    tag: "AI & Web",
+    image: "/drop24-previews/planet-v-site.webp",
+    highlights: ["24-hour turnaround", "$350 flat", "Self-serve intake"],
+  },
+];

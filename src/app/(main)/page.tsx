@@ -10,7 +10,7 @@ import {
   BLUE, fadeUp, stagger, GlowOrb, Eyebrow,
   CTAButton, GhostButton, CountUp, FAQItem, Section,
 } from "@/components/home/ui";
-import { SERVICES, OFFERS, PLANS, FAQS, AUDIT } from "@/lib/content";
+import { SERVICES, OFFERS, PLANS, FAQS, AUDIT, WORK, LABZ, type WorkItem } from "@/lib/content";
 import LeadFeed from "@/components/home/LeadFeed";
 import LeakCalculator from "@/components/home/LeakCalculator";
 
@@ -38,65 +38,6 @@ const STATS = [
   { value: 350, prefix: "$", label: "To get online" },
   { value: 24, suffix: "/7", label: "Follow-up that never sleeps" },
   { value: 60, prefix: "<", suffix: "s", label: "Reply to every new lead" },
-];
-
-type WorkItem = { name: string; url: string; desc: string; tag: string; image: string };
-
-/* Client builds — the contractor one leads, because that's who this site sells to. */
-const WORK: WorkItem[] = [
-  {
-    name: "All Good Egress",
-    url: "https://www.allgoodegress.com/",
-    desc: "Egress window contractor — quote-request site wired to an automated lead intake pipeline",
-    tag: "Home Services · Contractor",
-    image: "/work/all-good-egress.webp",
-  },
-  {
-    name: "Masona Salon",
-    url: "https://masona-salon.vercel.app/",
-    desc: "Luxury beauty studio — real-time booking & admin dashboard",
-    tag: "Beauty & Wellness",
-    image: "/drop24-previews/masona-salon-site.webp",
-  },
-  {
-    name: "Cake Jar Co.",
-    url: "https://cakes-five-eta.vercel.app/",
-    desc: "Bakery & custom desserts — Minneapolis storefront",
-    tag: "Food & Beverage",
-    image: "/drop24-previews/cake-jar-site.webp",
-  },
-  {
-    name: "The Jamaican Chef",
-    url: "https://vcrypto1991.wixsite.com/jamaican",
-    desc: "Caribbean restaurant & catering — bookings + menus",
-    tag: "Restaurant",
-    image: "/drop24-previews/jamaican-chef-site.webp",
-  },
-];
-
-/* Our own products — proof we ship real software, not just brochure sites. */
-const LABZ: WorkItem[] = [
-  {
-    name: "Nok Nok",
-    url: "https://noknok-blue.vercel.app/",
-    desc: "AI door-knock simulator for roofing sales teams — reps practice the pitch out loud, get scored, and get greenlit before a real door",
-    tag: "Sales Training · SaaS",
-    image: "/work/noknok.webp",
-  },
-  {
-    name: "Cosmic OS",
-    url: "https://cosmic-os-alpha.vercel.app/",
-    desc: "Astrology app on its own ephemeris engine — every placement computed to the exact degree, never guessed by AI",
-    tag: "Consumer App",
-    image: "/work/cosmic-os.webp",
-  },
-  {
-    name: "Drop 24",
-    url: "https://planet-v.vercel.app/drop-24",
-    desc: "Our own 24-hour website product — intake form to live site in a day",
-    tag: "AI & Web",
-    image: "/drop24-previews/planet-v-site.webp",
-  },
 ];
 
 const TRADES = ["Roofing", "HVAC", "Plumbing", "Egress Windows", "Electrical", "Remodeling", "Landscaping", "Concrete", "Siding", "Painting"];
@@ -758,6 +699,9 @@ function Work() {
             <WorkCard key={item.url} item={item} delay={i * 0.08} />
           ))}
         </div>
+        <motion.div {...fadeUp} className="mt-12 text-center">
+          <GhostButton label="See the full portfolio" href="/work" />
+        </motion.div>
       </div>
     </Section>
   );
