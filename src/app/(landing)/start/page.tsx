@@ -447,7 +447,7 @@ function Selector({ onChoose }: { onChoose: (m: Mode) => void }) {
     },
     {
       mode: "consult" as Mode, icon: <Bot size={22} />, title: "AI systems & growth",
-      tag: "Systems from $1,497 · book a call", desc: "Tell us what's costing you jobs and we'll map the fastest win on a quick strategy call.",
+      tag: "Lead systems from $1,497 · book a call", desc: "Tell us what's costing you jobs and we'll map the fastest win on a quick strategy call.",
     },
   ];
   return (
@@ -582,7 +582,7 @@ function ContactStep({ contact, setContact, sources, emailOk, phoneOk, showLinks
 }) {
   const set = (k: keyof Contact) => (v: string) => setContact((p) => ({ ...p, [k]: v }));
   const heading = mode === "drop24" ? "Last step — where do we send your site?" : mode === "audit" ? "Last step — where do we send your audit?" : "Almost there — where do we send your plan?";
-  const subheading = mode === "drop24" ? "We'll have a first draft in your inbox within 24 hours." : mode === "audit" ? "Your Lead Leak Audit lands in your inbox within 24 hours. No pitch." : "So we can confirm your call and prep before we meet.";
+  const subheading = mode === "drop24" ? "Your live site lands in your inbox within 24 hours." : mode === "audit" ? "Your Lead Leak Audit lands in your inbox within 24 hours. No pitch." : "So we can confirm your call and prep before we meet.";
   return (
     <div>
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter leading-tight mb-3">
@@ -690,7 +690,7 @@ function SubmitStep({ mode, name, email, offer, answers, contact, summary }: {
           {isAudit ? (
             <>We&apos;ve got your answers. Your <span className="text-white font-bold">Lead Leak Audit</span> — exactly where jobs are slipping and what it&apos;s costing you — lands at <span className="text-white font-bold">{email}</span> within <span className="text-white font-bold">24 hours</span>. No pitch, no obligation.</>
           ) : (
-            <>We&apos;ve got your details. Your first draft lands in your inbox at <span className="text-white font-bold">{email}</span> within <span className="text-white font-bold">24 hours</span> — and you don&apos;t pay a cent until you love it.</>
+            <>We&apos;ve got your details. Your live site lands in your inbox at <span className="text-white font-bold">{email}</span> within <span className="text-white font-bold">24 hours</span> — and you don&apos;t pay a cent until you love it.</>
           )}
         </p>
       )}

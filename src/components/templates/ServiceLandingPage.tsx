@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Check, X } from "lucide-react";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 /* ─── Type Definitions ────────────────────────────────────────────── */
@@ -70,7 +71,7 @@ function CTAButton({ label, url }: { label: string; url: string }) {
     <a
       href={url}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="inline-flex items-center gap-4 px-12 py-6 bg-[#050505] text-white font-black text-lg rounded-2xl hover:bg-aurora-blue transition-all shadow-2xl shadow-black/20 group"
+      className="inline-flex items-center gap-4 px-10 py-5 bg-aurora-blue text-white font-black text-lg rounded-2xl hover:bg-aurora-sky transition-all shadow-2xl shadow-aurora-blue/30 group"
     >
       {label}
       <ArrowRight
@@ -84,7 +85,7 @@ function CTAButton({ label, url }: { label: string; url: string }) {
 /* ─── Divider ─────────────────────────────────────────────────────── */
 
 function Divider() {
-  return <div className="max-w-7xl mx-auto px-6"><hr className="border-slate-100" /></div>;
+  return <div className="max-w-7xl mx-auto px-6"><hr className="border-white/[0.06]" /></div>;
 }
 
 /* ─── Main Template Component ─────────────────────────────────────── */
@@ -111,17 +112,17 @@ export default function ServiceLandingPage({
   guaranteeBody,
 }: ServiceLandingPageProps) {
   return (
-    <main className="bg-white min-h-screen">
-      {/* ── Minimal Logo Header (non-clickable) ── */}
+    <main className="bg-[#050505] min-h-screen">
+      {/* ── Minimal Logo Header ── */}
       <header className="py-8 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-2">
+        <Link href="/" className="max-w-7xl mx-auto flex items-center gap-2">
           <div className="w-10 h-10 bg-aurora-blue rounded-xl flex items-center justify-center text-white font-black text-2xl italic shadow-lg shadow-aurora-blue/20">
             D
           </div>
-          <span className="text-2xl font-black tracking-tighter text-[#050505] uppercase">
+          <span className="text-2xl font-black tracking-tighter text-white uppercase">
             Dynasty <span className="text-aurora-blue">Labz</span>
           </span>
-        </div>
+        </Link>
       </header>
 
       {/* ═══════════════════════════════════════════════════════════════
@@ -131,14 +132,14 @@ export default function ServiceLandingPage({
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1
             {...fadeUp}
-            className="text-5xl md:text-7xl font-black text-[#050505] leading-[1.05] tracking-tighter mb-8"
+            className="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter mb-8"
           >
             {headline}
           </motion.h1>
 
           <motion.p
             {...stagger(0.15)}
-            className="text-xl md:text-2xl text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto mb-12"
+            className="text-xl md:text-2xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-12"
           >
             {subheadline}
           </motion.p>
@@ -150,7 +151,7 @@ export default function ServiceLandingPage({
           {ctaDisclaimer && (
             <motion.p
               {...stagger(0.4)}
-              className="mt-6 text-sm text-slate-400 font-medium italic"
+              className="mt-6 text-sm text-slate-500 font-medium italic"
             >
               {ctaDisclaimer}
             </motion.p>
@@ -174,7 +175,7 @@ export default function ServiceLandingPage({
 
           <motion.div
             {...stagger(0.1)}
-            className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed space-y-6"
+            className="text-lg md:text-xl text-slate-300 font-medium leading-relaxed space-y-6"
           >
             {agitationBody}
           </motion.div>
@@ -197,7 +198,7 @@ export default function ServiceLandingPage({
 
           <motion.div
             {...stagger(0.1)}
-            className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed space-y-6"
+            className="text-lg md:text-xl text-slate-300 font-medium leading-relaxed space-y-6"
           >
             {solutionBody}
           </motion.div>
@@ -226,16 +227,16 @@ export default function ServiceLandingPage({
                 className="group"
               >
                 <div className="flex items-baseline justify-between gap-4 mb-2">
-                  <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">
                     {item.title}
                   </h3>
                   {item.value && (
-                    <span className="text-slate-400 font-black text-lg line-through whitespace-nowrap">
+                    <span className="text-slate-500 font-black text-lg line-through whitespace-nowrap">
                       {item.value}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-500 font-medium leading-relaxed">
+                <p className="text-slate-400 font-medium leading-relaxed">
                   {item.description}
                 </p>
               </motion.div>
@@ -250,16 +251,16 @@ export default function ServiceLandingPage({
                   Bonus
                 </div>
                 <div className="flex items-baseline justify-between gap-4 mb-2">
-                  <h3 className="text-xl md:text-2xl font-black text-[#050505] tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-black text-white tracking-tight">
                     {bonusItem.title}
                   </h3>
                   {bonusItem.value && (
-                    <span className="text-slate-400 font-black text-lg line-through whitespace-nowrap">
+                    <span className="text-slate-500 font-black text-lg line-through whitespace-nowrap">
                       {bonusItem.value}
                     </span>
                   )}
                 </div>
-                <p className="text-slate-500 font-medium leading-relaxed">
+                <p className="text-slate-400 font-medium leading-relaxed">
                   {bonusItem.description}
                 </p>
               </motion.div>
@@ -269,14 +270,14 @@ export default function ServiceLandingPage({
           {/* Pricing */}
           <motion.div
             {...stagger(0.4)}
-            className="mt-16 pt-10 border-t border-slate-100"
+            className="mt-16 pt-10 border-t border-white/[0.06]"
           >
             <div className="flex flex-col sm:flex-row sm:items-end gap-4 mb-2">
-              <span className="text-slate-400 font-black text-lg line-through">
+              <span className="text-slate-500 font-black text-lg line-through">
                 Total Value: {totalValue}
               </span>
             </div>
-            <div className="text-4xl md:text-5xl font-black text-[#050505] tracking-tight">
+            <div className="text-4xl md:text-5xl font-black text-white tracking-tight">
               Your Investment: <span className="text-aurora-blue">{investmentPrice}</span>
             </div>
           </motion.div>
@@ -300,14 +301,14 @@ export default function ServiceLandingPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Good fit */}
             <motion.div {...stagger(0.1)}>
-              <h3 className="text-lg font-black text-[#050505] mb-6">
+              <h3 className="text-lg font-black text-white mb-6">
                 This is a good fit if:
               </h3>
               <ul className="space-y-4">
                 {goodFit.map((item, idx) => (
                   <li
                     key={idx}
-                    className="flex items-start gap-3 text-slate-600 font-medium"
+                    className="flex items-start gap-3 text-slate-300 font-medium"
                   >
                     <Check
                       size={18}
@@ -321,16 +322,16 @@ export default function ServiceLandingPage({
 
             {/* Not a fit */}
             <motion.div {...stagger(0.2)}>
-              <h3 className="text-lg font-black text-[#050505] mb-6">
+              <h3 className="text-lg font-black text-white mb-6">
                 This is not a fit if:
               </h3>
               <ul className="space-y-4">
                 {notFit.map((item, idx) => (
                   <li
                     key={idx}
-                    className="flex items-start gap-3 text-slate-400 font-medium"
+                    className="flex items-start gap-3 text-slate-500 font-medium"
                   >
-                    <X size={18} className="text-slate-300 mt-0.5 shrink-0" />
+                    <X size={18} className="text-slate-600 mt-0.5 shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -349,14 +350,14 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto">
           <motion.h2
             {...fadeUp}
-            className="text-3xl md:text-4xl font-black text-[#050505] tracking-tight mb-6"
+            className="text-3xl md:text-4xl font-black text-white tracking-tight mb-6"
           >
             {guaranteeTitle}
           </motion.h2>
 
           <motion.div
             {...stagger(0.1)}
-            className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed space-y-6"
+            className="text-lg md:text-xl text-slate-300 font-medium leading-relaxed space-y-6"
           >
             {guaranteeBody}
           </motion.div>
@@ -372,10 +373,10 @@ export default function ServiceLandingPage({
         <div className="max-w-3xl mx-auto text-center">
           <motion.p
             {...fadeUp}
-            className="text-lg text-slate-500 font-medium mb-10 max-w-xl mx-auto leading-relaxed"
+            className="text-lg text-slate-400 font-medium mb-10 max-w-xl mx-auto leading-relaxed"
           >
-            This is a limited-capacity service. We only take on businesses we
-            believe we can meaningfully improve.
+            One builder, a limited number of build slots each month. We only
+            take on businesses we believe we can meaningfully improve.
           </motion.p>
 
           <motion.div {...stagger(0.15)}>
@@ -384,16 +385,16 @@ export default function ServiceLandingPage({
 
           <motion.p
             {...stagger(0.25)}
-            className="mt-6 text-sm text-slate-400 font-medium italic"
+            className="mt-6 text-sm text-slate-500 font-medium italic"
           >
-            You&apos;ll be guided to a short qualification call to confirm fit.
+            A few quick questions, then a short call to confirm fit.
           </motion.p>
         </div>
       </section>
 
       {/* ── Minimal footer ── */}
-      <footer className="py-8 px-6 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto text-center text-slate-400 text-[10px] font-mono uppercase tracking-[0.2em]">
+      <footer className="py-8 px-6 border-t border-white/[0.06]">
+        <div className="max-w-7xl mx-auto text-center text-slate-500 text-[10px] font-mono uppercase tracking-[0.2em]">
           &copy; {new Date().getFullYear()} DYNASTY LABZ. ALL RIGHTS RESERVED.
         </div>
       </footer>

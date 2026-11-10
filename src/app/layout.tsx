@@ -16,7 +16,7 @@ const firaCode = Fira_Code({
 
 const siteTitle = "Dynasty Labz | Minneapolis Web Design & AI Automation for Local Business";
 const siteDescription =
-  "Dynasty Labz builds high-converting websites and AI automation for Minneapolis & Twin Cities businesses. Websites from $350 in 24 hours. Get more customers and win back your time — book a free discovery call.";
+  "Dynasty Labz builds websites and AI lead systems for Twin Cities home-service contractors. Websites from $350, live in 24 hours. Every call and quote request answered and followed up — start with a free Lead Leak Audit.";
 
 export const viewport: Viewport = {
   width: "device-width",

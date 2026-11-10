@@ -192,7 +192,7 @@ export default function Drop24Page() {
     <main style={{ backgroundColor: "#050505", color: "#f8fafc" }} className="min-h-screen">
 
       {/* SEO */}
-      <meta name="description" content="Stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert, or you don't pay. Get a High-Converting Website in 24 Hours." />
+      <meta name="description" content="Stop losing customers to outdated sites. We deliver a modern landing page built to convert, live in 24 hours for $350 — love it or you don't pay." />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -296,9 +296,8 @@ export default function Drop24Page() {
             className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12 font-medium"
             style={{ color: "#94a3b8" }}
           >
-            Minneapolis &amp; Twin Cities businesses — stop losing customers to outdated sites. We deliver a modern, powerful landing page—guaranteed to convert,{" "}
-            <span className="text-white font-bold">or you don&apos;t pay.</span>{" "}
-            No risks, just results.
+            Minneapolis &amp; Twin Cities businesses — stop losing customers to outdated sites. We deliver a modern landing page built to convert, live in 24 hours.{" "}
+            <span className="text-white font-bold">Love it or you don&apos;t pay.</span>
           </motion.p>
 
           <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -442,7 +441,7 @@ export default function Drop24Page() {
               {
                 icon: <Clock size={17} />,
                 title: "Delivered in 24 Hours",
-                desc: "From your information to a live URL in just one day. No endless discovery calls or design revisions—get online, fast.",
+                desc: "From your information to a live URL in just one day. No discovery calls, no weeks of back-and-forth—get online, fast.",
               },
               {
                 icon: <Smartphone size={17} />,
@@ -532,12 +531,12 @@ export default function Drop24Page() {
               {
                 step: "02",
                 title: "We Design & Launch in 24 Hours",
-                desc: "Our expert team crafts compelling copy and modern design, then launches your site. No revisions until you see the live result, maximizing speed and efficiency.",
+                desc: "We write the copy, design the page, and launch it within 24 hours of your form. You review the real, live site — not a mockup.",
               },
               {
                 step: "03",
                 title: "Approve or Request Revisions",
-                desc: "Review your live site. If you love it, we're done! If it needs tweaks, we refine until perfect. And if it doesn't meet your standards, you owe us nothing.",
+                desc: "Review your live site. If you love it, you pay the $350 and we're done. If it needs tweaks, we revise. And if you still don't love it, you owe us nothing.",
               },
             ].map((item, idx) => (
               <motion.div key={idx} {...stagger(idx * 0.1)} className="flex gap-6 relative">
@@ -576,7 +575,7 @@ export default function Drop24Page() {
             {[
               {
                 q: "What if I'm not satisfied with the design?",
-                a: "Your satisfaction is our priority. We offer revisions until you're delighted with your new site. And if, even after adjustments, you're not completely happy, you don't pay a dime. Our goal is to earn your trust, not just your payment.",
+                a: "You see the live site before you pay. If it needs changes, we revise it. And if you still don't love it after revisions, you don't pay a dime.",
               },
               {
                 q: "What if I need updates or changes after launch?",
@@ -584,7 +583,7 @@ export default function Drop24Page() {
               },
               {
                 q: "What precisely is included in the $350 package?",
-                a: "You receive a high-impact, single-page website specifically engineered for conversion. This includes compelling headlines, persuasive offer copy, a clear call-to-action for bookings or inquiries, mobile-responsive design, and comprehensive hosting setup.",
+                a: "You receive a high-impact, single-page website specifically engineered for conversion. This includes compelling headlines, persuasive offer copy, a clear call-to-action for bookings or inquiries, mobile-responsive design, click-to-call, a lead form sent to your inbox, and hosting setup on your domain or a free subdomain.",
               },
               {
                 q: "Do I need to already own a domain name?",
@@ -638,7 +637,7 @@ export default function Drop24Page() {
             className="text-lg leading-relaxed max-w-xl mx-auto mb-12 font-medium"
             style={{ color: "#94a3b8" }}
           >
-            Drop 24 is built for Minneapolis and Twin Cities businesses ready to act now. Zero upfront risk. Maximum impact.
+            Drop 24 is built for Minneapolis and Twin Cities businesses ready to act now. You don&apos;t pay until you love it.
           </motion.p>
 
           <motion.div {...stagger(0.26)}>

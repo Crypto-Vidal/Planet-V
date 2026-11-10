@@ -60,7 +60,9 @@ export type Offer = {
   priceFrom: number; // starting price, for schema
   timeline: string; // plain-English delivery time
   blurb: string;
+  bestFor: string; // one line: who should pick this rung
   deliverables: string[]; // itemized — exactly what lands
+  guarantee: string; // the risk reversal that applies to THIS rung
   best: boolean;
   href: string;
   cta: string;
@@ -78,8 +80,11 @@ export const OFFERS: Offer[] = [
       "1-page, mobile-perfect website",
       "Your branding, colors & photos",
       "Click-to-call + lead form to your inbox",
-      "Live on your own domain",
+      "Live on your domain — or a free subdomain",
+      "7 days of free content tweaks after launch",
     ],
+    bestFor: "You have no site, or one that embarrasses you.",
+    guarantee: "Love it or you don't pay.",
     best: false,
     href: "/drop-24",
     cta: "See Drop 24",
@@ -98,9 +103,11 @@ export const OFFERS: Offer[] = [
       "Online booking link",
       "Simple Google Sheet CRM",
     ],
+    bestFor: "You get leads, but some never hear back.",
+    guarantee: "Replies to every new lead in under 60 seconds — or we keep working free until it does.",
     best: false,
-    href: "/start?offer=efficiency-engine",
-    cta: "Book a Call",
+    href: "/efficiency-engine",
+    cta: "See what's included",
   },
   {
     n: "03",
@@ -117,6 +124,8 @@ export const OFFERS: Offer[] = [
       "Automatic review requests after each job",
       "CRM + simple reporting dashboard",
     ],
+    bestFor: "You're busy enough that jobs slip through the cracks.",
+    guarantee: "Fixed scope and price in writing before we start.",
     best: true,
     href: "/start?offer=growth-system",
     cta: "Book a Call",
@@ -135,6 +144,8 @@ export const OFFERS: Offer[] = [
       "Optional custom app or portal (scheduling, dispatch, customer portal)",
       "Scoped and quoted to your business",
     ],
+    bestFor: "You want the phone answered and the back office automated.",
+    guarantee: "Fixed scope and price in writing before we start.",
     best: false,
     href: "/start?offer=digital-employee",
     cta: "Book a Call",
@@ -161,7 +172,7 @@ export const PLANS: Plan[] = [
     priceFrom: 99,
     cadence: "/mo",
     blurb: "Keeps your site fast, secure, and current — the natural next step after Get Online Fast.",
-    points: ["Hosting, uptime & security updates", "Up to 30 minutes of edits / month", "2-business-day response"],
+    points: ["Managed hosting, uptime & security updates", "Up to 30 minutes of edits / month", "2-business-day response"],
     best: false,
   },
   {
@@ -183,12 +194,12 @@ export const PLANS: Plan[] = [
     blurb: "We fully manage your lead machine — monitor, fix, and optimize — the natural partner to the Job System.",
     points: ["Manage your full lead system", "Monitoring, fixes & optimization", "Monthly strategy call"],
     best: true,
-    tag: "Most chosen",
+    tag: "Hands-off",
   },
   {
     slug: "ai-director",
     name: "Fractional AI Director",
-    price: "$1,500 – $2,500+",
+    price: "from $1,500",
     priceFrom: 1500,
     cadence: "/mo",
     blurb: "Your outsourced AI department — multiple live systems, a roadmap, and ongoing custom builds. Pairs with the Digital Employee.",
@@ -199,19 +210,28 @@ export const PLANS: Plan[] = [
 
 export type Faq = { q: string; a: string };
 
+/* The free front door — every CTA that isn't a specific offer points here. */
+export const AUDIT = {
+  name: "Free Lead Leak Audit",
+  href: "/start?offer=audit",
+  blurb:
+    "Answer a few questions and we map exactly where jobs are slipping — missed calls, slow replies, dropped follow-ups — and what it's costing you each month.",
+  terms: "Free · 2 minutes · no call required · back in your inbox within 24 hours",
+};
+
 /* Natural-language questions real owners (and AI search engines) actually ask. */
 export const FAQS: Faq[] = [
   {
     q: "How much does a website cost in Minneapolis?",
-    a: "At Dynasty Labz, a professional contractor website starts at $350 and is delivered in 24 hours through our Drop 24 service. Larger lead systems with AI automation, online booking, and automatic follow-up range from about $1,497 to $8,000+ depending on what your business needs.",
+    a: "At Dynasty Labz, a professional contractor website starts at $350 and is delivered in 24 hours through our Drop 24 service. Lead systems are fixed-price too: Never Miss a Lead is $1,497, the full “Never Miss a Job” System starts at $3,500, and a custom Digital Employee build starts at $8,000.",
   },
   {
     q: "What is AI automation for a small business?",
-    a: "AI automation means using software to handle repetitive tasks for you — instantly replying to new leads, following up with customers, booking appointments, and sending reminders. For a local contractor it's like adding a tireless employee who works 24/7 and never forgets to follow up. Our lead automation setups start at $1,497.",
+    a: "AI automation means using software to handle repetitive tasks for you — instantly replying to new leads, following up with customers, booking appointments, and sending reminders. For a local contractor it's like adding a tireless employee who works 24/7 and never forgets to follow up. Our lead automation setup, Never Miss a Lead, is $1,497.",
   },
   {
     q: "How long does it take to build my website?",
-    a: "Our Drop 24 websites go live in 24 hours. Larger projects that include AI automation and online booking typically take a few days to a couple of weeks, and we keep you updated the entire way.",
+    a: "A Drop 24 website is live within 24 hours of your intake form. Never Miss a Lead is ready in about a week, the full “Never Miss a Job” System takes 2–3 weeks, and custom Digital Employee builds are scoped over 4–8 weeks. We keep you updated the entire way.",
   },
   {
     q: "Do you work with businesses outside Minneapolis?",
@@ -219,7 +239,7 @@ export const FAQS: Faq[] = [
   },
   {
     q: "What if I'm not happy with my website?",
-    a: "On our Drop 24 builds, if you don't love it after revisions, you don't pay — zero risk. For larger projects we scope everything up front and check in along the way, so there are never any surprise invoices.",
+    a: "On Drop 24 builds you see the live site before you pay — if you don't love it after revisions, you don't pay. Never Miss a Lead comes with the 60-Second Rule: if your system isn't replying to every new lead in under 60 seconds, we keep working at no cost until it does. Larger projects are scoped and priced in writing before we start, so there are never any surprise invoices.",
   },
   {
     q: "Can you help my business get more customers?",
@@ -227,6 +247,6 @@ export const FAQS: Faq[] = [
   },
   {
     q: "How much does it cost to have you manage everything monthly?",
-    a: "Monthly partnership plans start at $99/mo for Site Care to keep your site running, $299/mo for Lead Care to keep your automations running and improving, and $999/mo for We Run It — where we fully manage your lead system for you. Most businesses choose the $999/mo We Run It plan.",
+    a: "Monthly partnership plans start at $99/mo for Site Care to keep your site running, $299/mo for Lead Care to keep your automations running and improving, and $999/mo for We Run It — where we fully manage your lead system for you. Plans are optional and month-to-month.",
   },
 ];

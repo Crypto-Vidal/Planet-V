@@ -44,3 +44,85 @@ body {
   background: rgba(59, 130, 246, 0.3);
   color: #ffffff;
 }
+
+/* Gradient headline accent (service landing pages) */
+.text-gradient-aurora {
+  background: linear-gradient(120deg, #ffffff 0%, #2f88ff 45%, #7cb2ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Trades marquee — two copies of the track slide one full copy width */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+/* Rotating light edge on the recommended offer */
+@property --edge-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes edgeSpin {
+  to { --edge-angle: 360deg; }
+}
+.glow-edge {
+  position: relative;
+}
+.glow-edge::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--edge-angle), transparent 0deg, #2f88ff 70deg, #7cb2ff 110deg, transparent 180deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: edgeSpin 6s linear infinite;
+  pointer-events: none;
+}
+
+/* Range sliders (leak calculator) */
+.leak-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  outline-offset: 6px;
+}
+.leak-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2f88ff;
+  border: 3px solid #050505;
+  box-shadow: 0 0 0 1px #2f88ff, 0 0 18px rgba(47, 136, 255, 0.6);
+  cursor: grab;
+}
+.leak-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2f88ff;
+  border: 3px solid #050505;
+  box-shadow: 0 0 0 1px #2f88ff, 0 0 18px rgba(47, 136, 255, 0.6);
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .glow-edge::before {
+    animation: none;
+  }
+}

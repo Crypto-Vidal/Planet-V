@@ -21,7 +21,7 @@ git push origin main   # updates GitHub AND triggers the Vercel production deplo
 - `src/lib/content.ts` — **single source of truth** for services/offers/pricing plans/FAQ copy. Both the visible UI and the JSON-LD schema read from here — edit prices/copy here, not inline in page components.
 - `src/app/globals.css` — theme tokens. Current theme is "Aurora" (blue/indigo `#2f88ff` / violet/sky `#7cb2ff` on near-black `#050505`).
 - `src/components/home/ui.tsx` — shared UI primitives for the homepage (GlowOrb, CTAButton, CountUp, FAQItem, etc.)
-- `src/components/templates/ServiceLandingPage.tsx` — template for `/efficiency-engine` and `/content-maintenance`
+- `src/components/templates/ServiceLandingPage.tsx` — template for `/efficiency-engine` (the "Never Miss a Lead" offer page; price read from `content.ts`)
 
 ## Environment variables (set in Vercel, no committed .env)
 

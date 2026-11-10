@@ -1,52 +1,54 @@
 import type { Metadata } from "next";
 import ServiceLandingPage from "@/components/templates/ServiceLandingPage";
+import { OFFERS } from "@/lib/content";
+
+/* Price + timeline come from the same content module as the homepage, so this
+   page can never drift from the offer ladder again. */
+const OFFER = OFFERS[1]; // 02 — Never Miss a Lead
 
 export const metadata: Metadata = {
-  title: "The Efficiency Engine | DYNASTY LABZ",
-  description:
-    "Automate the majority of your repetitive tasks in under 14 days — or you don't pay. A purpose-built automation system installed inside your existing operations.",
+  title: "Never Miss a Lead — AI Lead Follow-Up for Contractors",
+  description: `Every new lead answered in under 60 seconds and followed up automatically. ${OFFER.price} flat, ready in about a week — for Twin Cities home-service contractors.`,
   openGraph: {
-    title: "The Efficiency Engine | DYNASTY LABZ",
+    title: "Never Miss a Lead | Dynasty Labz",
     description:
-      "Stop babysitting your business. Let your systems handle the busywork.",
+      "Stop losing jobs to slow replies. Every lead answered in under 60 seconds, followed up, and booked — automatically.",
     type: "website",
   },
 };
 
-export default function EfficiencyEnginePage() {
+export default function NeverMissALeadPage() {
   return (
     <ServiceLandingPage
       /* ── Hero ── */
       headline={
         <>
-          Stop Babysitting Your Business.{" "}
-          <span className="text-gradient-green">
-            Let Your Systems Handle the Busywork.
-          </span>
+          The first contractor to reply wins the job.{" "}
+          <span className="text-gradient-aurora">Make that you — every time.</span>
         </>
       }
-      subheadline="Automate the majority of your repetitive tasks in under 14 days — or you don't pay."
-      ctaLabel="Secure Your Efficiency Audit"
-      ctaUrl="/start?offer=efficiency-engine"
-      ctaDisclaimer="This is a focused build-out, not a long-term contract."
+      subheadline={`Every new lead answered in under 60 seconds and followed up automatically. ${OFFER.price} flat. ${OFFER.timeline}.`}
+      ctaLabel="Book a Call"
+      ctaUrl="/start?offer=never-miss-a-lead"
+      ctaDisclaimer="One flat price. No monthly contract required."
       /* ── Agitation ── */
       agitationTitle="Why This Exists"
       agitationBody={
         <>
           <p>
-            Most business owners become accidental &ldquo;human routers.&rdquo;
-            You spend your day moving information between apps, chasing
-            follow-ups, and fixing manual mistakes.
-          </p>
-          <p>You didn&apos;t start a business to do copy-paste work.</p>
-          <p>
-            Every hour spent on low-value tasks quietly steals time from
-            strategy, growth, and real decision-making.
+            A homeowner with a leak doesn&apos;t wait. They fill out your form,
+            then fill out two more. Whoever answers first usually gets the
+            estimate.
           </p>
           <p>
-            This isn&apos;t AI for hype or experimentation. This is practical
-            infrastructure designed to reduce friction, prevent errors, and let
-            your business run without constant supervision.
+            You&apos;re on a roof, under a sink, or driving between jobs. By the
+            time you call back that night, they&apos;ve already booked someone
+            else.
+          </p>
+          <p>
+            That isn&apos;t a marketing problem. You already paid to get that
+            lead. It&apos;s a speed problem — and speed is something a system
+            does better than a person with their hands full.
           </p>
         </>
       }
@@ -55,18 +57,18 @@ export default function EfficiencyEnginePage() {
       solutionBody={
         <>
           <p>
-            We install a purpose-built{" "}
-            <strong className="text-[#050505]">Efficiency Engine</strong> inside
-            your existing operations.
+            We build your site and wire it to a follow-up system that replies
+            to every new lead the moment it comes in — by text and email, in
+            your business&apos;s name.
           </p>
           <p>
-            First, we map how your business actually runs — not how it&apos;s
-            supposed to run. Then we identify exactly where time is leaking and
-            install smart automations that remove repetitive manual work.
+            If they don&apos;t answer, it follows up three more times on its
+            own. When they&apos;re ready, they pick a time from your booking
+            link. Every lead lands in one simple sheet you can check from your
+            truck.
           </p>
-          <p>No new tools to babysit. No shiny objects.</p>
-          <p className="text-[#050505] font-black">
-            Just systems that quietly do their job.
+          <p className="text-white font-black">
+            You do the work. The system chases the work.
           </p>
         </>
       }
@@ -74,60 +76,66 @@ export default function EfficiencyEnginePage() {
       valueStackTitle="What You Get"
       valueItems={[
         {
-          title: "Workflow Friction Audit",
+          title: "Your Contractor Website",
           description:
-            "A deep review of your current processes to uncover hidden inefficiencies and manual choke points.",
-          value: "$3,000",
+            "Everything in Get Online Fast: a 1-page, mobile-perfect site with click-to-call and a lead form, on your domain.",
+          value: "$350",
         },
         {
-          title: "Custom Automation Build-Out",
+          title: "Instant Auto-Reply",
           description:
-            "We design and install automations that work with the tools you already use (CRM, email, internal systems).",
-          value: "$4,500",
+            "Every new lead gets a reply in under 60 seconds, 24/7 — so you're first, even from the job site.",
+          value: "$600",
         },
         {
-          title: "AI Precision Layer",
+          title: "3-Step Automated Follow-Up",
           description:
-            "Custom AI added only where it clearly saves time or reduces effort — never for show.",
-          value: "$2,000",
+            "Leads that go quiet get three more nudges automatically. No sticky notes, no forgetting.",
+          value: "$500",
         },
         {
-          title: "Ownership & Handoff Training",
+          title: "Online Booking Link",
           description:
-            "Your team is trained so you're never dependent on us to keep things running.",
-          value: "$1,500",
+            "Ready-to-buy leads book their own estimate on your calendar instead of playing phone tag.",
+          value: "$250",
+        },
+        {
+          title: "Simple Google Sheet CRM",
+          description:
+            "Every lead, its status, and its source in one sheet — nothing new to learn.",
+          value: "$300",
         },
       ]}
       bonusItem={{
-        title: "30-Day System Monitoring",
+        title: "30 Days of Lead Care",
         description:
-          "We actively monitor your systems post-launch to ensure stability and zero downtime.",
-        value: "$500",
+          "We monitor and tune your automations for the first month after launch — the same service as our $299/mo Lead Care plan.",
+        value: "$299",
       }}
-      totalValue="$11,500"
-      investmentPrice="$2,500"
+      totalValue="$2,299"
+      investmentPrice={OFFER.price}
       /* ── Qualification ── */
       qualificationTitle="Who This Is For"
       goodFit={[
-        "You run an established business with steady work",
-        "You already have processes in place",
-        "You're tired of manual follow-ups and repetitive tasks",
+        "You run a home-service business with leads already coming in",
+        "You lose jobs because you can't reply fast enough",
+        "You want it done for you, not another app to learn",
       ]}
       notFit={[
-        "You're just getting started with no workflows yet",
-        "You're looking to experiment with AI tools",
-        "You want novelty instead of reliability",
+        "You have no leads coming in yet — start with Get Online Fast",
+        "You need calls answered by a live AI voice — that's the Digital Employee",
+        "You want to build and manage the automations yourself",
       ]}
       /* ── Guarantee ── */
-      guaranteeTitle="The 20-Hour Rule"
+      guaranteeTitle="The 60-Second Rule"
       guaranteeBody={
         <>
           <p>
-            If this system doesn&apos;t save your team at least 20 hours of
-            manual work per month, we&apos;ll continue working at no cost until
-            it does — or refund your investment.
+            If your system isn&apos;t replying to every new lead in under 60
+            seconds, we keep working at no cost until it does — or refund your
+            investment.
           </p>
-          <p className="text-[#050505] font-black">
+          <p className="text-white font-black">
             The risk is on us, not you.
           </p>
         </>

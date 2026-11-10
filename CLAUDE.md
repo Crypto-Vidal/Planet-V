@@ -41,6 +41,7 @@ git push origin main   # updates GitHub AND triggers the Vercel production deplo
 Planet-V/
 ├── public/                        # Static assets
 │   ├── drop24-previews/*.webp     # Portfolio site preview screenshots (WebP)
+│   ├── work/*.webp                # Newer portfolio previews (All Good Egress, Nok Nok, Cosmic OS)
 │   ├── og-drop-24.svg             # OG image for the Drop-24 page
 │   ├── robots.txt                 # AEO-friendly crawl rules
 │   └── sitemap.xml                # Static sitemap (4 public URLs)
@@ -58,13 +59,14 @@ Planet-V/
 │   │       ├── layout.tsx
 │   │       ├── drop-24/           # Drop24 offer landing (layout.tsx + page.tsx)
 │   │       ├── start/             # Qualifier funnel — POSTs the brief to /api/leads
-│   │       ├── efficiency-engine/page.tsx     # built on ServiceLandingPage
-│   │       └── content-maintenance/page.tsx   # built on ServiceLandingPage
+│   │       └── efficiency-engine/page.tsx     # "Never Miss a Lead" offer page — ServiceLandingPage; price/timeline read from content.ts OFFERS[1]
 │   ├── components/
 │   │   ├── home/ui.tsx            # Homepage primitives: GlowOrb, CTAButton, GhostButton, CountUp, FAQItem, Section, animation presets
+│   │   ├── home/LeadFeed.tsx      # Hero motion graphic — looping "missed call → booked job" example feed
+│   │   ├── home/LeakCalculator.tsx # "Run the math" slider calculator (payback price read from content.ts)
 │   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the service landing pages
 │   └── lib/
-│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / BUSINESS copy — feeds both UI and JSON-LD
+│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / AUDIT / BUSINESS copy — feeds both UI and JSON-LD. Never hardcode a price elsewhere.
 ├── package.json                   # name: "planet-v"
 ├── tsconfig.json
 ├── next.config.ts                 # Turbopack root config
