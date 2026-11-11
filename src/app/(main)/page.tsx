@@ -2,23 +2,26 @@
 
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Menu, X, Sparkles, Code2, Megaphone, Zap,
-  Check, Star, ArrowUpRight, Mail, Globe, MapPin, Clock, ShieldCheck, Target,
+  Menu, X, Zap, Check, ArrowUpRight, Mail, Globe, MapPin, Clock, ShieldCheck, Target,
+  Inbox, CalendarClock, Receipt, Star, MessagesSquare, Table2,
 } from "lucide-react";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import {
   BLUE, fadeUp, stagger, GlowOrb, Eyebrow,
   CTAButton, GhostButton, CountUp, FAQItem, Section,
 } from "@/components/home/ui";
-import { SERVICES, OFFERS, PLANS, FAQS, AUDIT, WORK, LABZ, type WorkItem } from "@/lib/content";
+import { SERVICES, OFFER, CARE, FAQS, START, WORK, LABZ, type WorkItem } from "@/lib/content";
 import LeadFeed from "@/components/home/LeadFeed";
-import LeakCalculator from "@/components/home/LeakCalculator";
+import TimeCalculator from "@/components/home/TimeCalculator";
 
 /* Map content icon keys → lucide components (keeps content.ts free of JSX) */
 const SERVICE_ICONS: Record<string, ReactNode> = {
-  code: <Code2 size={20} />,
-  sparkles: <Sparkles size={20} />,
-  megaphone: <Megaphone size={20} />,
+  inbox: <Inbox size={20} />,
+  calendar: <CalendarClock size={20} />,
+  receipt: <Receipt size={20} />,
+  star: <Star size={20} />,
+  chat: <MessagesSquare size={20} />,
+  table: <Table2 size={20} />,
 };
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -26,42 +29,42 @@ const SERVICE_ICONS: Record<string, ReactNode> = {
    ════════════════════════════════════════════════════════════════════════ */
 
 const NAV = [
-  { name: "Services", href: "#services" },
-  { name: "Packages", href: "#offers" },
-  { name: "Monthly", href: "#pricing" },
+  { name: "What we automate", href: "#tasks" },
+  { name: "The offer", href: "#offer" },
+  { name: "How it works", href: "#how" },
   { name: "Work", href: "#work" },
   { name: "FAQ", href: "#faq" },
 ];
 
 const STATS = [
-  { value: 24, suffix: "hr", label: "Website turnaround" },
-  { value: 350, prefix: "$", label: "To get online" },
-  { value: 24, suffix: "/7", label: "Follow-up that never sleeps" },
-  { value: 60, prefix: "<", suffix: "s", label: "Reply to every new lead" },
+  { value: OFFER.days, suffix: " days", label: "From access to live" },
+  { value: OFFER.priceFrom, prefix: "$", label: "Flat. No hourly meter" },
+  { value: 1, suffix: " task", label: "Off your plate for good" },
+  { value: 24, suffix: "/7", label: "It never clocks out" },
 ];
 
-const TRADES = ["Roofing", "HVAC", "Plumbing", "Egress Windows", "Electrical", "Remodeling", "Landscaping", "Concrete", "Siding", "Painting"];
+const BUSINESS_TYPES = ["Salons", "Restaurants", "Contractors", "Clinics", "Retail shops", "Agencies", "Gyms", "Bakeries", "Law offices", "Real estate"];
 
 const PROCESS = [
   {
     step: "01",
-    title: "Audit & discovery call",
-    desc: "Start with the free Lead Leak Audit, then a focused 30 minutes. We map what's leaking revenue and which one system would change the most — fast.",
+    title: "Answer 5 questions",
+    desc: "Two minutes. Tell me what kind of business you run and which task is eating your week.",
   },
   {
     step: "02",
-    title: "We design & build",
-    desc: "You get back to running your business. We craft the site, copy, and automations, and bring you a working result — not a pile of mockups.",
+    title: "20-minute call",
+    desc: "We pick the one task, map exactly how you do it today, and you hand over access to the tools it runs on. That starts the clock.",
   },
   {
     step: "03",
-    title: "Launch",
-    desc: "We ship it live, wire up the integrations, and make sure it performs on every device before it ever touches a customer.",
+    title: "I build it in 7 days",
+    desc: "You keep running your business. I build the automation, test it on your real work, and walk you through what it does.",
   },
   {
     step: "04",
-    title: "We maintain & improve",
-    desc: "On a partnership plan we keep everything running and getting better every month — so the system compounds instead of going stale.",
+    title: "It runs itself",
+    desc: "The task is off your plate. You get 30 days of fixes and tune-ups, and the option to have it monitored after that.",
   },
 ];
 
@@ -103,7 +106,7 @@ function Header() {
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-9">
+        <nav className="hidden lg:flex items-center gap-8">
           {NAV.map((l) => (
             <a
               key={l.name}
@@ -113,10 +116,10 @@ function Header() {
               {l.name}
             </a>
           ))}
-          <CTAButton label="Book a Call" size="sm" />
+          <CTAButton label={START.label} href={START.href} size="sm" />
         </nav>
 
-        <button className="md:hidden text-white p-1" onClick={() => setOpen((v) => !v)} aria-label="Menu">
+        <button className="lg:hidden text-white p-1" onClick={() => setOpen((v) => !v)} aria-label="Menu">
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -127,7 +130,7 @@ function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden"
+            className="lg:hidden overflow-hidden"
             style={{ backgroundColor: "rgba(5,5,5,0.97)", borderTop: "1px solid rgba(255,255,255,0.06)" }}
           >
             <div className="flex flex-col p-6 gap-5">
@@ -141,7 +144,7 @@ function Header() {
                   {l.name}
                 </a>
               ))}
-              <CTAButton label="Book a Discovery Call" size="sm" />
+              <CTAButton label={START.label} href={START.href} size="sm" />
             </div>
           </motion.div>
         )}
@@ -204,14 +207,14 @@ function Hero() {
           style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.08)", color: "#60a5fa" }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          Minneapolis · Lead Systems for Contractors
+          Minneapolis · AI for small business
         </motion.div>
 
         <motion.h1
           {...stagger(0.08)}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[3.5rem] xl:text-6xl font-black leading-[0.98] tracking-tighter mb-8"
+          className="text-5xl sm:text-6xl md:text-6xl lg:text-[3.25rem] xl:text-6xl font-black leading-[1] tracking-tighter mb-8"
         >
-          Never lose another job
+          Tell me the task that eats your week.
           <span
             className="block"
             style={{
@@ -221,7 +224,7 @@ function Hero() {
               backgroundClip: "text",
             }}
           >
-            to a missed call.
+            In 7 days it runs itself.
           </span>
         </motion.h1>
 
@@ -230,18 +233,17 @@ function Hero() {
           className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-11 font-medium"
           style={{ color: "#94a3b8" }}
         >
-          We build websites and AI lead systems for Twin Cities home-service contractors — so every call,
-          text, and quote request gets captured, answered, and booked,{" "}
-          <span className="text-white font-bold">even when you&apos;re on the job.</span>
+          <span className="text-white font-bold">Or you don&apos;t pay.</span> One task, automated with AI, for one
+          flat price of {OFFER.price}. No jargon, no new software to learn, nothing for you to manage.
         </motion.p>
 
         <motion.div {...stagger(0.28)} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-          <CTAButton label="Get a Free Lead Leak Audit" href={AUDIT.href} />
-          <GhostButton label="See our work" href="#work" />
+          <CTAButton label={`${START.label} — 2 Minutes`} href={START.href} />
+          <GhostButton label="See how it works" href="#how" />
         </motion.div>
 
         <motion.p {...stagger(0.38)} className="mt-7 text-xs font-medium" style={{ color: "#475569" }}>
-          Free · 2 minutes · no call required. Websites from $350, live in 24 hours — love it or you don&apos;t pay.
+          {START.terms}. Never touched AI before? That&apos;s who this is for.
         </motion.p>
         </div>
         <motion.div {...stagger(0.34)}>
@@ -295,11 +297,11 @@ function Stats() {
       </div>
       <div
         className="max-w-5xl mx-auto mt-12 overflow-hidden"
-        aria-label={`Built for: ${TRADES.join(", ")}`}
+        aria-label={`Built for: ${BUSINESS_TYPES.join(", ")}`}
         style={{ maskImage: "linear-gradient(90deg, transparent, black 15%, black 85%, transparent)", WebkitMaskImage: "linear-gradient(90deg, transparent, black 15%, black 85%, transparent)" }}
       >
         <div className="marquee-track" aria-hidden>
-          {[...TRADES, ...TRADES].map((t, i) => (
+          {[...BUSINESS_TYPES, ...BUSINESS_TYPES].map((t, i) => (
             <span key={i} className="flex items-center gap-8 pr-8 text-xs font-black uppercase tracking-[0.25em] whitespace-nowrap" style={{ color: "#475569" }}>
               {t} <span className="w-1 h-1 rounded-full" style={{ backgroundColor: BLUE }} />
             </span>
@@ -321,13 +323,13 @@ function TheMath() {
           <Eyebrow className="mb-4">Run the math</Eyebrow>
         </motion.div>
         <motion.h2 {...stagger(0.06)} className="text-3xl md:text-5xl font-black tracking-tighter text-white mb-4 max-w-2xl">
-          What are missed calls costing you?
+          What is that one task costing you?
         </motion.h2>
         <motion.p {...stagger(0.12)} className="text-base md:text-lg font-medium max-w-xl mb-12" style={{ color: "#64748b" }}>
-          Drag the sliders to your real numbers. Be conservative — it still stings.
+          Drag the sliders to your real numbers. Be conservative — it still adds up.
         </motion.p>
         <motion.div {...stagger(0.18)}>
-          <LeakCalculator />
+          <TimeCalculator />
         </motion.div>
       </div>
     </Section>
@@ -339,9 +341,9 @@ function TheMath() {
    ════════════════════════════════════════════════════════════════════════ */
 function Problem() {
   const lines = [
-    { t: "You're great at what you do. But the website is slow, the phone rings while you're with a customer, and half your leads never hear back.", bright: true },
-    { t: "Every missed call and every lead that goes cold is money walking out the door — and you can't be in two places at once.", bright: false },
-    { t: "We fix that. A website that books customers for you, and AI that replies and follows up the moment someone's interested — so nothing slips through the cracks.", bright: false },
+    { t: "Everyone keeps telling you AI will change your business. Nobody tells you where to start — so you don't.", bright: true },
+    { t: "Meanwhile you're still replying to the same messages, chasing the same quotes, and copying the same info between the same apps, every single week.", bright: false },
+    { t: "You don't need an AI strategy. You need one task gone. Start there, see it work, then decide what's next.", bright: false },
   ];
   return (
     <Section>
@@ -368,254 +370,129 @@ function Problem() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   SERVICES
+   THE MENU — tasks we automate
    ════════════════════════════════════════════════════════════════════════ */
 function Services() {
   return (
-    <Section id="services">
+    <Section id="tasks">
       <GlowOrb size={500} color="rgba(47,136,255,0.06)" className="-left-40 top-1/3" />
       <div className="max-w-6xl mx-auto">
         <motion.div {...fadeUp}>
-          <Eyebrow className="mb-4">What we do</Eyebrow>
+          <Eyebrow className="mb-4">Where to start</Eyebrow>
         </motion.div>
         <motion.h2 {...stagger(0.06)} className="text-3xl md:text-5xl font-black tracking-tighter text-white mb-4 max-w-2xl">
-          Get more customers. Do less of the busywork.
+          Pick the one that makes you groan.
         </motion.h2>
         <motion.p {...stagger(0.12)} className="text-base md:text-lg font-medium max-w-xl mb-14" style={{ color: "#64748b" }}>
-          Start with one. Most owners add the others once they see the calls and bookings come in.
+          These are the tasks small businesses hand over most. Yours not on the list? Tell me on the call.
         </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {SERVICES.map((s, i) => (
-            <motion.a
+            <motion.div
               key={s.title}
-              href={s.href}
-              {...stagger(i * 0.1)}
+              {...stagger(i * 0.07)}
               whileHover={{ y: -6, borderColor: "rgba(47,136,255,0.35)" }}
-              className="group p-8 rounded-2xl transition-colors duration-300"
+              className="p-7 rounded-2xl transition-colors duration-300"
               style={{ border: "1px solid rgba(255,255,255,0.07)", backgroundColor: "rgba(255,255,255,0.015)" }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
                 style={{ border: "1px solid rgba(47,136,255,0.3)", backgroundColor: "rgba(47,136,255,0.1)", color: "#60a5fa" }}
               >
                 {SERVICE_ICONS[s.icon]}
               </div>
-              <h3 className="text-xl font-black text-white tracking-tight mb-3">{s.title}</h3>
-              <p className="text-sm leading-relaxed font-medium mb-7" style={{ color: "#94a3b8" }}>
-                {s.desc}
-              </p>
-              <ul className="space-y-2.5">
-                {s.points.map((p) => (
-                  <li key={p} className="flex items-center gap-2.5 text-[11px] font-black uppercase tracking-widest" style={{ color: "#64748b" }}>
-                    <Check size={13} style={{ color: BLUE }} />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-              <span className="mt-6 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-blue-400">See details <ArrowRight size={14} /></span>
-            </motion.a>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-/* ════════════════════════════════════════════════════════════════════════
-   OFFER LADDER
-   ════════════════════════════════════════════════════════════════════════ */
-function Offers() {
-  return (
-    <Section id="offers">
-      <GlowOrb size={520} color="rgba(47,136,255,0.07)" className="top-0 right-0 translate-x-1/4" />
-      <div className="max-w-6xl mx-auto">
-        <motion.div {...fadeUp}>
-          <Eyebrow className="mb-4">Packages</Eyebrow>
-        </motion.div>
-        <motion.h2 {...stagger(0.06)} className="text-3xl md:text-5xl font-black tracking-tighter text-white mb-4 max-w-2xl">
-          Four packages. One price each. Pick your rung.
-        </motion.h2>
-        <motion.p {...stagger(0.12)} className="text-base md:text-lg font-medium max-w-xl mb-12" style={{ color: "#64748b" }}>
-          Each one includes everything below it. Start where it makes sense today — move up when it has paid for itself.
-        </motion.p>
-
-        {/* Step 0 — the free front door */}
-        <motion.a
-          href={AUDIT.href}
-          {...stagger(0.16)}
-          className="group flex flex-col md:flex-row md:items-center gap-5 md:gap-8 p-7 mb-5 rounded-2xl transition-colors duration-300 hover:border-blue-400/50"
-          style={{ border: "1px dashed rgba(47,136,255,0.4)", backgroundColor: "rgba(47,136,255,0.05)" }}
-        >
-          <div className="shrink-0 text-5xl font-black tracking-tighter" style={{ color: "rgba(47,136,255,0.45)" }}>00</div>
-          <div className="flex-1">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
-              <h3 className="text-xl font-black text-white tracking-tight">Not sure? Start here: {AUDIT.name}</h3>
-              <span className="text-lg font-black text-green-400">$0</span>
-            </div>
-            <p className="text-sm leading-relaxed font-medium max-w-2xl" style={{ color: "#94a3b8" }}>{AUDIT.blurb}</p>
-            <div className="mt-2 text-[10px] font-black uppercase tracking-widest" style={{ color: "#93c5fd" }}>{AUDIT.terms}</div>
-          </div>
-          <span className="shrink-0 inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-blue-400">
-            Get my audit <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </span>
-        </motion.a>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {OFFERS.map((o, i) => (
-            <motion.div
-              key={o.n}
-              {...stagger(i * 0.08)}
-              whileHover={{ y: -6 }}
-              className={`group relative p-8 rounded-2xl flex flex-col ${o.best ? "glow-edge" : ""}`}
-              style={{
-                border: o.best ? "1px solid rgba(47,136,255,0.25)" : "1px solid rgba(255,255,255,0.07)",
-                background: o.best
-                  ? "linear-gradient(135deg, rgba(47,136,255,0.10), rgba(47,136,255,0.04))"
-                  : "rgba(255,255,255,0.015)",
-              }}
-            >
-              <div className="flex items-start justify-between gap-4 mb-5">
-                <div className="text-5xl font-black tracking-tighter" style={{ color: "rgba(255,255,255,0.10)" }}>{o.n}</div>
-                {o.best && (
-                  <div
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
-                    style={{ backgroundColor: "rgba(47,136,255,0.18)", color: "#93c5fd", border: "1px solid rgba(47,136,255,0.35)" }}
-                  >
-                    <Star size={11} /> We recommend
-                  </div>
-                )}
-              </div>
-              <h3 className="text-2xl font-black text-white tracking-tight mb-3">{o.name}</h3>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-5">
-                <div
-                  className="text-4xl font-black tracking-tighter"
-                  style={{ background: "linear-gradient(90deg, #ffffff, #7cb2ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
-                >
-                  {o.price}
-                </div>
-                <div
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
-                  style={{ color: "#93c5fd", backgroundColor: "rgba(47,136,255,0.10)", border: "1px solid rgba(47,136,255,0.25)" }}
-                >
-                  <Clock size={11} /> {o.timeline}
-                </div>
-              </div>
-              <div className="flex items-start gap-2.5 mb-4 text-sm font-bold text-white/90">
-                <Target size={15} className="mt-0.5 shrink-0" style={{ color: BLUE }} />
-                <span><span style={{ color: "#64748b" }}>Best if:</span> {o.bestFor}</span>
-              </div>
-              <p className="text-sm leading-relaxed font-medium mb-5 max-w-md" style={{ color: "#94a3b8" }}>
-                {o.blurb}
-              </p>
-              <ul className="space-y-2 mb-6 flex-1">
-                {o.deliverables.map((d) => (
-                  <li key={d} className="flex items-start gap-2.5 text-xs font-medium" style={{ color: "#cbd5e1" }}>
-                    <Check size={14} className="mt-0.5 shrink-0" style={{ color: BLUE }} />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex items-start gap-2.5 mb-6 p-3 rounded-xl text-xs font-bold" style={{ color: "#86efac", backgroundColor: "rgba(74,222,128,0.06)", border: "1px solid rgba(74,222,128,0.18)" }}>
-                <ShieldCheck size={15} className="mt-px shrink-0" />
-                {o.guarantee}
-              </div>
-              <a
-                href={o.href}
-                className="inline-flex items-center justify-center gap-2 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300"
-                style={
-                  o.best
-                    ? { background: "linear-gradient(135deg, #2f88ff, #7cb2ff)", color: "#fff", boxShadow: "0 0 24px rgba(47,136,255,0.3)" }
-                    : { border: "1px solid rgba(255,255,255,0.12)", color: "#e2e8f0", backgroundColor: "rgba(255,255,255,0.02)" }
-                }
-              >
-                {o.cta} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </a>
+              <h3 className="text-lg font-black text-white tracking-tight mb-2">{s.title}</h3>
+              <p className="text-sm leading-relaxed font-medium" style={{ color: "#94a3b8" }}>{s.desc}</p>
             </motion.div>
           ))}
         </div>
-
-        <p className="text-center mt-10 text-xs font-medium" style={{ color: "#475569" }}>
-          One-time prices. Third-party software (like a phone number or booking tool) is billed at cost.
-        </p>
       </div>
     </Section>
   );
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   MONTHLY PLANS (optional, after launch)
+   THE OFFER — one task, one price, one deadline, one guarantee
    ════════════════════════════════════════════════════════════════════════ */
-function Pricing() {
+function Offer() {
   return (
-    <Section id="pricing">
-      <GlowOrb size={620} color="rgba(47,136,255,0.07)" className="bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3" />
-      <div className="max-w-6xl mx-auto">
+    <Section id="offer">
+      <GlowOrb size={620} color="rgba(47,136,255,0.08)" className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+      <div className="relative max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <motion.div {...fadeUp}>
-            <Eyebrow className="mb-4">After launch · optional</Eyebrow>
+            <Eyebrow className="mb-4">The offer</Eyebrow>
           </motion.div>
           <motion.h2 {...stagger(0.06)} className="text-3xl md:text-5xl font-black tracking-tighter text-white mb-4">
-            Keep it running — or hand us the keys.
+            One task. One price. Seven days.
           </motion.h2>
           <motion.p {...stagger(0.12)} className="text-base md:text-lg font-medium max-w-xl mx-auto" style={{ color: "#64748b" }}>
-            Your package is a one-time build. These monthly plans keep it fast, tuned, and improving. Month-to-month.
+            No packages to compare and no monthly contract. This is the whole deal.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {PLANS.map((p, i) => (
-            <motion.div
-              key={p.name}
-              {...stagger(i * 0.08)}
-              className="relative p-7 rounded-2xl flex flex-col overflow-hidden transition-transform duration-300 hover:-translate-y-1.5"
-              style={{
-                border: p.best ? "1px solid rgba(47,136,255,0.45)" : "1px solid rgba(255,255,255,0.07)",
-                background: p.best ? "linear-gradient(160deg, rgba(47,136,255,0.12), rgba(47,136,255,0.05))" : "rgba(255,255,255,0.015)",
-              }}
-            >
-              {p.best && <GlowOrb size={240} color="rgba(47,136,255,0.18)" className="-right-10 -top-10" />}
-              <div className="relative h-7 mb-3">
-                {p.tag && (
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest" style={{ backgroundColor: "rgba(47,136,255,0.18)", color: "#93c5fd", border: "1px solid rgba(47,136,255,0.35)" }}>
-                    <Star size={10} /> {p.tag}
-                  </div>
-                )}
-              </div>
-              <h3 className="relative text-sm font-black uppercase tracking-wide text-white mb-3 leading-snug">{p.name}</h3>
-              <div className="relative flex items-end gap-1 mb-4">
-                <span className={`${p.price.length > 6 ? "text-3xl" : "text-4xl"} font-black tracking-tighter text-white`}>{p.price}</span>
-                <span className="text-sm font-bold mb-1" style={{ color: "#475569" }}>{p.cadence}</span>
-              </div>
-              <p className="relative text-xs leading-relaxed font-medium mb-6" style={{ color: "#94a3b8" }}>{p.blurb}</p>
-              <ul className="relative space-y-2.5 mb-7 flex-1">
-                {p.points.map((pt) => (
-                  <li key={pt} className="flex items-start gap-2 text-xs font-medium" style={{ color: "#cbd5e1" }}>
-                    <Check size={14} className="shrink-0 mt-0.5" style={{ color: BLUE }} />
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={`/start?plan=${p.slug}`}
-                className="relative text-center py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all duration-300"
-                style={
-                  p.best
-                    ? { background: "linear-gradient(135deg, #2f88ff, #7cb2ff)", color: "#fff", boxShadow: "0 0 24px rgba(47,136,255,0.3)" }
-                    : { border: "1px solid rgba(255,255,255,0.12)", color: "#e2e8f0", backgroundColor: "rgba(255,255,255,0.02)" }
-                }
+        <motion.div
+          {...stagger(0.16)}
+          className="glow-edge grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] rounded-3xl"
+          style={{ border: "1px solid rgba(47,136,255,0.25)", background: "linear-gradient(135deg, rgba(47,136,255,0.10), rgba(5,5,5,0.6))" }}
+        >
+          {/* what you get */}
+          <div className="p-7 md:p-10">
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">{OFFER.name}</h3>
+            <p className="text-sm md:text-base leading-relaxed font-medium mb-7 max-w-md" style={{ color: "#94a3b8" }}>{OFFER.blurb}</p>
+            <div className="text-[11px] font-black uppercase tracking-widest mb-4" style={{ color: "#93c5fd" }}>What you get</div>
+            <ul className="space-y-3">
+              {OFFER.deliverables.map((d) => (
+                <li key={d} className="flex items-start gap-3 text-sm font-medium" style={{ color: "#e2e8f0" }}>
+                  <Check size={16} className="mt-0.5 shrink-0" style={{ color: BLUE }} />
+                  {d}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-7 text-xs leading-relaxed" style={{ color: "#64748b" }}>{OFFER.scope}</p>
+          </div>
+
+          {/* price + guarantee + CTA */}
+          <div className="p-7 md:p-10 flex flex-col rounded-b-3xl lg:rounded-bl-none lg:rounded-r-3xl border-t lg:border-t-0 lg:border-l border-white/[0.06]" style={{ backgroundColor: "rgba(5,5,5,0.45)" }}>
+            <div className="flex flex-wrap items-end gap-x-4 gap-y-2 mb-2">
+              <div
+                className="text-6xl md:text-7xl font-black tracking-tighter leading-none"
+                style={{ background: "linear-gradient(90deg, #ffffff, #7cb2ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
               >
-                Get started
-              </a>
-            </motion.div>
-          ))}
-        </div>
-        <p className="mt-6 text-center text-xs leading-relaxed" style={{ color: "#64748b" }}>
-          Month-to-month. Cancel before renewal. Unused time does not roll over. Third-party software and new custom builds are billed separately.
-        </p>
-        <p className="text-center mt-6 text-xs font-medium" style={{ color: "#475569" }}>
-          Not sure which fits? A 30-minute call sorts it in plain English — no pressure, no jargon.
-        </p>
+                {OFFER.price}
+              </div>
+              <span className="text-sm font-bold mb-1.5" style={{ color: "#64748b" }}>one time</span>
+            </div>
+            <div
+              className="inline-flex self-start items-center gap-1.5 mb-6 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
+              style={{ color: "#93c5fd", backgroundColor: "rgba(47,136,255,0.10)", border: "1px solid rgba(47,136,255,0.25)" }}
+            >
+              <Clock size={11} /> {OFFER.timeline}
+            </div>
+
+            <div className="p-4 rounded-2xl mb-6" style={{ backgroundColor: "rgba(74,222,128,0.07)", border: "1px solid rgba(74,222,128,0.22)" }}>
+              <div className="flex items-center gap-2 text-sm font-black mb-1.5" style={{ color: "#86efac" }}>
+                <ShieldCheck size={17} /> {OFFER.guarantee}
+              </div>
+              <p className="text-xs leading-relaxed font-medium" style={{ color: "#a7c9b4" }}>{OFFER.guaranteeDetail}</p>
+            </div>
+
+            <CTAButton label={OFFER.cta} href={OFFER.href} />
+            <p className="mt-3 text-[11px] font-medium" style={{ color: "#64748b" }}>{START.terms}</p>
+
+            <div className="mt-auto pt-7">
+              <div className="pt-5 text-xs leading-relaxed font-medium" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", color: "#94a3b8" }}>
+                <span className="text-white font-bold">Afterwards, if you want it:</span> {CARE.name}, {CARE.price}{CARE.cadence}.{" "}
+                {CARE.points.join(", ")}. Optional and month-to-month.
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.p {...stagger(0.24)} className="flex items-center justify-center gap-2 text-center mt-8 text-xs font-medium" style={{ color: "#64748b" }}>
+          <Target size={13} style={{ color: BLUE }} /> One builder, so build slots each month are limited.
+        </motion.p>
       </div>
     </Section>
   );
@@ -712,7 +589,7 @@ function Work() {
    ════════════════════════════════════════════════════════════════════════ */
 function Process() {
   return (
-    <Section>
+    <Section id="how">
       <GlowOrb size={420} color="rgba(47,136,255,0.06)" className="-right-32 top-1/2" />
       <div className="max-w-3xl mx-auto">
         <motion.div {...fadeUp}>
@@ -753,7 +630,7 @@ function FAQ() {
           <Eyebrow className="mb-4">FAQ</Eyebrow>
         </motion.div>
         <motion.h2 {...stagger(0.06)} className="text-3xl md:text-5xl font-black tracking-tighter text-white mb-12">
-          Questions business owners ask.
+          Straight answers.
         </motion.h2>
         <motion.div {...stagger(0.1)}>
           {FAQS.map((f) => (
@@ -784,20 +661,20 @@ function FinalCTA() {
           One builder · limited build slots each month
         </motion.div>
         <motion.h2 {...stagger(0.08)} className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter leading-tight mb-6 text-white">
-          Let&apos;s find the leak
+          One task, gone
           <span
             className="block"
             style={{ background: "linear-gradient(120deg, #ffffff 0%, #2f88ff 50%, #7cb2ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
           >
-            that&apos;s costing you jobs.
+            by this time next week.
           </span>
         </motion.h2>
         <motion.p {...stagger(0.16)} className="text-lg leading-relaxed max-w-xl mx-auto mb-11 font-medium" style={{ color: "#94a3b8" }}>
-          Two minutes of questions. We map exactly where jobs are slipping and what it&apos;s costing you — and send it back within 24 hours, whether or not we end up working together.
+          Five questions, then a 20-minute call. If I can&apos;t have it automated and running in 7 days, you don&apos;t pay.
         </motion.p>
         <motion.div {...stagger(0.24)} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <CTAButton label="Get a Free Lead Leak Audit" href={AUDIT.href} />
-          <GhostButton label="Book a discovery call" href="/start" />
+          <CTAButton label={`${START.label} — 2 Minutes`} href={START.href} />
+          <GhostButton label="See the work" href="/work" />
         </motion.div>
       </div>
     </Section>
@@ -818,7 +695,7 @@ function Footer() {
               <span className="text-lg font-black tracking-tighter text-white uppercase">Dynasty <span style={{ color: BLUE }}>Labz</span></span>
             </div>
             <p className="text-sm font-medium max-w-sm leading-relaxed mb-5" style={{ color: "#64748b" }}>
-              Websites and AI lead systems for Twin Cities home-service contractors — so no job is ever lost to a missed call.
+              AI for small businesses that don&apos;t know where to start. One task, automated in 7 days, or you don&apos;t pay.
             </p>
             <div className="flex items-center gap-2 text-xs font-medium" style={{ color: "#475569" }}>
               <MapPin size={13} style={{ color: BLUE }} /> Minneapolis &amp; Twin Cities, MN
@@ -835,10 +712,9 @@ function Footer() {
           <div>
             <h4 className="text-[11px] font-black uppercase tracking-widest text-white/80 mb-5">Start</h4>
             <ul className="space-y-3 text-sm font-medium" style={{ color: "#64748b" }}>
-              <li><a href={AUDIT.href} className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Target size={13} /> Free Lead Leak Audit</a></li>
-              <li><a href="/start" className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Mail size={13} /> Book a discovery call</a></li>
-              <li><a href="/drop-24" className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Zap size={13} /> Get online in 24 hours</a></li>
-              <li><a href="#work" className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Globe size={13} /> See recent work</a></li>
+              <li><a href={START.href} className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Mail size={13} /> {START.label}</a></li>
+              <li><a href="/work" className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Globe size={13} /> Full portfolio</a></li>
+              <li><a href="/drop-24" className="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors"><Zap size={13} /> Need a website? Drop 24</a></li>
             </ul>
           </div>
         </div>
@@ -880,12 +756,11 @@ export default function Home() {
       <Hero />
       <Stats />
       <Problem />
-      <TheMath />
       <Services />
-      <Offers />
-      <Pricing />
-      <Work />
+      <TheMath />
+      <Offer />
       <Process />
+      <Work />
       <FAQ />
       <FinalCTA />
       <Footer />

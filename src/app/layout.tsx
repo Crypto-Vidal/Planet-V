@@ -14,9 +14,9 @@ const firaCode = Fira_Code({
   subsets: ["latin"],
 });
 
-const siteTitle = "Dynasty Labz | Minneapolis Web Design & AI Automation for Local Business";
+const siteTitle = "Dynasty Labz | AI Automation for Small Business — One Task, Live in 7 Days";
 const siteDescription =
-  "Dynasty Labz builds websites and AI lead systems for Twin Cities home-service contractors. Websites from $350, live in 24 hours. Every call and quote request answered and followed up — start with a free Lead Leak Audit.";
+  "Heard of AI but don't know where to start? Dynasty Labz automates your most time-consuming task in 7 days for $1,497 flat — or you don't pay. Minneapolis-based, working with small businesses everywhere.";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -35,18 +35,16 @@ export const metadata: Metadata = {
   authors: [{ name: "Dynasty Labz" }],
   creator: "Dynasty Labz",
   publisher: "Dynasty Labz",
-  category: "Web Design & AI Automation",
+  category: "AI Automation",
   keywords: [
-    "web design Minneapolis",
-    "AI automation Minneapolis",
-    "small business website Minneapolis",
-    "local business web design Twin Cities",
     "AI automation for small business",
-    "website in 24 hours",
-    "Minneapolis website designer",
     "AI for small business",
-    "lead automation",
-    "online booking website",
+    "where to start with AI",
+    "AI consultant Minneapolis",
+    "AI automation Minneapolis",
+    "small business automation",
+    "automate lead follow-up",
+    "automate appointment reminders",
     "Dynasty Labz",
   ],
   robots: {
@@ -73,7 +71,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dynasty Labz | Minneapolis Web Design & AI Automation",
+    title: "Dynasty Labz | AI Automation for Small Business",
     description: siteDescription,
   },
 };
@@ -88,14 +86,14 @@ const oneTimeOffers = OFFERS.map((o) => ({
   "@type": "Offer",
   name: o.name,
   description: o.blurb,
-  category: "Web Design & AI Automation",
+  category: "AI Automation",
   priceSpecification: {
     "@type": "PriceSpecification",
     priceCurrency: "USD",
     minPrice: o.priceFrom,
   },
   availability: "https://schema.org/InStock",
-  url: `${SITE_URL}/#offers`,
+  url: `${SITE_URL}/#offer`,
 }));
 
 const monthlyOffers = PLANS.map((p) => ({
@@ -111,7 +109,7 @@ const monthlyOffers = PLANS.map((p) => ({
     billingDuration: "P1M",
   },
   availability: "https://schema.org/InStock",
-  url: `${SITE_URL}/#pricing`,
+  url: `${SITE_URL}/#offer`,
 }));
 
 const serviceNodes = SERVICES.map((s, i) => ({
@@ -131,21 +129,20 @@ const jsonLd = {
       "@type": "ProfessionalService",
       "@id": `${SITE_URL}/#business`,
       name: BUSINESS.name,
-      alternateName: "Dynasty Labz Web Design & AI Automation",
+      alternateName: "Dynasty Labz AI Automation",
       url: SITE_URL,
       description: BUSINESS.summary,
-      slogan: "Never lose another job to a missed call.",
+      slogan: "Tell me the task that eats your week. In 7 days it runs itself.",
       image: `${SITE_URL}/opengraph-image`,
       logo: `${SITE_URL}/opengraph-image`,
       priceRange: BUSINESS.priceRange,
       knowsAbout: [
-        "Web Design",
-        "Web Development",
         "AI Automation",
-        "Contractor Lead Generation",
-        "Automated Lead Capture & CRM",
-        "Online Booking Systems",
+        "Small Business Automation",
         "AI Lead Follow-Up",
+        "Online Booking Systems",
+        "Workflow Automation",
+        "Web Design",
       ],
       areaServed: BUSINESS.areaServed.map((a) => ({ "@type": "City", name: a })),
       address: {
@@ -157,7 +154,7 @@ const jsonLd = {
       makesOffer: [...oneTimeOffers, ...monthlyOffers],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Web Design & AI Automation Packages",
+        name: "AI Automation",
         itemListElement: oneTimeOffers,
       },
     },

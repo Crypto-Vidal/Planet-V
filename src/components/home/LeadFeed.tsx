@@ -1,20 +1,21 @@
 "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PhoneMissed, MessageSquare, Reply, CalendarCheck, Star } from "lucide-react";
+import { Inbox, MessageSquare, Reply, CalendarCheck, Star } from "lucide-react";
 import { useEffect, useState, ReactNode } from "react";
 
-/* Hero motion graphic: one missed call turning into a booked job, on a loop.
+/* Hero motion graphic: one after-hours inquiry turning into a booked
+   appointment, on a loop — an example of a single automated task.
    It is an illustration of the system, and is labelled as one. */
 
 type Step = { time: string; icon: ReactNode; color: string; title: string; body: string };
 
 const STEPS: Step[] = [
-  { time: "2:14 PM", icon: <PhoneMissed size={15} />, color: "#f87171", title: "Missed call", body: "You're on a roof. It rings out." },
-  { time: "2:14 PM", icon: <MessageSquare size={15} />, color: "#60a5fa", title: "Auto-text sent", body: "“Sorry we missed you! What can we help with?”" },
-  { time: "2:16 PM", icon: <Reply size={15} />, color: "#cbd5e1", title: "Homeowner replies", body: "“Hail damage. Need a quote this week.”" },
-  { time: "2:17 PM", icon: <CalendarCheck size={15} />, color: "#4ade80", title: "Estimate booked", body: "Thursday, 9:00 AM — on your calendar." },
-  { time: "After the job", icon: <Star size={15} />, color: "#facc15", title: "Review request sent", body: "Another 5-star review, without asking twice." },
+  { time: "9:02 PM", icon: <Inbox size={15} />, color: "#f87171", title: "New inquiry", body: "You're closed for the night. A request comes in." },
+  { time: "9:02 PM", icon: <MessageSquare size={15} />, color: "#60a5fa", title: "Reply sent", body: "“Thanks for reaching out! What day works best?”" },
+  { time: "9:05 PM", icon: <Reply size={15} />, color: "#cbd5e1", title: "Customer replies", body: "“Thursday morning, if you have it.”" },
+  { time: "9:06 PM", icon: <CalendarCheck size={15} />, color: "#4ade80", title: "Appointment booked", body: "Thursday, 9:00 AM — on your calendar." },
+  { time: "After the visit", icon: <Star size={15} />, color: "#facc15", title: "Review request sent", body: "Another 5-star review, without asking twice." },
 ];
 
 const HOLD = 3; // extra ticks to rest on the finished feed before looping
@@ -44,7 +45,7 @@ export default function LeadFeed() {
       <div className="flex items-center justify-between mb-4 pb-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/80">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          Your lead line
+          One task, automated
         </div>
         <span
           className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full"
@@ -55,7 +56,7 @@ export default function LeadFeed() {
       </div>
 
       {/* fixed height so the loop never shifts the page */}
-      <div className="h-[372px] overflow-hidden" aria-label="Example: a missed call is answered by text, the homeowner replies, an estimate is booked, and a review request is sent afterwards.">
+      <div className="h-[372px] overflow-hidden" aria-label="Example: an after-hours inquiry gets an instant reply, the customer answers, an appointment is booked, and a review request is sent afterwards.">
         <AnimatePresence initial={false}>
           {STEPS.slice(0, visible).map((s) => (
             <motion.div

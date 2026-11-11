@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-**Planet-V** is the marketing and portfolio website for **DYNASTY LABZ**, a business offering AI automation, web development, and content maintenance services. It targets business owners making $7k–$21k+/month who want to automate workflows and scale operations.
+**Planet-V** is the marketing and portfolio website for **DYNASTY LABZ**. It targets small-business owners who have heard of AI but don't know where to start.
+
+**The site sells ONE offer** — "Your First AI Win": one task automated in 7 days for $1,497 flat, or you don't pay. It is defined once as `OFFER` in `src/lib/content.ts`; every price, timeline and guarantee on the site reads from there. Every primary CTA goes to the `/start` survey funnel. Drop 24 (`/drop-24`, $350 website) still exists as its own page but is only linked from the footer and FAQ.
 
 - **Framework:** Next.js 16.2.x (App Router)
 - **Language:** TypeScript 5.9.3 (strict mode)
@@ -58,16 +60,15 @@ Planet-V/
 │   │   └── (landing)/             # Service/offer landing pages, minimal shared layout
 │   │       ├── layout.tsx
 │   │       ├── drop-24/           # Drop24 offer landing (layout.tsx + page.tsx)
-│   │       ├── start/             # Qualifier funnel — POSTs the brief to /api/leads
+│   │       ├── start/             # Survey funnel — default "win" path: 5 questions, one per screen, then contact + Calendly. POSTs to /api/leads. (?offer=drop24 runs the Drop 24 intake.)
 │   │       ├── work/              # Portfolio page (layout.tsx + page.tsx) — scroll-driven stacking panels; own yellow/black Bebas Neue + DM Mono identity; reads WORK / LABZ from content.ts
-│   │       └── efficiency-engine/page.tsx     # "Never Miss a Lead" offer page — ServiceLandingPage; price/timeline read from content.ts OFFERS[1]
 │   ├── components/
 │   │   ├── home/ui.tsx            # Homepage primitives: GlowOrb, CTAButton, GhostButton, CountUp, FAQItem, Section, animation presets
-│   │   ├── home/LeadFeed.tsx      # Hero motion graphic — looping "missed call → booked job" example feed
-│   │   ├── home/LeakCalculator.tsx # "Run the math" slider calculator (payback price read from content.ts)
-│   │   └── templates/ServiceLandingPage.tsx   # Reusable template for the service landing pages
+│   │   ├── home/LeadFeed.tsx      # Hero motion graphic — looping "inquiry → booked appointment" example feed
+│   │   ├── home/TimeCalculator.tsx # "Run the math" slider calculator — hours × hourly value (payback price read from content.ts)
+│   │   └── templates/ServiceLandingPage.tsx   # Reusable offer-page template (currently unused — /efficiency-engine was folded into the homepage and redirects to /#offer)
 │   └── lib/
-│       └── content.ts             # Single source of truth: SERVICES / OFFERS / PLANS / FAQS / AUDIT / WORK / LABZ / BUSINESS copy — feeds both UI and JSON-LD. Never hardcode a price elsewhere.
+│       └── content.ts             # Single source of truth: OFFER / CARE / SERVICES (task menu) / FAQS / START / WORK / LABZ / BUSINESS copy — feeds both UI and JSON-LD. Never hardcode a price elsewhere.
 ├── package.json                   # name: "planet-v"
 ├── tsconfig.json
 ├── next.config.ts                 # Turbopack root config

@@ -7,10 +7,12 @@ import {
   Bot, HelpCircle, Clock, TrendingDown, Flame, Lock, Cpu, Zap,
   Phone, ShoppingCart, MapPin, FileText, Palette, Image as ImageIcon, Type, Link2,
   Home, Hammer, Wind, Droplet, Trees, Search, PhoneMissed, Star, DollarSign,
+  Utensils, Scissors, Inbox, Receipt, Table2, MessagesSquare, Hourglass, Mail, Sheet,
 } from "lucide-react";
 import { useState, useEffect, useRef, ReactNode } from "react";
 import Link from "next/link";
 import { BLUE, CALENDLY, GlowOrb } from "@/components/home/ui";
+import { OFFER } from "@/lib/content";
 
 /* ════════════════════════════════════════════════════════════════════════
    STEP TYPES
@@ -25,7 +27,69 @@ type Step =
   | { type: "booking" }
   | { type: "submit" };
 
-type Mode = "select" | "consult" | "drop24" | "audit";
+type Mode = "select" | "win" | "consult" | "drop24" | "audit";
+
+/* ════════════════════════════════════════════════════════════════════════
+   FIRST AI WIN (the default path — the homepage CTA lands here)
+   Five questions, one per screen, then contact details and a call time.
+   Each question earns its place: it either qualifies the lead or is
+   something the 7-day build needs to know.
+   ════════════════════════════════════════════════════════════════════════ */
+const WIN_STEPS: Step[] = [
+  {
+    type: "single", id: "businessType", q: "What kind of business do you run?", sub: "So the examples on our call fit your world.",
+    options: [
+      { label: "Home services & trades", icon: <Wrench size={20} /> },
+      { label: "Salon, beauty or wellness", icon: <Scissors size={20} /> },
+      { label: "Restaurant, bar or food", icon: <Utensils size={20} /> },
+      { label: "Retail or online store", icon: <ShoppingCart size={20} /> },
+      { label: "Professional services", icon: <Briefcase size={20} /> },
+      { label: "Something else", icon: <HelpCircle size={20} /> },
+    ],
+  },
+  {
+    type: "single", id: "task", q: "Which task eats the most of your week?", sub: "Pick the one that makes you groan. That's the one we automate.",
+    options: [
+      { label: "Answering & following up new leads", icon: <Inbox size={20} /> },
+      { label: "Booking, scheduling & reminders", icon: <CalendarClock size={20} /> },
+      { label: "Chasing quotes & invoices", icon: <Receipt size={20} /> },
+      { label: "Answering the same questions over and over", icon: <MessagesSquare size={20} /> },
+      { label: "Copy-paste between apps & reports", icon: <Table2 size={20} /> },
+      { label: "Not sure — help me pick", icon: <HelpCircle size={20} /> },
+    ],
+  },
+  {
+    type: "single", id: "hours", q: "About how many hours a week does it take?", sub: "A rough guess is fine.",
+    options: [
+      { label: "Under 2 hours", icon: <Hourglass size={20} /> },
+      { label: "2–5 hours", icon: <Hourglass size={20} /> },
+      { label: "5–10 hours", icon: <Hourglass size={20} /> },
+      { label: "More than 10 hours", icon: <Flame size={20} /> },
+    ],
+  },
+  {
+    type: "multi", id: "tools", q: "What do you run the business on today?", sub: "We build around what you already use — nothing new to learn.",
+    options: [
+      { label: "Gmail / Google Workspace", icon: <Mail size={20} /> },
+      { label: "Spreadsheets", icon: <Sheet size={20} /> },
+      { label: "A booking or scheduling app", icon: <CalendarClock size={20} /> },
+      { label: "A CRM or customer list", icon: <Briefcase size={20} /> },
+      { label: "Invoicing or accounting software", icon: <Receipt size={20} /> },
+      { label: "Mostly phone, texts & memory", icon: <Phone size={20} /> },
+    ],
+  },
+  {
+    type: "single", id: "timeline", q: "How soon do you want it off your plate?", sub: `Once we start, it's live in ${OFFER.days} days.`,
+    options: [
+      { label: "As soon as possible", icon: <Zap size={20} /> },
+      { label: "This month", icon: <CalendarClock size={20} /> },
+      { label: "In the next few months", icon: <Clock size={20} /> },
+      { label: "Just exploring for now", icon: <HelpCircle size={20} /> },
+    ],
+  },
+  { type: "contact" },
+  { type: "booking" },
+];
 
 /* Shared — the trades we serve. Reused across every path so the funnel speaks contractor. */
 const TRADES: Opt[] = [
@@ -256,7 +320,7 @@ function CalendlyEmbed({ prefill }: { prefill: { name?: string; email?: string; 
 type Contact = { name: string; businessName: string; email: string; phone: string; source: string; links: string };
 
 export default function StartPage() {
-  const [mode, setMode] = useState<Mode>("select");
+  const [mode, setMode] = useState<Mode>("win");
   const [i, setI] = useState(0);
   const [dir, setDir] = useState(1);
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
@@ -276,13 +340,16 @@ export default function StartPage() {
     return () => window.clearTimeout(timer);
   }, []);
 
-  const steps = mode === "consult" ? CONSULT_STEPS : mode === "drop24" ? DROP24_STEPS : mode === "audit" ? AUDIT_STEPS : [];
+  const steps = mode === "win" ? WIN_STEPS : mode === "consult" ? CONSULT_STEPS : mode === "drop24" ? DROP24_STEPS : mode === "audit" ? AUDIT_STEPS : [];
   const step = steps[i];
   const lastIsTerminal = step && (step.type === "booking" || step.type === "submit");
   const progress = steps.length ? Math.round((i / (steps.length - 1)) * 100) : 0;
 
   const go = (delta: number) => {
-    if (delta < 0 && i === 0) { setMode("select"); setDir(-1); return; }
+    if (delta < 0 && i === 0) {
+      if (mode === "win") return; // first screen of the default path — nowhere to go back to
+      setMode("select"); setDir(-1); return;
+    }
     setDir(delta);
     setI((v) => Math.min(Math.max(v + delta, 0), steps.length - 1));
   };
@@ -317,6 +384,9 @@ export default function StartPage() {
     const a = answers, parts: string[] = [];
     if (contact.businessName) parts.push(`Business: ${contact.businessName}${a.businessType ? ` (${a.businessType})` : ""}`);
     if (selectedOffer) parts.push(`Requested offer: ${selectedOffer}`);
+    if (a.task) parts.push(`Task to automate: ${a.task}`);
+    if (a.hours) parts.push(`Hours/week on it: ${a.hours}`);
+    if (a.tools) parts.push(`Current tools: ${(a.tools as string[]).join("; ")}`);
     if (a.leaks) parts.push(`Lead leaks: ${(a.leaks as string[]).join("; ")}`);
     if (a.speed) parts.push(`Reply speed: ${a.speed}`);
     if (a.volume) parts.push(`Leads/week: ${a.volume}`);
@@ -339,9 +409,9 @@ export default function StartPage() {
   })();
 
   const variants = {
-    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 40 : -40 }),
-    center: { opacity: 1, x: 0 },
-    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
+    enter: (d: number) => ({ opacity: 0, y: d > 0 ? -70 : 70 }),
+    center: { opacity: 1, y: 0 },
+    exit: (d: number) => ({ opacity: 0, y: d > 0 ? 70 : -70 }),
   };
 
   const stepKey = mode === "select" ? "select" : `${mode}-${i}`;
@@ -366,7 +436,7 @@ export default function StartPage() {
         </Link>
         {mode !== "select" && !lastIsTerminal && (
           <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: "#475569" }}>
-            Step {i + 1} <span style={{ color: "#1e293b" }}>/ {steps.length - 1}</span>
+            {mode === "win" && step?.type !== "contact" ? "Question" : "Step"} {i + 1} <span style={{ color: "#334155" }}>/ {steps.length - 1}</span>
           </span>
         )}
       </header>
@@ -384,7 +454,7 @@ export default function StartPage() {
       <div className="relative z-10 max-w-3xl mx-auto px-6 py-12 md:py-16">
         <AnimatePresence mode="wait" custom={dir}>
           <motion.div key={stepKey} custom={dir} variants={variants} initial="enter" animate="center" exit="exit"
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}>
+            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}>
 
             {mode === "select" && <Selector onChoose={choose} />}
 
@@ -401,7 +471,7 @@ export default function StartPage() {
             )}
 
             {mode !== "select" && step && step.type === "booking" && (
-              <BookingStep name={contact.name} build={answers.build as string} offer={selectedOffer || "AI automation consultation"} answers={answers} contact={contact} summary={summary} prefill={{ name: contact.name, email: contact.email, customAnswers: { a1: summary } }} />
+              <BookingStep mode={mode} name={contact.name} build={(mode === "win" ? answers.task : answers.build) as string} offer={selectedOffer || (mode === "win" ? OFFER.name : "AI automation consultation")} answers={answers} contact={contact} summary={summary} prefill={{ name: contact.name, email: contact.email, customAnswers: { a1: summary } }} />
             )}
 
             {mode !== "select" && step && step.type === "submit" && (
@@ -413,9 +483,15 @@ export default function StartPage() {
         {/* Footer nav */}
         {mode !== "select" && step && !lastIsTerminal && (
           <div className="flex items-center justify-between mt-10">
-            <button onClick={() => go(-1)} className="inline-flex items-center gap-2 text-sm font-bold text-white/50 hover:text-white transition-colors">
-              <ArrowLeft size={16} /> Back
-            </button>
+            {mode === "win" && i === 0 ? (
+              <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-white/50 hover:text-white transition-colors">
+                <ArrowLeft size={16} /> Home
+              </Link>
+            ) : (
+              <button onClick={() => go(-1)} className="inline-flex items-center gap-2 text-sm font-bold text-white/50 hover:text-white transition-colors">
+                <ArrowLeft size={16} /> Back
+              </button>
+            )}
             <div className="flex items-center gap-4">
               {step.type === "single" && step.optional && (
                 <button onClick={() => go(1)} className="text-sm font-bold text-white/40 hover:text-white/70 transition-colors">Skip</button>
@@ -424,7 +500,7 @@ export default function StartPage() {
                 <button onClick={() => go(1)} disabled={!canContinue}
                   className="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl font-black text-white text-sm transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:scale-[1.02]"
                   style={{ background: "linear-gradient(135deg, #2f88ff, #2f88ff, #7cb2ff)", boxShadow: canContinue ? "0 0 28px rgba(47,136,255,0.35)" : "none" }}>
-                  {step.type === "contact" ? (mode === "drop24" ? "Send my project" : mode === "audit" ? "Get my free audit" : "Continue") : "Continue"}
+                  {step.type === "contact" ? (mode === "drop24" ? "Send my project" : mode === "audit" ? "Get my free audit" : mode === "win" ? "Pick my call time" : "Continue") : "Continue"}
                   <ArrowRight size={16} className="group-enabled:group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
@@ -520,10 +596,13 @@ function Question({ step, answers, onSingle, onToggle }: {
       {step.sub && <p className="text-base font-medium mb-8" style={{ color: "#64748b" }}>{step.sub}</p>}
       {isMulti && <p className="text-[11px] font-black uppercase tracking-widest mb-5" style={{ color: BLUE }}>Select all that apply</p>}
       <div className={`grid gap-3 ${step.options.length > 4 ? "sm:grid-cols-2" : "grid-cols-1"}`}>
-        {step.options.map((opt) => {
+        {step.options.map((opt, idx) => {
           const on = isOn(opt.label);
           return (
-            <button key={opt.label} onClick={() => (isMulti ? onToggle(step.id, opt.label) : onSingle(step.id, opt.label))}
+            <motion.button key={opt.label}
+              initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.12 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => (isMulti ? onToggle(step.id, opt.label) : onSingle(step.id, opt.label))}
               className="group relative flex items-center gap-4 p-4 sm:p-5 rounded-2xl text-left transition-all duration-200"
               style={{ border: on ? "1px solid rgba(47,136,255,0.6)" : "1px solid rgba(255,255,255,0.08)", backgroundColor: on ? "rgba(47,136,255,0.10)" : "rgba(255,255,255,0.015)", boxShadow: on ? "0 0 24px rgba(47,136,255,0.18)" : "none" }}>
               <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-200"
@@ -535,7 +614,7 @@ function Question({ step, answers, onSingle, onToggle }: {
                 style={{ border: on ? "none" : "1.5px solid rgba(255,255,255,0.12)", background: on ? "linear-gradient(135deg, #2f88ff, #7cb2ff)" : "transparent" }}>
                 {on && <Check size={14} className="text-white" />}
               </div>
-            </button>
+            </motion.button>
           );
         })}
       </div>
@@ -625,8 +704,8 @@ function ContactStep({ contact, setContact, sources, emailOk, phoneOk, showLinks
 /* ════════════════════════════════════════════════════════════════════════
    BOOKING (consult) + SUBMIT (drop24)
    ════════════════════════════════════════════════════════════════════════ */
-function BookingStep({ name, build, offer, answers, contact, summary, prefill }: {
-  name: string; build?: string; offer: string; answers: Record<string, string | string[]>; contact: Contact; summary: string;
+function BookingStep({ mode, name, build, offer, answers, contact, summary, prefill }: {
+  mode: Mode; name: string; build?: string; offer: string; answers: Record<string, string | string[]>; contact: Contact; summary: string;
   prefill: { name?: string; email?: string; customAnswers?: Record<string, string> };
 }) {
   const first = name.trim().split(" ")[0];
@@ -636,10 +715,10 @@ function BookingStep({ name, build, offer, answers, contact, summary, prefill }:
   useEffect(() => {
     if (sent.current) return;
     sent.current = true;
-    sendLead("consult", offer, answers, contact, summary)
+    sendLead(mode === "win" ? "first-ai-win" : "consult", offer, answers, contact, summary)
       .then(() => setDelivery("done"))
       .catch(() => setDelivery("error"));
-  }, [answers, contact, offer, summary]);
+  }, [mode, answers, contact, offer, summary]);
 
   return (
     <div>
@@ -649,7 +728,9 @@ function BookingStep({ name, build, offer, answers, contact, summary, prefill }:
         </div>
         <h2 className="text-3xl sm:text-4xl font-black tracking-tighter mb-3">{first ? `Perfect, ${first}.` : "Perfect."} Pick your time.</h2>
         <p className="text-base font-medium max-w-lg mx-auto" style={{ color: "#94a3b8" }}>
-          {build ? <>We&apos;ll come ready to talk through <span className="text-white font-bold">{build.toLowerCase()}</span> and the fastest path to get you there.</> : "We'll come ready with the fastest path for your business."} Grab a slot below — your details are already filled in.
+          {mode === "win"
+            ? <>It&apos;s a 20-minute call. We&apos;ll map {build && !build.startsWith("Not sure") ? <span className="text-white font-bold">{build.toLowerCase()}</span> : "the task that fits best"} and confirm it&apos;s a fit — {OFFER.guarantee.toLowerCase()}</>
+            : build ? <>We&apos;ll come ready to talk through <span className="text-white font-bold">{build.toLowerCase()}</span> and the fastest path to get you there.</> : "We'll come ready with the fastest path for your business."} Grab a slot below — your details are already filled in.
         </p>
         {delivery === "sending" && <p className="mt-3 text-xs font-bold text-blue-300">Saving your details…</p>}
         {delivery === "error" && <p className="mt-3 text-xs font-bold text-red-400">Your details did not save. Go back and press Continue to retry before booking.</p>}

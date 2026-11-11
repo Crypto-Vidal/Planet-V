@@ -45,8 +45,8 @@ export default function OpengraphImage() {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", fontSize: 78, fontWeight: 900, letterSpacing: -3, lineHeight: 1.02, color: "#f8fafc" }}>
-          <span>Never lose another job</span>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 66, fontWeight: 900, letterSpacing: -3, lineHeight: 1.02, color: "#f8fafc" }}>
+          <span>The task that eats your week,</span>
           <span
             style={{
               background: "linear-gradient(120deg, #93c5fd, #2f88ff 45%, #7cb2ff)",
@@ -54,12 +54,12 @@ export default function OpengraphImage() {
               color: "transparent",
             }}
           >
-            to a missed call.
+            automated in 7 days.
           </span>
         </div>
 
         <div style={{ marginTop: 44, fontSize: 30, fontWeight: 500, color: "#94a3b8", maxWidth: 940 }}>
-          Websites &amp; AI lead systems for Twin Cities contractors. Sites from $350, live in 24 hours.
+          AI for small business. One task, $1,497 flat — or you don&apos;t pay.
         </div>
       </div>
     ),
